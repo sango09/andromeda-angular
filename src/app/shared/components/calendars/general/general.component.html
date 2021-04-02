@@ -1,0 +1,28 @@
+<div class="header">
+  <h1 class="header-title">
+    {{'DASHBOARD.CALENDARIO.Calendario'|translate}}
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="../../">
+          {{'DASHBOARD.SUPPORT.Inicio'|translate}}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{'DASHBOARD.CALENDARIO.Calendario'|translate}}
+      </li>
+    </ol>
+  </nav>
+</div>
+<div class="card p-3">
+  <div class="p-mb-3">
+    <p-dropdown [options]="options"
+                optionLabel="name"
+                placeholder="Tipo de calendario"
+                (onChange)="changeLocale($event)">
+    </p-dropdown>
+  </div>
+  <full-calendar [options]="calendarOptions"></full-calendar>
+</div>
+

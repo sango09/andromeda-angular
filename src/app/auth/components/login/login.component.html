@@ -1,0 +1,68 @@
+<title>Login | Andromeda</title>
+<section class="container-fluid ">
+  <div class="row p-d-flex p-jc-center p-align-center">
+    <div class="d-none d-md-block col-12 col-md col-lg-6 d-md-block" id="image__login"
+         style="background-image: url(../../../../assets/img/auth/cgb5.png);
+      background-size: cover;
+      height: 100vh;">
+    </div>
+    <div class="col brand-andromeda w-100">
+      <img src="assets/img/logo_azul.png" alt="">
+      <div *ngIf="error" class="alert alert-danger text-center" role="alert">
+        {{error}}
+      </div>
+      <div *ngIf="verify" class="alert alert-success text-center" role="alert">
+        {{'AUTH.Gracias por verificar tu correo electrónico.'|translate}}
+      </div>
+      <form class="col col-md-10 offset-md-1 col-lg-8 offset-lg-2 pt-3"
+            autocomplete="off" [formGroup]="form" (ngSubmit)="login($event)">
+        <div class="text-center mb-5">
+          <p class="text-muted">
+            {{'AUTH.¿Aun no tienes cuenta?'|translate}}
+            <a routerLinkActive routerLink="/register">
+              {{'AUTH.Registrate aquí'|translate}}
+            </a>
+          </p>
+        </div>
+        <div class="p-fluid">
+          <div class="p-field">
+            <label for="email">{{'AUTH.Correo electronico'|translate}}</label>
+            <input type="email"
+                   id="email"
+                   pInputText
+                   formControlName="email"
+                   placeholder="example@gmail.com">
+            <small class="p-error" *ngIf="emailInvalid">{{'AUTH.Correo electronico invalido'|translate}}</small>
+            <small class="p-error" *ngIf="emailIsEmpty">{{'AUTH.Campo requerido'|translate}}</small>
+          </div>
+        </div>
+        <div class="p-fluid">
+          <div class="p-field">
+            <label for="password">{{'AUTH.Contraseña'|translate}}</label>
+            <input id="password"
+                   type="password"
+                   pPassword
+                   [feedback]="false"
+                   placeholder="Tu contraseña"
+                   formControlName="password"/>
+            <small class="p-error" *ngIf="passwordInvalid">Contraseña Requerida</small>
+          </div>
+        </div>
+        <div class="form-group float-right">
+          <a routerLinkActive routerLink="/password/reset/">
+            {{'AUTH.Olvidaste tu contraseña?'|translate}}
+          </a>
+        </div>
+        <div class="form-group mb-4">
+          <button type="submit"
+                  pButton
+                  label="{{'AUTH.Ingresar'|translate}}"
+                  [disabled]="disabled"
+                  [icon]="iconLogin"
+                  class="btn btn-andromeda btn-block">
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

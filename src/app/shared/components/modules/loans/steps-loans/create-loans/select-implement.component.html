@@ -1,0 +1,132 @@
+<div class="steps-content">
+  <p-card>
+    <ng-template pTemplate="title">
+      {{'DASHBOARD.LOANS.Seleccionar Implemento'|translate}}
+    </ng-template>
+    <ng-template pTemplate="subtitle">
+      {{'DASHBOARD.LOANS.Selecciona el implemento que requiere'|translate}}
+    </ng-template>
+    <p-dataView #dv
+                [value]="implements"
+                [paginator]="true"
+                [rows]="9"
+                filterBy="implement.name"
+                [sortField]="sortField"
+                [sortOrder]="sortOrder"
+                layout="grid"
+                [loading]="loading">
+      <ng-template pTemplate="header">
+        <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+          <p-dropdown [options]="sortOptions"
+                      [(ngModel)]="sortKey"
+                      placeholder="{{'DASHBOARD.LOANS.Ordenar por disponibilidad'|translate}}"
+                      (onChange)="onSortChange($event)"
+                      styleClass="p-mb-2 p-mb-md-0">
+          </p-dropdown>
+          <span class="p-input-icon-left p-mb-2 p-mb-md-0">
+              <i class="pi pi-search"></i>
+              <input type="search" pInputText placeholder="{{'DASHBOARD.LOANS.Buscar por Nombre'|translate}}"
+                     (input)="dv.filter($event.target['value'])">
+            </span>
+          <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+        </div>
+        <p-messages *ngIf="error" [(value)]="error" [enableService]="false"></p-messages>
+      </ng-template>
+      <ng-template let-implement pTemplate="listItem">
+        <div class="col-12">
+          <div class="implement-list-item">
+            <img class="img-fluid" src="{{implement['implement']['technical_data_sheet']['picture']}}" alt="implemento">
+            <div class="implement-list-detail">
+              <div class="implement-name">{{implement['implement']['name'] | titlecase}}</div>
+              <div class="implement-description">
+                {{implement['implement']['technical_data_sheet']['specifications'] | titlecase}}
+              </div>
+              <i class="pi pi-tag implement-category-icon"></i>
+              <span class="implement-category">{{implement['implement']['category'] | titlecase}}</span>
+            </div>
+            <div class="implement-list-action">
+              <span class="implement-available">
+                {{'DASHBOARD.LOANS.Disponibles: '|translate}}{{implement['implements_available']}}
+              </span>
+              <p-button icon="pi pi-plus"
+                        label="Seleccionar implemento"
+                        (click)="selectImplement(implement['id'], implement['implements_available'])"
+                        [disabled]="data['implement'] || implement['implements_available'] <= 0"
+                        *ngIf="data['implement'] !== implement['id']; else selected">
+              </p-button>
+              <ng-template #selected>
+                <p-button icon="pi pi-check" label="{{'DASHBOARD.LOANS.Seleccionado'|translate}}"></p-button>
+              </ng-template>
+              <span class="p-tag p-tag-success" *ngIf="implement['implements_available'] > 0 ;else elseBlock">
+                {{'DASHBOARD.LOANS.Disponible'|translate}}
+              </span>
+              <ng-template #elseBlock>
+                <span class="badge badge-warning p-2">
+                  {{'DASHBOARD.LOANS.No Disponible'|translate}}
+                </span>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template let-implement pTemplate="gridItem">
+        <div class="col-12 col-lg-4">
+          <div class="implement-grid-item card">
+            <div class="implement-grid-item-top">
+              <div>
+                <i class="pi pi-tag implement-category-icon"></i>
+                <span class="implement-category">{{implement['implement']['category']}}</span>
+              </div>
+              <span class="p-tag p-tag-success" *ngIf="implement['implements_available'] > 0 ;else elseBlock">
+                {{'DASHBOARD.LOANS.Disponible'|translate}}
+              </span>
+              <ng-template #elseBlock>
+                <span class="badge badge-warning p-2">{{'DASHBOARD.LOANS.No Disponible'|translate}}</span>
+              </ng-template>
+            </div>
+            <div class="implement-grid-item-content">
+              <div>
+                <img class="img-fluid" src="{{implement['implement']['technical_data_sheet']['picture']}}"
+                     alt="implemento">
+              </div>
+              <div class="implement-name">{{implement['implement']['name'] | titlecase}}</div>
+              <div class="implement-description">
+                {{implement['implement']['technical_data_sheet']['specifications'] | titlecase}}
+              </div>
+            </div>
+            <div class="implement-grid-item-bottom">
+              <span class="implement-available">
+                {{'DASHBOARD.LOANS.Disponibles: '|translate}}{{implement['implements_available']}}
+              </span>
+              <p-button icon="pi pi-plus"
+                        [disabled]="data['implement'] || implement['implements_available'] === 0"
+                        (click)="selectImplement(implement['id'], implement['implements_available'])"
+                        *ngIf="data['implement'] !== implement['id']; else selected">
+              </p-button>
+              <ng-template #selected>
+                <p-button icon="pi pi-check"
+                          label="{{'DASHBOARD.LOANS.Seleccionado'|translate}}"
+                          (click)="notSelectImplement()"
+                          pTooltip="{{'DASHBOARD.LOANS.Click para no seleccionar'|translate}}">
+                </p-button>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <div class="p-grid p-nogutter p-justify-between">
+          <p-button label="{{'DASHBOARD.LOANS.Atras'|translate}}"
+                    (onClick)="prevPage()"
+                    icon="pi pi-angle-left">
+          </p-button>
+          <p-button label="{{'DASHBOARD.LOANS.Siguiente'|translate}}"
+                    (onClick)="nextPage()"
+                    icon="pi pi-angle-right"
+                    iconPos="right">
+          </p-button>
+        </div>
+      </ng-template>
+    </p-dataView>
+  </p-card>
+</div>

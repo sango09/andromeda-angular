@@ -1,0 +1,50 @@
+<title>Andromeda</title>
+<header class="header-transparent">
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-sticky bg-andromeda" id="navbar">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <img src="assets/img/logo-index.png" class="align-top" alt="logo">
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="navbar-item active">
+            <a class="nav-link" href="#home">
+              {{'HOME.NAVBAR.Home' | translate }}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#nosotros" routerLinkActive="active">
+              {{'HOME.NAVBAR.Nosotros' | translate}}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#funciones">
+              {{'HOME.NAVBAR.Funcionalidades' | translate}}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contacto">
+              {{'HOME.NAVBAR.Contáctanos'| translate}}
+            </a>
+          </li>
+        </ul>
+        <span>
+          <select #locale (change)="changeLocale(locale.value)" class="custom-select">
+            <option value="es" selected>Español</option>
+            <option value="en">English</option>
+          </select>
+        </span>
+        <a class="btn btn-light btn-secondary ml-auto d-sm-block" routerLink="/login" routerLinkActive>
+          <span class="icon"></span>
+          <span>
+            {{'HOME.NAVBAR.Iniciar Sesión' | translate}}
+          </span>
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>

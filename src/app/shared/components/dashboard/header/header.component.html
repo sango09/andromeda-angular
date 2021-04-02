@@ -1,0 +1,46 @@
+<nav class="layout-topbar-right">
+  <button type="button"
+          pButton
+          pRipple
+          icon="pi pi-bars"
+          (click)="openNav()"
+          class="p-button-text">
+  </button>
+  <ul class="layout-topbar-actions">
+    <li class="topbar-item">
+      <a class="cursor-pointer" (click)="op.toggle($event)">
+          <span class="badge-item">
+             <i class="pi pi-bell" pBadge value="2" severity="danger"></i>
+          </span>
+      </a>
+      <p-overlayPanel #op [showCloseIcon]="false">
+        <ng-template pTemplate>
+          <ul>
+            <li class="layout-submenu-header">
+              <h3 class="header-text">Notificaciones</h3>
+            </li>
+            <li>
+              <h4>Se ha solicitado un nuevo prestamo</h4>
+            </li>
+            <li>
+              <h4>Santiago Gomez Completo un soporte</h4>
+            </li>
+          </ul>
+        </ng-template>
+      </p-overlayPanel>
+    </li>
+    <li class="topbar-item">
+      <p-dropdown [options]="locale"
+                  optionLabel="name"
+                  (onChange)="changeLocale($event)">
+      </p-dropdown>
+    </li>
+    <li class="topbar-item cursor-pointer ml-2">
+      <div class="user-profile cursor-pointer" (click)="menu.toggle($event)">
+        <p-avatar [image]="imageURL"></p-avatar>
+        <i class="pi pi-caret-down p-ml-2"></i>
+      </div>
+      <p-menu #menu [popup]="true" [model]="items"></p-menu>
+    </li>
+  </ul>
+</nav>

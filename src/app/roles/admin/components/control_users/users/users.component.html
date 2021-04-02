@@ -1,0 +1,358 @@
+<p-toast></p-toast>
+<div class="header">
+  <h1 class="header-title">
+    {{'DASHBOARD.CONTROLUSER.Control de usuarios'|translate}}
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="../">{{'DASHBOARD.CONTROLUSER.Inicio'|translate}}</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{'DASHBOARD.CONTROLUSER.Usuarios'|translate}}
+      </li>
+    </ol>
+  </nav>
+</div>
+<div class="card">
+  <p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="left">
+      <button pButton
+              pRipple
+              label="{{'DASHBOARD.CONTROLUSER.Nuevo'|translate}}"
+              icon="pi pi-plus"
+              class="p-button-success mr-2"
+              (click)="userModal()">
+      </button>
+      <button pButton
+              pRipple
+              label="{{'DASHBOARD.CONTROLUSER.Borrar'|translate}}"
+              icon="pi pi-trash"
+              class="p-button-danger"
+              (click)="deleteSelectedUser($event)"
+              [disabled]="!selectedUsers || !selectedUsers.length">
+      </button>
+    </ng-template>
+    <ng-template pTemplate="right">
+      <button type="button"
+              pButton
+              pRipple
+              icon="pi pi-file-excel"
+              (click)="exportExcel()"
+              class="p-button-success mr-2"
+              pTooltip="Excel"
+              tooltipPosition="bottom"
+              label="Excel">
+      </button>
+      <a (click)="printReport()"
+         [href]="urlPdf"
+         class="btn btn-danger"
+         type="button"
+         pTooltip="PDF"
+         tooltipPosition="bottom">
+        <i [class]="iconPrint"></i>
+        PDF
+      </a>
+    </ng-template>
+  </p-toolbar>
+  <div>
+    <p-table #dt
+             [value]="profiles"
+             [paginator]="true"
+             [rows]="10"
+             [loading]="loading"
+             [filterDelay]="0"
+             [globalFilterFields]="['first_name','last_name','email']"
+             [(selection)]="selectedUsers"
+             dataKey="id"
+             [rowHover]="true"
+             [showCurrentPageReport]="true"
+             [resizableColumns]="true"
+             [autoLayout]="true">
+      <ng-template pTemplate="caption">
+        <div class="p-d-flex p-ai-center p-jc-between">
+          <h5 class="p-m-0">
+            {{'DASHBOARD.CONTROLUSER.Usuarios Registrados'|translate}}
+          </h5>
+          <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input
+                pInputText
+                type="text"
+                (input)="dt.filterGlobal($event.target['value'], 'contains')"
+                placeholder="{{'DASHBOARD.CONTROLUSER.Buscar...'| translate}}">
+            </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 3rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th pSortableColumn="first_name">{{'DASHBOARD.CONTROLUSER.Nombre'|translate}}
+            <p-sortIcon field="first_name"></p-sortIcon>
+          </th>
+          <th pSortableColumn="email">{{'DASHBOARD.CONTROLUSER.Email'|translate}}
+            <p-sortIcon field="email"></p-sortIcon>
+          </th>
+          <th pSortableColumn="rol" style="width: 15%">{{'DASHBOARD.CONTROLUSER.Rol'|translate}}
+            <p-sortIcon field="rol"></p-sortIcon>
+          </th>
+          <th pSortableColumn="is_active" style="width: 15%">{{'DASHBOARD.CONTROLUSER.Estado'|translate}}
+            <p-sortIcon field="is_active"></p-sortIcon>
+          </th>
+          <th style="width: 10%">{{'DASHBOARD.CONTROLUSER.Verificado'|translate}}</th>
+          <th style="width: 10%"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-profile>
+        <tr>
+          <td>
+            <p-tableCheckbox [value]="profile" [disabled]="profile.id === user.id"></p-tableCheckbox>
+          </td>
+          <td>
+            <p-avatar [image]="profile['profile']['picture']"
+                      shape="circle">
+            </p-avatar>
+            <a [routerLink]="['/admin/perfil',profile.id]" routerLinkActive="active" class="ml-2 text-dark">
+              {{profile['first_name'] | titlecase}} {{profile['last_name'] | titlecase}}
+            </a>
+          </td>
+          <td>
+            <a href="mailto:{{profile['email']}}">{{profile['email']}}</a>
+          </td>
+          <td>
+            <span *ngIf="profile['is_admin']" class="badge badge-primary">
+              {{'DASHBOARD.CONTROLUSER.Coordinador'|translate}}
+            </span>
+            <span *ngIf="profile['is_employee']" class="badge badge-secondary">
+              {{'DASHBOARD.CONTROLUSER.Empleado'|translate}}
+            </span>
+            <span *ngIf="profile['is_assistant']" class="badge badge-info">
+              {{'DASHBOARD.CONTROLUSER.Auxiliar de sistemas'|translate}}
+            </span>
+          </td>
+          <td *ngIf="profile['is_active'];else elseActive">
+            <span class="badge badge-success">{{'DASHBOARD.CONTROLUSER.Activo'|translate}}</span>
+          </td>
+          <ng-template #elseActive>
+            <td>
+              <span class="badge badge-danger">{{'DASHBOARD.CONTROLUSER.Inactivo'|translate}}</span>
+            </td>
+          </ng-template>
+          <td *ngIf="profile['is_verified']; else elseVerified">
+            <i class="pi pi-check-circle text-success"></i> Email
+          </td>
+          <ng-template #elseVerified>
+            <td>
+              <i class="pi pi-clock text-primary"></i> Email
+            </td>
+          </ng-template>
+          <td *ngIf="profile.id === user.id; else elseBlock">
+            <span class="badge badge-warning">{{'DASHBOARD.CONTROLUSER.Usuario Actual'|translate}}</span>
+          </td>
+          <ng-template #elseBlock>
+            <td>
+              <button pButton
+                      pRipple
+                      type="button"
+                      icon="pi pi-user-edit"
+                      label="{{'DASHBOARD.CONTROLUSER.Editar'|translate}}"
+                      (click)="editUser(profile, $event)"
+                      class="p-button-success">
+              </button>
+              <button *ngIf="profile['is_active']" pButton
+                      pRipple
+                      type="button"
+                      icon="pi pi-user-minus"
+                      label="{{'DASHBOARD.CONTROLUSER.Suspender'|translate}}"
+                      (click)="deleteUser(profile, $event)"
+                      class="p-button-outlined p-button-danger ml-1">
+              </button>
+            </td>
+          </ng-template>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <div class="p-d-flex p-ai-center p-jc-between">
+          {{'DASHBOARD.CONTROLUSER.Usuarios registrados en total:'|translate}} {{profiles ? profiles.length : 0}}.
+        </div>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+
+<p-dialog [(visible)]="userDialog"
+          [style]="{width: '450px'}"
+          header="Detalles del usuario"
+          [modal]="true"
+          styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <div class="p-field">
+      <label for="profile_name">{{'DASHBOARD.CONTROLUSER.Nombres'|translate}}</label>
+      <input type="text" pInputText id="profile_name" [(ngModel)]="profile.first_name">
+    </div>
+    <div class="p-field">
+      <label for="profile_last_name">{{'DASHBOARD.CONTROLUSER.Apellidos'|translate}}</label>
+      <input type="text" pInputText id="profile_last_name" [(ngModel)]="profile.last_name">
+    </div>
+    <div class="p-field">
+      <label for="profile_email">{{'DASHBOARD.CONTROLUSER.Correo Electronico'|translate}}</label>
+      <input type="text" pInputText id="profile_email" [(ngModel)]="profile.email">
+    </div>
+
+    <div class="p-field">
+      <label class="p-mb-3">{{'DASHBOARD.CONTROLUSER.Rol'|translate}}</label>
+      <div class="p-formgrid p-grid">
+        <div class="p-field-radiobutton p-col-6">
+          <p-radioButton id="is_admin" name="is_admin" value="Coordinador" [(ngModel)]="selectedValue"></p-radioButton>
+          <label for="is_admin">{{'DASHBOARD.CONTROLUSER.Coordinador'|translate}}</label>
+        </div>
+        <div class="p-field-radiobutton p-col-6">
+          <p-radioButton id="is_employee" name="is_employee" value="Empleado"
+                         [(ngModel)]="selectedValue"></p-radioButton>
+          <label for="is_employee">{{'DASHBOARD.CONTROLUSER.Empleado'|translate}}</label>
+        </div>
+        <div class="p-field-radiobutton p-col-6">
+          <p-radioButton id="is_assistant" name="is_assistant" value="Auxiliar"
+                         [(ngModel)]="selectedValue"></p-radioButton>
+          <label for="is_assistant">{{'DASHBOARD.CONTROLUSER.Auxiliar de sistemas'|translate}}</label>
+        </div>
+      </div>
+    </div>
+    <div class="p-field">
+      <h3>Estado</h3>
+      <p-toggleButton [(ngModel)]="profile.is_active"
+                      onLabel="Activo"
+                      offLabel="Inactivo"
+                      onIcon="pi pi-check"
+                      offIcon="pi pi-times"
+                      [style]="{'width': '10em'}">
+      </p-toggleButton>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton
+            pRipple
+            label="Cancelar"
+            icon="pi pi-times"
+            class="p-button-text"
+            (click)="hideDialog()">
+    </button>
+    <button pButton
+            pRipple
+            label="Guardar"
+            icon="pi pi-check"
+            class="p-button-text"
+            (click)="updateUser($event)">
+    </button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="newUserDialog" [style]="{width: '500px'}" header="Nuevo usuario" [modal]="true"
+          styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <div *ngIf="error" class="alert alert-danger text-center" role="alert">
+      {{error}}
+    </div>
+    <form [formGroup]="form" method="POST" (ngSubmit)="registerUser($event)" autocomplete="off">
+      <div class="p-field">
+        <label for="first_name">{{'DASHBOARD.CONTROLUSER.Nombres'|translate}}</label>
+        <input type="text"
+               pInputText
+               id="first_name"
+               formControlName="first_name">
+        <small class="p-error" *ngIf="firstNameInvalid">{{'AUTH.Campo requerido'|translate}}</small>
+      </div>
+      <div class="p-field">
+        <label for="last_name">{{'DASHBOARD.CONTROLUSER.Apellidos'|translate}}</label>
+        <input type="text"
+               pInputText
+               id="last_name"
+               formControlName="last_name">
+        <small class="p-error" *ngIf="lastNameInvalid">{{'AUTH.Campo requerido'|translate}}</small>
+      </div>
+      <div class="p-field">
+        <label for="email">{{'DASHBOARD.CONTROLUSER.Correo Electronico'|translate}}</label>
+        <input type="email"
+               pInputText
+               id="email"
+               formControlName="email">
+        <small class="p-error" *ngIf="emailInvalid">{{'AUTH.Correo electronico invalido'|translate}}</small>
+      </div>
+      <div class="p-formgrid p-grid">
+        <div class="p field p-col">
+          <label for="password">{{'DASHBOARD.CONTROLUSER.Contraseña'|translate}}</label>
+          <input type="password"
+                 pPassword
+                 [feedback]="false"
+                 id="password"
+                 formControlName="password">
+          <small class="p-error" *ngIf="passwordInvalid">
+            {{'AUTH.Usa mas de 8 caracteres para tu contraseña'|translate}}
+          </small>
+        </div>
+        <div class="p field p-col">
+          <label for="password_confirmation">{{'DASHBOARD.CONTROLUSER.Confirmar Contraseña'|translate}}</label>
+          <input type="password"
+                 pPassword
+                 [feedback]="false"
+                 id="password_confirmation"
+                 formControlName="password_confirmation">
+          <small class="p-error" *ngIf="confirmPasswordInvalid">
+            Las contraseñas no coinciden. Vuelve a intentarlo.
+          </small>
+        </div>
+      </div>
+      <div class="p-field">
+        <label class="p-mb-3 p-mt-3">{{'DASHBOARD.CONTROLUSER.Rol'|translate}}</label>
+        <div class="p-formgrid p-grid">
+          <div class="p-field-radiobutton p-col-6">
+            <p-radioButton name="rol"
+                           value="is_admin"
+                           label="Coordinador"
+                           formControlName="rol"
+                           inputId="is_admin">
+            </p-radioButton>
+          </div>
+          <div class="p-field-radiobutton p-col-6">
+            <p-radioButton name="rol"
+                           value="is_employee"
+                           label="Empleado"
+                           formControlName="rol"
+                           inputId="is_employee">
+            </p-radioButton>
+          </div>
+          <div class="p-field-radiobutton p-col-6">
+            <p-radioButton name="rol"
+                           value="is_assistant"
+                           label="Auxiliar de sistemas"
+                           formControlName="rol"
+                           inputId="is_assistant">
+            </p-radioButton>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <button type="submit"
+                pButton
+                [icon]="iconRegister"
+                [disabled]="disabled"
+                class="btn btn-andromeda mt-2 btn-block"
+                label="{{'DASHBOARD.CONTROLUSER.Crear cuenta'|translate}}">
+        </button>
+      </div>
+    </form>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton
+            pRipple
+            label="Cancelar"
+            icon="pi pi-times"
+            class="p-button-text"
+            (click)="hideDialog()">
+    </button>
+  </ng-template>
+</p-dialog>
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

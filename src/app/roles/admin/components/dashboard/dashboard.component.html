@@ -1,0 +1,118 @@
+<app-welcome></app-welcome>
+<div class="row" *ngIf="stats">
+  <div class="col-12 col-sm-6 col-xl d-flex">
+    <div class="card flex-fill">
+      <div class="card-body py-4">
+        <div class="stats">
+          <div class="stats-body">
+            <h1 class="mb-2">{{stats['services_totals']}}</h1>
+            <h5 class="mb-2 card-title text-andromeda">
+              {{'DASHBOARD.INICIO.Solicitudes Totales'|translate}}
+            </h5>
+          </div>
+          <div class="d-inline-block ml-3">
+            <div class="icon">
+              <i class="far fa-chart-bar"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-sm-6 col-xl d-flex">
+    <div class="card flex-fill">
+      <div class="card-body">
+        <div class="stats">
+          <div class="stats-body">
+            <h1 class="mb-2">{{stats['active_assistants']}}</h1>
+            <h5 class="mb-2 card-title text-andromeda">
+              {{'DASHBOARD.INICIO.Auxiliares Activos'|translate}}
+            </h5>
+          </div>
+          <div class="d-inline-block ml-3">
+            <div class="icon">
+              <i class="far fa-address-card"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-sm-6 col-xl d-flex">
+    <div class="card flex-fill">
+      <div class="card-body">
+        <div class="stats">
+          <div class="stats-body">
+            <h1 class="mb-2">{{stats['services_completed']}}</h1>
+            <h5 class="mb-2 card-title text-andromeda">
+              {{'DASHBOARD.INICIO.Solicitudes Completadas'|translate}}
+            </h5>
+          </div>
+          <div class="d-inline-block ml-3">
+            <div class="icon">
+              <i class="far fa-check-square"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-sm-6 col-xl d-flex">
+    <div class="card flex-fill">
+      <div class="card-body">
+        <div class="stats">
+          <div class="stats-body">
+            <h1 class="mb-2">{{stats['services_pending']}}</h1>
+            <h5 class="mb-2 card-title text-andromeda">
+              {{'DASHBOARD.INICIO.Solicitudes Pendientes'|translate}}
+            </h5>
+          </div>
+          <div class="d-inline-block ml-3">
+            <div class="icon">
+              <i class="far fa-edit"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 col-lg-8">
+    <div class="card flex-fill">
+      <div class="card-header">
+        <h5 class="card-title mb-0 text-andromeda">
+          {{'DASHBOARD.INICIO.Análisis de servicios prestados por auxiliares'|translate}}
+        </h5>
+      </div>
+      <div class="card-body py-3">
+        <div class="monitor-analitics chart-wrapper">
+          <hr>
+          <p-chart type="bar"
+                   [data]="dataGraph"
+                   [responsive]="true"
+                   height="400"
+                   [options]="optionsGraph">
+          </p-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-lg-4">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0 text-andromeda">
+          {{'DASHBOARD.INICIO.Servicios Solicitado'|translate}}
+        </h5>
+      </div>
+      <div class="card-body">
+        <p-chart type="doughnut"
+                 [data]="dataDoughnut"
+                 height="425"
+                 [responsive]="true"
+                 [options]="optionsDoughnut">
+        </p-chart>
+      </div>
+    </div>
+  </div>
+</div>

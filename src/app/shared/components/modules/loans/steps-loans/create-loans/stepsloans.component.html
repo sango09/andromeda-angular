@@ -1,0 +1,22 @@
+<div class="header">
+  <h1 class="header-title">
+    {{'DASHBOARD.LOANS.Prestamos Tecnologicos'|translate}}
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="../../../">
+          {{'DASHBOARD.LOANS.Inicio'|translate}}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{'DASHBOARD.LOANS.Solicitar Servicio'|translate}}
+      </li>
+    </ol>
+  </nav>
+</div>
+<div class="card p-3">
+  <p-toast></p-toast>
+  <p-steps [model]="items" [readonly]="true"></p-steps>
+</div>
+<router-outlet></router-outlet>

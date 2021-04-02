@@ -1,0 +1,210 @@
+<div class="header">
+  <h1 class="header-title">
+    {{'DASHBOARD.SUPPORT.Control de soporte tecnico'|translate}}
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="../../../">
+          {{'DASHBOARD.SUPPORT.Inicio'|translate}}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{'DASHBOARD.SUPPORT.Soporte tecnico'|translate}}
+      </li>
+    </ol>
+  </nav>
+</div>
+<div class="card">
+  <p-table #dt
+           [value]="supports"
+           dataKey="id"
+           [rows]="10"
+           [showCurrentPageReport]="true"
+           [rowsPerPageOptions]="[10,25,50]"
+           [loading]="loading"
+           [paginator]="true"
+           [filterDelay]="0"
+           [resizableColumns]="true"
+           styleClass="p-datatable-responsive-mobile"
+           [autoLayout]="true"
+           [globalFilterFields]="['assigned_auxiliary', 'support_location','description_problem',
+           'request_by.first_name', 'request_by.last_name']">
+    <ng-template pTemplate="caption">
+      <div class="p-d-flex">
+        <button type="button"
+                pButton
+                pRipple
+                icon="pi pi-file-excel"
+                (click)="dt.exportCSV()"
+                label="Excel"
+                class="mr-2 p-button-success"
+                pTooltip="Excel"
+                tooltipPosition="bottom">
+        </button>
+        <a (click)="printReport()"
+           [href]="urlPdf"
+           class="btn btn-danger"
+           type="button"
+           pTooltip="PDF"
+           tooltipPosition="bottom">
+          <i [class]="iconPrint"></i>
+          PDF
+        </a>
+        <span class="p-input-icon-left ml-auto">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" (input)="dt.filterGlobal($event.target['value'], 'contains')"
+                 placeholder="{{'DASHBOARD.LOANS.Buscar...'|translate}}">
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width:20%">Ticket</th>
+        <th style="width: 15%">{{'DASHBOARD.SUPPORT.Fecha de soporte'|translate}}</th>
+        <th>{{'DASHBOARD.SUPPORT.Lugar'|translate}}</th>
+        <th style="width: 23%">{{'DASHBOARD.SUPPORT.Descripción del problema'|translate}}</th>
+        <th style="width: 15%">{{'DASHBOARD.SUPPORT.Auxiliar asignado'|translate}}</th>
+        <th>{{'DASHBOARD.SUPPORT.Estado'|translate}}</th>
+        <th style="width: 10%"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-support>
+      <tr>
+        <td>
+          <a routerLink="../detalle/{{support['id']}}" routerLinkActive="active"
+             class="text-primary">#{{support.id}} </a>
+          {{'DASHBOARD.LOANS.por'|translate}}
+          <strong>{{support['request_by']['first_name']}} {{support['request_by']['last_name']}}</strong>
+          <br>
+          <a href="mailto:{{support['request_by']['email']}}">{{support['request_by']['email']}}</a>
+        </td>
+        <td>{{support['support_date'] | date: 'M/d/yyyy, h:mm a':'GMT'}}</td>
+        <td>{{support['support_location']}}</td>
+        <td>{{support['description_problem']}}</td>
+        <td>{{support['assigned_auxiliary']}}</td>
+        <td>
+          <ng-container [ngSwitch]="support['status_support']">
+            <span *ngSwitchCase="'Cancelado'" class="badge badge-danger">
+               {{'DASHBOARD.SUPPORT.Cancelado'|translate}}
+            </span>
+            <span *ngSwitchCase="'Completado'" class="badge badge-success">
+               {{'DASHBOARD.LOANS.Completado'|translate}}
+            </span>
+            <span *ngSwitchDefault class="badge badge-warning">
+                   {{'DASHBOARD.LOANS.En proceso'|translate}}
+            </span>
+          </ng-container>
+        </td>
+        <ng-container>
+          <td *ngIf="support['is_active'] === true; else elseBlock">
+            <a class="cursor-pointer text-secondary" (click)="op.toggle($event)">
+              <span class="badge-item">
+                <i class="pi pi-ellipsis-h" style="font-size: 1.5rem"></i>
+              </span>
+            </a>
+            <p-overlayPanel #op [showCloseIcon]="false">
+              <ng-template pTemplate>
+                <button pButton
+                        *ngIf="userInfo['is_assistant'] || userInfo['is_admin']"
+                        type="button"
+                        class="btn-block"
+                        icon="pi pi-check"
+                        label="{{'DASHBOARD.SUPPORT.Completar Soporte'| translate}}"
+                        (click)="completed($event, support['id'])">
+                </button>
+                <ng-container *ngIf="userInfo['is_admin'] || userInfo['is_employee']">
+                  <div class="mt-2">
+                    <button pButton
+                            type="button"
+                            icon="pi pi-times"
+                            label=" {{'DASHBOARD.SUPPORT.Cancelar Soporte'| translate}}"
+                            class="p-button-outlined p-button-danger btn-block"
+                            (click)="canceleted($event, support['id'])">
+                    </button>
+                  </div>
+                </ng-container>
+              </ng-template>
+            </p-overlayPanel>
+          </td>
+        </ng-container>
+        <ng-template #elseBlock>
+          <ng-container *ngIf="userInfo['is_employee']; else isNotEmployee">
+            <td>
+              <a class="cursor-pointer text-secondary" (click)="cal.toggle($event)">
+                 <span class="badge-item">
+                <i class="pi pi-ellipsis-h" style="font-size: 1.5rem"></i>
+              </span>
+              </a>
+              <p-overlayPanel #cal [showCloseIcon]="false">
+                <ng-template pTemplate>
+                  <button *ngIf="support['rating'] === null"
+                          pButton
+                          type="button"
+                          class="btn-block"
+                          icon="pi pi-star-o"
+                          label="{{'DASHBOARD.SUPPORT.Calificar Soporte'| translate}}"
+                          (click)="showModelRate($event, support['id'])">
+                  </button>
+                  <div class="text-center mt-2">
+                    <p-button type="button"
+                              label="{{'DASHBOARD.SUPPORT.Ver Ticket'|translate}}"
+                              styleClass="p-button-link btn-block"
+                              routerLink="../detalle/{{support['id']}}">
+                    </p-button>
+                  </div>
+                </ng-template>
+              </p-overlayPanel>
+            </td>
+          </ng-container>
+          <ng-template #isNotEmployee>
+            <td>
+              <p-button type="button"
+                        label="{{'DASHBOARD.LOANS.Ver Detalles'|translate}}"
+                        styleClass="p-button-link btn-block"
+                        routerLink="../detalle/{{support['id']}}">
+              </p-button>
+            </td>
+          </ng-template>
+        </ng-template>
+      </tr>
+    </ng-template>
+  </p-table>
+  <p-dialog header="{{'DASHBOARD.SUPPORT.Calificar Soporte'| translate}}"
+            [(visible)]="displayModal"
+            [modal]="true"
+            [style]="{width: '50vw'}"
+            [baseZIndex]="10000"
+            [draggable]="false"
+            [resizable]="false">
+    <div class="p-fluid p-grid">
+      <div class="p-field p-col-12 text-center">
+        <label for="rating">{{'DASHBOARD.SUPPORT.Calificación'|translate}}</label>
+        <p-rating [(ngModel)]="rating" [cancel]="false" id="rating"></p-rating>
+      </div>
+      <div class="p-field p-col-12">
+        <label for="comments">{{'DASHBOARD.SUPPORT.Comentarios (opcional)'|translate}}</label>
+        <textarea pInputTextarea [(ngModel)]="comments" [rows]="5" cols="30" id="comments"></textarea>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <p-button icon="pi pi-times"
+                (click)="hideDialog()"
+                label="{{'DASHBOARD.SUPPORT.Cancelar'|translate}}"
+                styleClass="p-button-link">
+      </p-button>
+      <button pButton
+              pRipple
+              icon="pi pi-check"
+              (click)="rateSupport($event)"
+              label="{{'DASHBOARD.SUPPORT.Calificar Soporte'| translate}}"
+              class="p-button-success">
+      </button>
+    </ng-template>
+  </p-dialog>
+</div>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+                 rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+
+
+

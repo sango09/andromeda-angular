@@ -1,0 +1,132 @@
+<div class="header">
+  <h1 class="header-title">
+    {{'DASHBOARD.SUPPORT.Detalles del servicio'|translate}}
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="../../../">
+          {{'DASHBOARD.SUPPORT.Inicio'|translate}}
+        </a>
+      </li>
+      <li class="breadcrumb-item active">
+        <a routerLink="../solicitar/">
+          {{'DASHBOARD.SUPPORT.Soporte Tecnico'|translate}}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Ticket</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="steps-content" *ngIf="ticket; else elseBlock">
+  <div class="p-grid">
+    <div class="col-12 col-lg-9">
+      <p-card>
+        <ng-template pTemplate="title">
+          {{'DASHBOARD.LOANS.Tu servicio fue solicitado con exito'|translate}}
+        </ng-template>
+        <ng-template pTemplate="content">
+          <div class="row py-3">
+            <div class="col-md-12 col-lg-7 col-xl-4 mb-2">
+              <span class="font-weight-bold mr-1">Ticket#</span>
+              <span>{{ticket['id']}}</span>
+            </div>
+            <div class="col-md-12 col-lg-5 col-xl-8">
+              <div class="d-flex justify-content-end">
+                <span class="font-weight-bold mr-1">
+                  {{'DASHBOARD.LOANS.Fecha de Ticket:'|translate}}
+                </span>
+                <span>{{date | date: 'medium'}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="row py-3">
+            <div class="col-6 d-flex flex-column justify-content-center align-items-start">
+              <h1 class="text-primary">
+                {{'DASHBOARD.LOANS.Servicio'|translate}}
+              </h1>
+              <span>
+                {{'DASHBOARD.SUPPORT.Soporte Tecnico'|translate}}
+              </span>
+            </div>
+            <div class="col-6 d-flex justify-content-end">
+              <img class="img-fluid" src="assets/img/logo_azul.png" alt="Andromeda" width="100">
+            </div>
+          </div>
+          <hr>
+          <div class="row py-3">
+            <div class="col mt-2">
+              <div class="info-user mb-2">
+                <span class="font-weight-bold">
+                  {{'DASHBOARD.LOANS.Detalles de usuario'|translate}}
+                </span>
+              </div>
+              <div class="fullname-user mb-3">
+                <span>{{userInfo['first_name']}} {{userInfo['last_name']}}</span>
+              </div>
+              <div class="email-user mb-3">
+                <span>{{userInfo['email']}}</span>
+              </div>
+              <div class="rol-user mb-3">
+                <span *ngIf="userInfo['is_admin']">{{'DASHBOARD.LOANS.Coordinador'|translate}}</span>
+                <span *ngIf="userInfo['is_employee']">{{'DASHBOARD.LOANS.Empleado'|translate}}</span>
+                <span *ngIf="userInfo['is_assistant']">{{'DASHBOARD.LOANS.Auxiliar de sistemas'|translate}}</span>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="row p-3">
+            <h2
+              class="text-center w-100 font-weight-bold mb-5">
+              {{'DASHBOARD.LOANS.Detalles del servicio'|translate}}
+            </h2>
+            <div class="col-6 support-detail">
+              <div class="item">
+                <span class="title">{{'DASHBOARD.SUPPORT.Lugar del servicio: '|translate}}</span>
+                <span>{{ticket['support_location']}}</span>
+              </div>
+              <div class="ammount">
+                <span class="title">{{'DASHBOARD.SUPPORT.Descripción del problema: '|translate}}</span>
+                <span>{{ticket['description_problem']}}</span>
+              </div>
+            </div>
+            <div class="col-6 support-detail">
+              <div class="assigned-auxiliary">
+                <span class="title">
+                  {{'DASHBOARD.LOANS.Auxiliar Asignado: '|translate}}
+                </span>
+                <span>{{ticket['assigned_auxiliary']}}</span>
+              </div>
+              <div class="support_date">
+                <span class="title">{{'DASHBOARD.SUPPORT.Fecha de solicitud: '|translate}}</span>
+                <span>{{ticket['support_date']| date: 'yyyy-MM-dd HH:mm:ss'}}</span>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </p-card>
+    </div>
+    <div class="col-12 col-lg-3 header">
+      <p-card>
+        <ng-template pTemplate="content">
+          <a routerLink="../../../calendario/" class="btn btn-primary btn-block mb-3">
+            <i class="pi pi-calendar mr-2"></i>
+            {{'DASHBOARD.SUPPORT.Ver servicio en el calendario'|translate}}
+          </a>
+          <a (click)="print($event)" class="btn btn-primary btn-block">
+            <i [class]="iconPrint"></i>
+            {{'DASHBOARD.SUPPORT.Imprimir'|translate}}
+          </a>
+        </ng-template>
+      </p-card>
+    </div>
+  </div>
+</div>
+<ng-template #elseBlock>
+  <div class="card">
+    <div class="card-body">
+      <h1>{{'DASHBOARD.SUPPORT.TICKET NO GENERADO'|translate}}</h1>
+    </div>
+  </div>
+</ng-template>

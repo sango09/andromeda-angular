@@ -1,0 +1,47 @@
+<div class="steps-content">
+  <p-card>
+    <ng-template pTemplate="title">
+      {{'DASHBOARD.LOANS.Información Extra'|translate}}
+    </ng-template>
+    <ng-template pTemplate="subtitle">
+      {{'DASHBOARD.LOANS.Ingresa la cantidad requerida'|translate}}
+    </ng-template>
+    <ng-template pTemplate="content">
+      <p-messages *ngIf="errorPost" [(value)]="errorPost" [enableService]="false"></p-messages>
+      <div class="p-fluid p-formgrid p-grid">
+        <h4>{{'DASHBOARD.LOANS.Cantidad Disponible:'|translate}} {{data['implements_available']}}</h4>
+        <div class="p-field p-col-12">
+          <label for="ammount">
+            {{'DASHBOARD.LOANS.Cantidad Requerida *'|translate}}
+          </label>
+          <input type="number" required pInputText [(ngModel)]="data['ammount_implements']" id="ammount">
+          <small *ngIf="data['ammount_implements'] > data['implements_available']" class="p-error">
+            {{'DASHBOARD.LOANS.Cantidad mayor a la disponible'|translate}}
+          </small>
+          <small *ngIf="error" class="p-error">Campo requerido</small>
+        </div>
+        <div class="p-field p-col-12">
+          <label for="comment">
+            {{'DASHBOARD.LOANS.Comentarios'|translate}}
+          </label>
+          <textarea pInputTextarea [(ngModel)]="data['comments']" id="comment" rows="10"></textarea>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <div class="p-grid p-nogutter p-justify-between">
+        <p-button label="{{'DASHBOARD.LOANS.Atras'|translate}}"
+                  (onClick)="prevPage()"
+                  icon="pi pi-angle-left">
+        </p-button>
+        <p-button label="{{'DASHBOARD.LOANS.Solicitar'|translate}}"
+                  (onClick)="createLoans()"
+                  icon="pi pi-angle-right"
+                  iconPos="right"
+                  [disabled]="data['ammount_implements'] > data['implements_available']"
+                  styleClass="p-button-success">
+        </p-button>
+      </div>
+    </ng-template>
+  </p-card>
+</div>

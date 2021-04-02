@@ -1,0 +1,101 @@
+<app-welcome></app-welcome>
+<div class="row">
+  <div class="col-12 col-sm-6 col-xl d-flex">
+    <div class="card flex-fill">
+      <div class="card-body py-4">
+        <div class="stats">
+          <div class="stats-body">
+            <h1 class="mb-2">4</h1>
+            <h5 class="mb-2 card-title text-andromeda">
+              {{'DASHBOARD.INICIO.Auxiliares Activos'|translate}}
+            </h5>
+          </div>
+          <div class="d-inline-block ml-3">
+            <div class="icon">
+              <i class="far fa-address-card"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-sm-6 col-xl d-flex">
+    <div class="card flex-fill">
+      <div class="card-body py-4">
+        <div class="stats">
+          <div class="stats-body">
+            <h1 class="mb-2">{{userInfo['assistant']['loans_completed']}}</h1>
+            <h5 class="mb-2 card-title text-andromeda">
+              {{'DASHBOARD.INICIO.Prestamos Completados'|translate}}
+            </h5>
+          </div>
+          <div class="d-inline-block ml-3">
+            <div class="icon">
+              <i class="far fa-keyboard"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-sm-6 col-xl d-flex">
+    <div class="card flex-fill">
+      <div class="card-body py-4">
+        <div class="stats">
+          <div class="stats-body">
+            <h1 class="mb-2">{{userInfo['assistant']['technical_support_completed']}}</h1>
+            <h5 class="mb-2 card-title text-andromeda">
+              {{'DASHBOARD.INICIO.Soportes Completados'|translate}}
+            </h5>
+          </div>
+          <div class="d-inline-block ml-3">
+            <div class="icon">
+              <i class="far fa-list-alt"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-sm-6 col-xl d-flex">
+    <div class="card flex-fill">
+      <div class="card-body py-4">
+        <div class="stats">
+          <div class="stats-body">
+            <h1 class="mb-2">{{userInfo['assistant']['maintenance_completed']}}</h1>
+            <h5 class="mb-2 card-title text-andromeda">
+              {{'DASHBOARD.INICIO.Mantenimientos Completados'|translate}}
+            </h5>
+          </div>
+          <div class="d-inline-block ml-3">
+            <div class="icon">
+              <i class="fas fa-user-cog"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card flex-fill">
+      <div class="card-header">
+        <h5 class="card-title text-andromeda mb-0">
+          {{'DASHBOARD.INICIO.Servicios asignados'|translate}}
+        </h5>
+      </div>
+      <div class="card-body py-3">
+        <div class="monitor-analitics chart-wrapper">
+          <hr>
+          <p-chart type="bar"
+                   [data]="data"
+                   [responsive]="true"
+                   [options]="optionsObject"
+                   height="300">
+          </p-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

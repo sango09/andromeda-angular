@@ -1,0 +1,93 @@
+:host ::ng-deep .p-dropdown {
+  width: 14rem;
+  font-weight: normal;
+}
+
+:host ::ng-deep .implement-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+:host ::ng-deep .implement-description {
+  margin: 0.6rem 0 1rem;
+}
+
+:host ::ng-deep .implement-category-icon {
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
+
+:host ::ng-deep .implement-category {
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+:host ::ng-deep .implement-list-item {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  width: 100%;
+}
+
+:host ::ng-deep .implement-list-item img {
+  width: 150px;
+  margin-right: 2rem;
+}
+
+:host ::ng-deep .implement-list-item .implement-list-detail {
+  flex: 1 1 0;
+}
+
+:host ::ng-deep .implement-list-item .p-rating {
+  margin: 0 0 0.5rem;
+}
+
+:host ::ng-deep .implement-list-item .implement-available {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 0.7rem;
+  align-self: flex-end;
+}
+
+:host ::ng-deep .implement-list-item .implement-list-action {
+  display: flex;
+  flex-direction: column;
+}
+
+:host ::ng-deep .implement-list-item .p-button {
+  margin-bottom: 0.5rem;
+}
+
+:host ::ng-deep .implement-grid-item {
+  margin: 0.5em;
+  border: 1px solid #dee2e6;
+}
+
+:host ::ng-deep .implement-grid-item .implement-grid-item-top,
+:host ::ng-deep .implement-grid-item .implement-grid-item-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+:host ::ng-deep .implement-grid-item img {
+  height: 180px;
+  margin: 2rem 0;
+}
+
+:host ::ng-deep .implement-grid-item .implement-grid-item-content {
+  text-align: center;
+}
+
+:host ::ng-deep .implement-grid-item .implement-available {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.card {
+  padding: 2rem;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  margin-bottom: 2rem;
+}
+

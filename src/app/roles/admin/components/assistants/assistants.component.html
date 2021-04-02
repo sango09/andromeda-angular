@@ -1,0 +1,90 @@
+<div class="header">
+  <h1 class="header-title">{{'DASHBOARD.CONTROLUSER.Control de personal'|translate}}</h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="../">{{'DASHBOARD.CONTROLUSER.Inicio'|translate}}</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{'DASHBOARD.CONTROLUSER.Auxiliares de sistemas'|translate}}
+      </li>
+    </ol>
+  </nav>
+</div>
+<div class="card">
+  <p-table #dt
+           [value]="assistants"
+           dataKey="id"
+           [rows]="10"
+           [showCurrentPageReport]="true"
+           [loading]="loading"
+           [rowsPerPageOptions]="[10,25,50]"
+           [paginator]="true"
+           [resizableColumns]="true"
+           [autoLayout]="true"
+           [filterDelay]="0"
+           [globalFilterFields]="['first_name', 'last_name', 'email']">
+    <ng-template pTemplate="caption">
+      <div class="p-d-flex p-ai-center p-jc-between">
+        <h3>{{'DASHBOARD.CONTROLUSER.Control de Auxiliares'|translate}}</h3>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input pInputText
+                 type="text"
+                 (input)="dt.filterGlobal($event.target['value'], 'contains')"
+                 placeholder="{{'DASHBOARD.CONTROLUSER.Buscar...'| translate}}">
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>{{'DASHBOARD.CONTROLUSER.Nombre Completo'|translate}}</th>
+        <th style="width:20%">{{'DASHBOARD.CONTROLUSER.Correo Electronico'|translate}}</th>
+        <th style="width:15%">{{'DASHBOARD.CONTROLUSER.Calificación'|translate}}</th>
+        <th>{{'DASHBOARD.CONTROLUSER.Estado'|translate}}</th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-assistants>
+      <tr>
+        <td>
+          <p-avatar [image]="assistants['profile']['picture']"
+                    shape="circle">
+          </p-avatar>
+          <a [routerLink]="['/admin/perfil',assistants.id]" routerLinkActive="active" class="ml-2 text-dark">
+            {{assistants['first_name']}} {{assistants['last_name']}}
+          </a>
+        </td>
+        <td>
+          <a href="mailto:{{assistants['email']}}">{{assistants['email']}}</a>
+        </td>
+        <td>
+          <p-rating [readonly]="true"
+                    [cancel]="false"
+                    ngModel="{{assistants['assistant']['reputation']}}">
+          </p-rating>
+        </td>
+        <td *ngIf="assistants['assistant']['availability']; else elseBlock">
+          <span class="badge badge-success">
+            {{'DASHBOARD.CONTROLUSER.Disponible'|translate}}
+          </span>
+        </td>
+        <ng-template #elseBlock>
+          <td>
+            <span class="badge badge-warning">
+              {{'DASHBOARD.CONTROLUSER.En servicio'|translate}}
+            </span>
+          </td>
+        </ng-template>
+        <td>
+          <button pButton
+                  icon="pi pi-external-link"
+                  type="button"
+                  class="btn btn-info"
+                  label="{{'DASHBOARD.CONTROLUSER.Mas detalles'|translate}}">
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

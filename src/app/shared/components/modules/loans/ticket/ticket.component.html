@@ -1,0 +1,163 @@
+<div class="header">
+  <h1 class="header-title">
+    {{'DASHBOARD.LOANS.Detalles del servicio'|translate}}
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="../../../../">
+          {{'DASHBOARD.LOANS.Inicio'|translate}}
+        </a>
+      </li>
+      <li class="breadcrumb-item">
+        <a routerLink="../../control/">
+          {{'DASHBOARD.LOANS.Prestamos'|translate}}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{'DASHBOARD.LOANS.Detalles'|translate}}
+      </li>
+    </ol>
+  </nav>
+</div>
+<p-progressBar mode="indeterminate" *ngIf="loading" [style]="{'height': '6px'}"></p-progressBar>
+<div class="card" *ngIf="loan; else elseBlock">
+  <div class="header mt-md-3">
+    <div class="header-body">
+      <div class="row align-items-center">
+        <div class="col ml-2">
+          <h1>Ticket #{{loan.id}}</h1>
+        </div>
+        <div class="col-auto mr-2">
+          <a (click)="print($event)" class="btn btn-info" type="button">
+            <i class="pi pi-file-pdf"></i>
+            {{'DASHBOARD.LOANS.Descargar Ticket'|translate}}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="card-body p-5 onlyPrint">
+    <div class="row">
+      <div class="col text-right">
+        <ng-template [ngIf]="loan['is_active']">
+          <span class="badge badge-warning">
+            {{'DASBOARD.LOANS.En proceso'|translate}}
+          </span>
+        </ng-template>
+        <ng-template [ngIf]="loan['is_active'] === false && loan['complete_loans_date'] === null">
+          <span class="badge badge-danger">
+            {{'DASHBOARD.LOANS.Cancelado'|translate}}
+          </span>
+        </ng-template>
+        <ng-template [ngIf]="loan['is_active'] === false && loan['complete_loans_date'] !== null">
+          <span class="badge badge-success">
+            {{'DASHBOARD.LOANS.Completado'|translate}}
+          </span>
+        </ng-template>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col text-center">
+        <img class="img-fluid mb-2" src="../../../../../../assets/img/logo_azul.png" alt="Andromeda"
+             style="max-width: 10rem">
+        <h2 class="mb-2">
+          {{'DASHBOARD.LOANS.Ticket de Prestamos Tecnologicos'|translate}}
+        </h2>
+        <p class="text-muted mb-5">
+          Ticket #{{loan?.id}}
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-md-6 text-muted">
+        <h5 class="text-uppercase">
+          {{'DASHBOARD.LOANS.Solicitado por'|translate}}
+        </h5>
+        <p class="mb-3">
+          <strong class="text-body">{{loan['request_by']['first_name']}} {{loan['request_by']['last_name']}}</strong>
+        </p>
+        <div class="email-user mb-2">
+          <a href="mailto:{{loan['request_by']['email']}}">{{loan['request_by']['email']}}</a>
+        </div>
+        <div class="rol-user mb-4">
+          {{'DASHBOARD.LOANS.Administrador'|translate}}
+        </div>
+        <h5 class="text-uppercase">Ticket ID</h5>
+        <p class="mb-4 text-dark">#{{loan?.id}}</p>
+      </div>
+      <div class="col-12 col-md-6 text-md-right">
+        <h5 class="text-uppercase text-muted">
+          {{'DASHBOARD.LOANS.Auxiliar asignado'|translate}}
+        </h5>
+        <p class="mb-3">
+          <strong
+            class="text-body"> {{loan['assigned_auxiliary']}}</strong>
+        </p>
+        <h5 class="text-uppercase text-muted">
+          {{'DASHBOARD.LOANS.Fecha de solicitud'|translate}}
+        </h5>
+        <p class="mb-4">
+          <time datetime="2020-11-27">{{loan['loans_date'] | date: 'medium'}}</time>
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table my-4">
+            <thead>
+            <tr class="text-muted">
+              <th class="px-0 bg-transparent border-top-0">
+                <span class="h6">
+                  {{'DASHBOARD.LOANS.Implemento'|translate}}
+                </span>
+              </th>
+              <th class="px-0 bg-transparent border-top-0">
+                <span class="h6">
+                  {{'DASHBOARD.LOANS.Cantidad'|translate}}
+                </span>
+              </th>
+              <th class="px-0 bg-transparent border-top-0">
+                <span class="h6">
+                  {{'DASHBOARD.LOANS.Lugar de entrega'|translate}}
+                </span>
+              </th>
+              <th class="px-0 bg-transparent border-top-0 text-right">
+                <span class="h6">
+                  {{'DASHBOARD.LOANS.Comentarios'|translate}}
+                </span>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>{{loan['implement']['implement']['name']}}</td>
+              <td>{{loan['ammount_implements']}}</td>
+              <td>{{loan['loans_location']}}</td>
+              <td class="text-right">{{loan['comments']}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <hr class="my-5">
+        <h5 class="text-uppercase">
+          {{'DASHBOARD.LOANS.Nota'|translate}}
+        </h5>
+        <p class="text-muted mb-0">
+          {{'DASHBOARD.LOANS.Cuando se complete el servicio, el sistema automaticamente cambiara su estado y modificara la cantidad de implementos disponibles para prestamos.'| translate}}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #elseBlock>
+  <div class="card">
+    <div class="card-body">
+      <h1>{{'DASHBOARD.LOANS.TICKET NO ENCONTRADO'|translate}}</h1>
+    </div>
+  </div>
+</ng-template>
+

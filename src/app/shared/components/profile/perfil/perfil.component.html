@@ -1,0 +1,92 @@
+<h1 class="h3 mb-3">
+  {{'DASHBOARD.PROFILE.Perfil'|translate}}
+</h1>
+<div class="row">
+  <div class="col-md-4 col-xl-3">
+    <div class="card mb-3">
+      <div class="card-header">
+        <h5 class="card-title mb-0">
+          {{'DASHBOARD.PROFILE.Detalles del perfil'|translate}}
+        </h5>
+      </div>
+      <div class="card-body text-center account-user-avatar">
+        <img [src]="avatar" alt="Avatar" width="128" height="128" class="rounded-circle"/>
+        <h5 class="card-title mb-3 mt-3">
+          {{fullName | titlecase}}
+        </h5>
+        <div>
+          <a *ngIf="enabledEdit" class="btn btn-outline-info btn-sm mr-2" routerLinkActive="active"
+             [routerLink]="['../../editar', user.id]">
+            {{'DASHBOARD.PROFILE.Editar'|translate}}
+            {{'DASHBOARD.PROFILE.Perfil'|translate}}
+          </a>
+          <a class="btn btn-primary btn-sm" href="#">
+            {{'DASHBOARD.PROFILE.Mensaje'|translate}}
+          </a>
+        </div>
+      </div>
+      <hr class="my-0">
+      <div class="card-body">
+        <h5 class="h6 card-title">
+          {{'DASHBOARD.PROFILE.Sobre mi'|translate}}
+        </h5>
+        <ul class="list-unstyled mb-0">
+          <li class="mb-1">
+            <i class="fas fa-globe detail-icons"></i>
+            {{'DASHBOARD.PROFILE.Es de'|translate}}
+            <a class="aligned-middle" href="#">
+              Colombia
+            </a>
+          </li>
+          <li class="mb-1">
+            <i class="fas fa-briefcase detail-icons"></i>
+            {{'DASHBOARD.PROFILE.Trabaja como'|translate}}
+            <a class="aligned-middle" href="#"></a>
+          </li>
+          <li class="mb-1"></li>
+        </ul>
+      </div>
+      <hr class="my-0">
+      <div class="card-body">
+        <h5 class="h6 card-title">
+          {{'DASHBOARD.PROFILE.Redes Sociales'|translate}}
+        </h5>
+        <ul class="list-unstyled mb-0">
+          <li class="mb-1">
+            <i class="fab fa-twitter detail-icons"></i>
+            <a class="aligned-middle" href="#">Twitter</a>
+          </li>
+          <li class="mb-1">
+            <i class="fab fa-linkedin-in detail-icons"></i>
+            <a class="aligned-middle" href="#">Linkedin</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8 col-xl-9">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-actions float-right">
+          <a href="#" class="mr-1">
+            <i class="fas fa-sync"></i>
+          </a>
+          <div class="d-inline-block dropdown show">
+            <a href="#" data-toggle="dropdown" data-display="static">
+              <i class="fas fa-ellipsis-v"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+              <a class="dropdown-item" href="#">{{'DASHBOARD.PROFILE.Solicitudes'|translate}}</a>
+              <a class="dropdown-item" href="#">{{'DASHBOARD.PROFILE.Reporte'|translate}}</a>
+              <a class="dropdown-item" href="#">{{'DASHBOARD.PROFILE.Ocultar'|translate}}</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-title h-100">
+          {{'DASHBOARD.PROFILE.Actividades'|translate}}
+        </div>
+      </div>
+      <div class="card-body h-100"></div>
+    </div>
+  </div>
+</div>

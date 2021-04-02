@@ -1,0 +1,169 @@
+<div class="header">
+  <h1 class="header-title">
+    {{'DASHBOARD.MAINTANCE.Detalles del mantenimiento'| translate}}
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="#">
+          {{'DASHBOARD.MAINTANCE.Inicio'|translate}}
+        </a>
+      </li>
+      <li class="breadcrumb-item active">
+        <a href="#">
+          {{'DASHBOARD.MAINTANCE.Mantenimientos'|translate}}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{'DASHBOARD.MAINTANCE.Detalles'|translate}}
+      </li>
+    </ol>
+  </nav>
+</div>
+<div class="card" *ngIf="maintenance ; else elseBlock">
+  <div class="header mt-md-3">
+    <div class="header-body">
+      <div class="row align-items-center">
+        <div class="col ml-2">
+          <h1>Ticket #{{maintenance.id}}</h1>
+        </div>
+        <div class="col-auto mr-2">
+          <a (click)="print($event)" class="btn btn-info" type="button">
+            <i [class]="iconPrint"></i>
+            {{'DASHBOARD.MAINTANCE.Descargar Ticket'|translate}}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="card-body p-5">
+    <div class="row">
+      <div class="col text-right">
+        <ng-template [ngIf]="maintenance['is_active']">
+          <span class="badge badge-warning">
+            {{'DASHBOARD.MAINTANCE.En proceso'|translate}}
+          </span>
+        </ng-template>
+        <ng-template [ngIf]="maintenance['is_active'] === false && maintenance['complete_maintenance_date'] === null">
+          <span class="badge badge-danger">
+            {{'DASHBOARD.MAINTANCE.Cancelado'|translate}}
+          </span>
+        </ng-template>
+        <ng-template [ngIf]="maintenance['is_active'] === false && maintenance['complete_maintenance_date'] !== null">
+          <span class="badge badge-success">
+            {{'DASHBOARD.MAINTANCE.Completado'|translate}}
+          </span>
+        </ng-template>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col text-center">
+        <img class="img-fluid mb-2" src="../../../../../../assets/img/logo_azul.png" alt="Andromeda"
+             style="max-width: 10rem">
+        <h2 class="mb-2">
+          {{'DASHBOARD.MAINTANCE.Ticket de Mantenimiento'|translate}}
+        </h2>
+        <p class="text-muted mb-5">Ticket #{{maintenance.id}}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-md-6 text-muted">
+        <h5 class="text-uppercase">
+          {{'DASHBOARD.MAINTANCE.Solicitado por'|translate}}
+        </h5>
+        <p class="mb-3">
+          <strong class="text-body">
+            {{maintenance['request_by']['first_name']}} {{maintenance['request_by']['last_name']}}
+          </strong>
+        </p>
+        <div class="email-user mb-2">
+          <a href="mailto:{{maintenance['request_by']['email']}}">{{maintenance['request_by']['email']}}</a>
+        </div>
+        <div class="rol-user mb-4">
+          <span *ngIf="maintenance['request_by']['is_admin']">
+            {{'DASHBOARD.MAINTANCE.Coordinador'|translate}}
+          </span>
+          <span *ngIf="maintenance['request_by']['is_assistant']">
+            {{'DASHBOARD.MAINTANCE.Auxiliar de sistemas'|translate}}
+          </span>
+          <span *ngIf="maintenance['request_by']['is_employee']">
+            {{'DASHBOARD.MAINTANCE.Empleado'|translate}}
+          </span>
+        </div>
+        <h5 class="text-uppercase">Ticket ID</h5>
+        <p class="mb-4 text-dark">#{{maintenance.id}}</p>
+      </div>
+      <div class="col-12 col-md-6 text-md-right">
+        <h5 class="text-uppercase text-muted">
+          {{'DASHBOARD.MAINTANCE.Auxiliar asignado'|translate}}
+        </h5>
+        <p class="mb-3">
+          <strong class="text-body">{{maintenance['assigned_auxiliary']}}</strong>
+        </p>
+        <h5 class="text-uppercase text-muted">
+          {{'DASHBOARD.MAINTANCE.Fecha de solicitud'|translate}}
+        </h5>
+        <p class="mb-4">
+          <time datetime="2020-11-27">{{maintenance['maintenance_date'] | date: 'medium'}}</time>
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table my-4">
+            <thead>
+            <tr class="text-muted">
+              <th class="px-0 bg-transparent border-top-0">
+                <span class="h6">
+                  {{'DASHBOARD.MAINTANCE.Implemento'|translate}}
+                </span>
+              </th>
+              <th class="px-0 bg-transparent border-top-0">
+                <span class="h6">
+                  {{'DASHBOARD.MAINTANCE.Tipo de mantenimiento'|translate}}
+                </span>
+              </th>
+              <th class="px-0 bg-transparent border-top-0">
+                <span class="h6">
+                  {{'DASHBOARD.MAINTANCE.Lugar de mantenimiento'| translate}}
+                </span>
+              </th>
+              <th class="px-0 bg-transparent border-top-0 text-right">
+                <span class="h6">
+                  {{'DASHBOARD.MAINTANCE.Comentarios'|translate}}
+                </span>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>{{maintenance['implement']['name']}}</td>
+              <td>{{maintenance['maintenance_type']}}</td>
+              <td>{{maintenance['maintenance_location']}}</td>
+              <td class="text-right">{{maintenance['description']}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <hr class="my-5">
+        <h5 class="text-uppercase">
+          {{'DASHBOARD.MAINTANCE.Nota'|translate}}
+        </h5>
+        <p class="text-muted mb-0">
+          {{'DASHBOARD.MAINTANCE.Cuando se complete el mantenimiento, el sistema automaticamente cambiar su estado y modificara el estado del implemento.'| translate}}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #elseBlock>
+  <div class="card">
+    <div class="card-body">
+      <h1>{{'DASHBOARD.MAINTANCE.TICKET NO ENCONTRADO'|translate}}</h1>
+    </div>
+  </div>
+</ng-template>
+

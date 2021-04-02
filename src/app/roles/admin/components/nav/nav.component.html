@@ -1,0 +1,154 @@
+<title>Coordinador | Andromeda</title>
+<div class="wrapper">
+  <nav id="sidebar" class="sidebar mb-5">
+    <a class="sidebar-brand" [routerLink]="['/admin']">
+      <img src="assets/img/logo.png" alt="Andromeda">
+    </a>
+    <div class="sidebar-content">
+      <ul class="sidebar-nav">
+        <li class="sidebar-header">Home</li>
+        <li class="sidebar-item">
+          <a [routerLink]="['/admin']" routerLinkActive="active" class="sidebar-link" aria-expanded="false">
+            <i class="fa-fw fas fa-home"></i>
+            <span class="align-middle">Dashboard</span>
+          </a>
+        </li>
+        <li class="sidebar-header">
+          {{'DASHBOARD.NAVADMIN.Administrar Usuarios'|translate}}
+        </li>
+        <li class="sidebar-item">
+          <a routerLinkActive="active" [routerLink]="['usuarios']" class="sidebar-link collapsed" aria-expanded="false">
+            <i class="fa-fw fas fa-users"></i>
+            <span class="align-middle">
+              {{'DASHBOARD.NAVADMIN.Usuarios'|translate}}
+            </span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="#team" data-toggle="collapse" class="sidebar-link collapsed" aria-expanded="false">
+            <i class="fa-fw fas fa-user-tie"></i>
+            <span class="align-middle">
+              {{'DASHBOARD.NAVADMIN.Personal'|translate}}
+            </span>
+          </a>
+          <ul id="team" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+            <li class="sidebar-item">
+              <a class="sidebar-link" [routerLink]="['auxiliares']" routerLinkActive="active">
+                {{'DASHBOARD.NAVADMIN.Auxiliares' | translate}}
+              </a>
+              <a class="sidebar-link" href="#">
+                {{'DASHBOARD.NAVADMIN.Control de personal'|translate}}
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="sidebar-header">
+          {{'DASHBOARD.NAVADMIN.Soporte Tecnico' | translate}}
+        </li>
+        <li class="sidebar-item">
+          <a href="#request" data-toggle="collapse" class="sidebar-link collapsed" aria-expanded="false">
+            <i class="fa-fw fas fa-users"></i>
+            <span class="align-middle">{{'DASHBOARD.NAVADMIN.Soporte Tecnico'|translate}}</span>
+          </a>
+          <ul id="request" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+            <li class="sidebar-item">
+              <a class="sidebar-link" [routerLink]="['servicio/soporte-tecnico/solicitar']" routerLinkActive="active">
+                {{'DASHBOARD.NAVADMIN.Solicitar Soporte'|translate}}
+              </a>
+              <a class="sidebar-link" [routerLink]="['servicio/soporte-tecnico/control']" routerLinkActive="active">
+                {{'DASHBOARD.NAVADMIN.Control de solicitudes' | translate}}
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="sidebar-header">
+          {{'DASHBOARD.NAVADMIN.Calendario'|translate}}
+        </li>
+        <li class="sidebar-item">
+          <a [routerLink]="['calendario']" routerLinkActive="active" class="sidebar-link" aria-expanded="false">
+            <i class="fa-fw fas fa-calendar-alt"></i>
+            <span class="align-middle">
+              {{'DASHBOARD.NAVADMIN.Calendario'|translate}}
+            </span>
+          </a>
+        </li>
+        <li class="sidebar-header">
+          {{'DASHBOARD.NAVADMIN.Préstamos Tecnologicos'|translate}}
+        </li>
+        <li class="sidebar-item">
+          <a href="#prestamo" data-toggle="collapse" class="sidebar-link collapsed" aria-expanded="false">
+            <i class="fa-fw fas fa-laptop"></i>
+            <span class="align-middle">
+              {{'DASHBOARD.NAVADMIN.Préstamos'|translate}}
+            </span>
+          </a>
+          <ul id="prestamo" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+            <li class="sidebar-item">
+              <a class="sidebar-link" [routerLink]="['servicio/prestamos/solicitar']" routerLinkActive="active">
+                {{'DASHBOARD.NAVADMIN.Agendar préstamo'|translate}}
+              </a>
+              <a class="sidebar-link" [routerLink]="['servicio/prestamos/control']" routerLinkActive="active">
+                {{'DASHBOARD.NAVADMIN.Control de préstamos'|translate}}
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="sidebar-header">
+          {{'DASHBOARD.NAVADMIN.Inventario Tecnologico'|translate}}
+        </li>
+        <li class="sidebar-item">
+          <a href="#inventory" data-toggle="collapse" class="sidebar-link collapsed" aria-expanded="false">
+            <i class="fa-fw fas fa-boxes"></i>
+            <span class="align-middle">
+              {{'DASHBOARD.NAVADMIN.Inventario'|translate}}
+            </span>
+          </a>
+          <ul id="inventory" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+            <li class="sidebar-item">
+              <a class="sidebar-link" [routerLink]="['inventario']">
+                {{'DASHBOARD.NAVADMIN.Gestionar inventario'|translate}}
+              </a>
+              <a class="sidebar-link" [routerLink]="['inventario/agregar-implemento']" routerLinkActive="active">
+                {{'DASHBOARD.NAVADMIN.Agregar implemento'|translate}}
+              </a>
+              <a class="sidebar-link" [routerLink]="['inventario/agregar-ficha']" routerLinkActive="active">
+                {{'DASHBOARD.NAVADMIN.Agregar ficha tecnica'|translate}}
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="sidebar-header">
+          {{'DASHBOARD.NAVADMIN.Mantenimiento de equipos'|translate}}
+        </li>
+        <li class="sidebar-item">
+          <a href="#maintenance" data-toggle="collapse" class="sidebar-link collapsed" aria-expanded="false">
+            <i class="fa-fw fas fa-tools"></i>
+            <span class="align-middle">
+              {{'DASHBOARD.NAVADMIN.Mantenimiento'|translate}}
+            </span>
+          </a>
+          <ul id="maintenance" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+            <li class="sidebar-item">
+              <a class="sidebar-link" [routerLink]="['servicio/mantenimiento/solicitar']" routerLinkActive="active">
+                {{'DASHBOARD.NAVADMIN.Agendar mantenimiento'|translate}}
+              </a>
+              <a class="sidebar-link" [routerLink]="['servicio/mantenimiento/control']" routerLinkActive="active">
+                {{'DASHBOARD.NAVADMIN.Gestionar mantenimientos'|translate}}
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="main">
+    <app-header></app-header>
+    <main class="content">
+      <div class="container-fluid">
+        <router-outlet></router-outlet>
+      </div>
+      <app-footer></app-footer>
+    </main>
+  </div>
+</div>
+

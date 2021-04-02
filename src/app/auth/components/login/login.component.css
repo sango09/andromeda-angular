@@ -1,0 +1,35 @@
+a {
+  color: #377dff !important;
+}
+
+a:hover {
+  color: #0052ea !important;
+  text-decoration: none !important;
+}
+
+.header_form h1 {
+  font-size: 1.85rem;
+  line-height: 1.4;
+  color: #495057;
+}
+
+.check-input {
+  display: flex;
+  align-items: center;
+}
+
+.check-input label {
+  margin-left: 0.5rem;
+}
+
+.brand-andromeda img {
+  width: 200px;
+  display: block;
+  margin: auto;
+}
+
+:host ::ng-deep .p-button{
+  display: block;
+}
+
+

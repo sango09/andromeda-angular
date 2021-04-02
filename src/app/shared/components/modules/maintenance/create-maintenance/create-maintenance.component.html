@@ -1,0 +1,131 @@
+<div class="header">
+  <h1 class="header-title">
+    {{'DASHBOARD.MAINTANCE.Agendar Mantenimiento'|translate}}
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="../../../">
+          {{'DASHBOARD.MAINTANCE.Inicio'|translate}}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{'DASHBOARD.MAINTANCE.Agendar mantenimiento'|translate}}
+      </li>
+    </ol>
+  </nav>
+</div>
+<p-card>
+  <ng-template pTemplate="title">
+    {{'DASHBOARD.MAINTANCE.Agendar Mantenimiento'|translate}}
+  </ng-template>
+  <ng-template pTemplate="subtitle">
+    {{'DASHBOARD.MAINTANCE.Ingresa los datos requeridos'|translate}}
+  </ng-template>
+  <ng-template pTemplate="content">
+    <h5>
+      {{'DASHBOARD.MAINTANCE.Usuario registrado'| translate}}
+    </h5>
+    <form method="POST" autocomplete="off" [formGroup]="form" (ngSubmit)="createMaintenance($event)">
+      <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-12 p-md-6">
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon">
+              <i class="pi pi-user"></i>
+            </span>
+            <input type="text" pInputText [(ngModel)]="userFullName" [ngModelOptions]="{standalone: true}" disabled>
+          </div>
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon">
+              <span class="material-icons">
+              local_post_office
+              </span>
+            </span>
+            <input type="text" pInputText [(ngModel)]="userData['email']" [ngModelOptions]="{standalone: true}"
+                   disabled>
+          </div>
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+          <label>{{'DASHBOARD.MAINTANCE.Implemento'|translate}}</label>
+          <p-dropdown [options]="implements"
+                      [(ngModel)]="selectImplement"
+                      optionLabel="name"
+                      class="multiselect-custom"
+                      [filter]="true"
+                      filterBy="name"
+                      [showClear]="true"
+                      placeholder="{{'DASHBOARD.MAINTANCE.Seleccione un implemento'|translate}}"
+                      [ngModelOptions]="{standalone: true}">
+            <ng-template let-implement pTemplate="selectItem">
+              <div class="implement-item implement-item-value" *ngIf="selectImplement">
+                <img src="{{implement['technical_data_sheet']['picture']}}" alt="implemento" class="flag">
+                <span class="ml-2">{{implement.name}}</span>
+              </div>
+            </ng-template>
+            <ng-template let-implement pTemplate="item">
+              <div class="implement-item">
+                <img src="{{implement['technical_data_sheet']['picture']}}" alt="implemento" class="flag">
+                <span class="ml-2">{{implement.name}}</span>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+          <label>{{'DASHBOARD.MAINTANCE.Tipo de mantenimiento'|translate}}</label>
+          <p-dropdown inputId="class"
+                      [(ngModel)]="selectMaintenance"
+                      [options]="typeMaintenance"
+                      optionLabel="name"
+                      placeholder="{{'DASHBOARD.MAINTANCE.Tipo de mantenimiento'|translate}}"
+                      [showClear]="true"
+                      [ngModelOptions]="{standalone: true}">
+          </p-dropdown>
+        </div>
+        <div class="p-field p-col-12">
+          <label for="calendar">{{'DASHBOARD.MAINTANCE.Fecha del mantenimiento'|translate}}</label>
+          <p-calendar [(ngModel)]="value"
+                      [disabledDates]="invalidDates"
+                      [disabledDays]="[0,6]"
+                      [showIcon]="true"
+                      [readonlyInput]="true"
+                      showTime="true"
+                      hourFormat="12"
+                      showButtonBar="true"
+                      [ngModelOptions]="{standalone: true}"
+                      dateFormat="dd-mm-yy"
+                      id="calendar"
+                      [required]="true"
+                      [touchUI]="true">
+          </p-calendar>
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+          <label for="maintenance_location">
+            {{'DASHBOARD.MAINTANCE.Lugar del mantenimiento'|translate}}
+          </label>
+          <input type="text" pInputText id="maintenance_location" formControlName="maintenance_location">
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+          <mat-form-field appearance="outline">
+            <mat-label>
+              {{'DASHBOARD.MAINTANCE.Imagen del implemento'|translate}}
+            </mat-label>
+            <ngx-mat-file-input placeholder="Basic outline placeholder"
+                                (change)="getFile($event)"></ngx-mat-file-input>
+            <mat-icon matSuffix>folder</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="p-field p-col-12">
+          <label>
+            {{'DASHBOARD.MAINTANCE.Descripción del mantenimiento'| translate}}
+          </label>
+          <textarea pInputTextarea formControlName="description"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">
+          {{'DASHBOARD.MAINTANCE.Agendar Mantenimiento'| translate}}
+        </button>
+      </div>
+    </form>
+  </ng-template>
+</p-card>

@@ -1,0 +1,163 @@
+<div class="header">
+  <h1 class="header-title">
+    {{'DASHBOARD.PROFILE.Modificar Usuario'|translate}}
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="../../">
+          {{'DASHBOARD.PROFILE.Inicio'|translate}}
+        </a>
+      </li>
+      <li class="breadcrumb-item">
+        <a routerLink="../../perfil/{{user.id}}">
+          {{'DASHBOARD.PROFILE.Perfil'|translate}}
+        </a>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{'DASHBOARD.PROFILE.Actualizar perfil'|translate}}
+      </li>
+    </ol>
+  </nav>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">
+          {{'DASHBOARD.PROFILE.Modificar Usuario'|translate}}
+        </h2>
+        <h3 class="card-subtitle text-muted">
+          {{'DASHBOARD.PROFILE.No olvide completar todos los campos requeridos'|translate}}
+        </h3>
+      </div>
+      <div class="card-body">
+        <form method="POST"
+              enctype="multipart/form-data"
+              autocomplete="off"
+              [formGroup]="form"
+              (ngSubmit)="updateProfile($event)">
+          <div class="row">
+            <div class="col-lg-4 border-right">
+              <div class="d-flex flex-column align-items-center">
+                <img *ngIf="!imgTemp"
+                     [src]="avatar"
+                     class="rounded-circle"
+                     width="200"
+                     height="200"
+                     alt="avatar">
+                <img *ngIf="imgTemp"
+                     class="rounded-circle"
+                     width="200"
+                     height="200"
+                     [src]="imgTemp"
+                     alt="avatar">
+                <div class="input-file mt-2">
+                  <label class="pi pi-camera cursor" for="uploadImage" style="font-size: 2rem"></label>
+                  <input type="file" id="uploadImage" (change)="getFile($event)">
+                </div>
+                <p-button (click)="toggle(0)" styleClass="p-button-text"
+                          label="Cambiar contraseña"></p-button>
+                <form method="POST" [formGroup]="changePasswordForm" (ngSubmit)="newPassword($event)">
+                  <p-accordion>
+                    <p-accordionTab header="Header I" [(selected)]="activeState[0]">
+                      <div class="p-grid p-fluid">
+                        <div class="p-col-12">
+                          <div class="p-field">
+                            <label for="old_password">{{'DASHBOARD.PROFILE.Contraseña anterior'|translate}}</label>
+                            <input
+                              type="password"
+                              name="old_password"
+                              id="old_password"
+                              formControlName="old_password"
+                              pInputText>
+                          </div>
+                        </div>
+                        <div class="p-col-12">
+                          <div class="p-field">
+                            <label for="new_password">{{'DASHBOARD.PROFILE.Nueva contraseña'|translate}}</label>
+                            <input
+                              type="password"
+                              name="new_password"
+                              formControlName="new_password"
+                              id="new_password"
+                              pInputText>
+                            <small class="p-error" *ngIf="passwordInvalid">
+                              {{'AUTH.Usa mas de 8 caracteres para tu contraseña'|translate}}
+                            </small>
+                          </div>
+                        </div>
+                        <div class="p-col-12">
+                          <div class="p-field">
+                            <label for="new_password_confirmation">
+                              {{'DASHBOARD.PROFILE.Confirmar nueva contraseña'|translate}}
+                            </label>
+                            <input
+                              type="password"
+                              name="new_password_confirmation"
+                              formControlName="new_password_confirmation"
+                              id="new_password_confirmation"
+                              pInputText>
+                            <small class="p-error" *ngIf="confirmPasswordInvalid">
+                              Las contraseñas no coinciden. Vuelve a intentarlo.
+                            </small>
+                          </div>
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-primary btn-block">
+                        {{'DASHBOARD.PROFILE.Guardar cambios'|translate}}
+                      </button>
+                    </p-accordionTab>
+                  </p-accordion>
+                </form>
+              </div>
+            </div>
+            <div class="col-lg border-right mt-3">
+              <p-messages *ngIf="messages" [(value)]="messages" [enableService]="true"></p-messages>
+              <h1>{{'DASHBOARD.PROFILE.Tus datos'|translate}}</h1>
+              <div class="p-fluid">
+                <div class="p-field">
+                  <label for="first_name">{{'DASHBOARD.PROFILE.Nombres'|translate}}</label>
+                  <input pInputText
+                         type="text"
+                         id="first_name"
+                         formControlName="first_name">
+                  <small class="p-error" *ngIf="firstNameInvalid">{{'AUTH.Campo requerido'|translate}}</small>
+                </div>
+                <div class="p-field">
+                  <label for="last_name">{{'DASHBOARD.PROFILE.Apellidos'|translate}}</label>
+                  <input pInputText
+                         type="text"
+                         id="last_name"
+                         formControlName="last_name">
+                  <small class="p-error" *ngIf="lastNameInvalid">{{'AUTH.Campo requerido'|translate}}</small>
+                </div>
+                <div class="p-field">
+                  <label for="email">{{'DASHBOARD.PROFILE.Correo Electronico'|translate}}</label>
+                  <input pInputText
+                         type="email"
+                         id="email"
+                         formControlName="email">
+                  <small class="p-error" *ngIf="emailInvalid">{{'AUTH.Correo electronico invalido'|translate}}</small>
+                </div>
+                <div class="p-field">
+                  <button type="submit" class="btn btn-success btn-block">
+                    {{'DASHBOARD.PROFILE.Guardar cambios'|translate}}
+                  </button>
+                  <hr>
+                  <div class="text-center">
+                    <a routerLink="../../perfil/{{user.id}}">
+                      {{'DASHBOARD.PROFILE.Volver al perfil'|translate}}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

@@ -1,0 +1,215 @@
+<div class="header">
+  <h1 class="header-title">
+    {{'DASHBOARD.LOANS.Control de Prestamos'|translate}}
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="../../../">
+          {{'DASHBOARD.LOANS.Inicio'|translate}}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{'DASHBOARD.LOANS.Prestamos'|translate}}
+      </li>
+    </ol>
+  </nav>
+</div>
+<div class="card">
+  <p-table #dt
+           [value]="loans"
+           dataKey="id"
+           [rows]="10"
+           [showCurrentPageReport]="true"
+           [rowsPerPageOptions]="[10,25,50]"
+           [loading]="loading"
+           [paginator]="true"
+           [filterDelay]="0"
+           selectionMode="multiple"
+           [(selection)]="selectedProducts"
+           [resizableColumns]="true"
+           styleClass="p-datatable-responsive-mobile"
+           [autoLayout]="true"
+           [globalFilterFields]="['assigned_auxiliary','loans_location', 'implement.implement.name',
+           'request_by.first_name', 'request_by.last_name', 'status_loans']">
+    <ng-template pTemplate="caption">
+      <div class="p-d-flex">
+        <button type="button"
+                pButton
+                pRipple
+                icon="pi pi-file-excel"
+                (click)="dt.exportCSV()"
+                label="Excel"
+                class="mr-2 p-button-success"
+                pTooltip="Excel"
+                tooltipPosition="bottom">
+        </button>
+        <a (click)="printReport()"
+           [href]="urlPdf"
+           class="btn btn-danger"
+           type="button"
+           pTooltip="PDF"
+           tooltipPosition="bottom">
+          <i [class]="iconPrint"></i>
+          PDF
+        </a>
+        <span class="p-input-icon-left ml-auto">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" (input)="dt.filterGlobal($event.target['value'], 'contains')"
+                 placeholder="{{'DASHBOARD.LOANS.Buscar...'|translate}}">
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 20%">Ticket</th>
+        <th style="width: 15%;">{{'DASHBOARD.LOANS.Implemento'|translate}}</th>
+        <th style="width: 15%">{{'DASHBOARD.LOANS.Fecha'|translate}}</th>
+        <th>{{'DASHBOARD.LOANS.Lugar'|translate}}</th>
+        <th style="width: 10%" class="text-center">{{'DASHBOARD.LOANS.Cantidad'|translate}}</th>
+        <th>{{'DASHBOARD.LOANS.Estado'|translate}}</th>
+        <th style="width: 15%">{{'DASHBOARD.LOANS.Auxiliar Asignado'|translate}}</th>
+        <th style="width: 10%"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-loans>
+      <tr>
+        <td>
+          <a routerLink="../detalle/{{loans['id']}}" routerLinkActive="active" class="text-primary">#{{loans.id}} </a>
+          {{'DASHBOARD.LOANS.por'|translate}}
+          <strong>{{loans['request_by']['first_name']}} {{loans['request_by']['last_name']}}</strong>
+          <br>
+          <a href="mailto:{{loans['request_by']['email']}}">{{loans['request_by']['email']}}</a>
+        </td>
+        <td>
+          <img [src]="loans['implement']['implement']['technical_data_sheet']['picture']"
+               alt="implemento" width="32" style="vertical-align: middle">
+          {{loans['implement']['implement']['name']}}
+        </td>
+        <td>{{loans['loans_date'] | date: 'M/d/yyyy, h:mm a':'GMT'}}</td>
+        <td>{{loans['loans_location']}}</td>
+        <td>{{loans['ammount_implements']}}</td>
+        <ng-container *ngIf="loans['is_active']">
+          <td>
+            <span class="badge badge-warning">
+              {{'DASHBOARD.LOANS.En proceso'|translate}}
+            </span>
+          </td>
+        </ng-container>
+        <ng-container *ngIf="loans['is_active'] === false && loans['complete_loans_date'] === null">
+          <td>
+            <span class="badge badge-danger">
+              Cancelado
+            </span>
+          </td>
+        </ng-container>
+        <ng-container *ngIf="loans['is_active'] === false && loans['complete_loans_date'] !== null">
+          <td>
+            <span class="badge badge-success">
+              {{'DASHBOARD.LOANS.Completado'|translate}}
+            </span>
+          </td>
+        </ng-container>
+        <td>{{loans['assigned_auxiliary']}}</td>
+        <ng-container>
+          <td>
+            <div *ngIf="loans['status_loans'] === 'En proceso'; else elseBlock">
+              <a class="cursor-pointer text-secondary" (click)="op.toggle($event)">
+                 <span class="badge-item">
+                <i class="pi pi-ellipsis-h" style="font-size: 1.5rem"></i>
+              </span>
+              </a>
+              <p-overlayPanel #op [showCloseIcon]="false">
+                <ng-template pTemplate>
+                  <ng-container *ngIf="userInfo['is_employee']">
+                    <button pButton
+                            type="button"
+                            class="btn-block"
+                            icon="pi pi-pencil"
+                            label="Editar prestamo"
+                            (click)="editLoan(loans)"
+                    >
+                    </button>
+                  </ng-container>
+                  <ng-container *ngIf="userInfo['is_assistant'] || userInfo['is_admin']">
+                    <div class="mt-2">
+                      <button pButton
+                              type="button"
+                              icon="pi pi-check"
+                              label="Completar prestamo"
+                              class="btn-block"
+                              (click)="completed($event, loans['id'])"></button>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="userInfo['is_admin'] || userInfo['is_employee']">
+                    <div class="mt-2">
+                      <button pButton
+                              type="button"
+                              icon="pi pi-times"
+                              label="Cancelar prestamo"
+                              class="p-button-outlined p-button-danger btn-block"
+                              (click)="canceleted($event, loans['id'])">
+                      </button>
+                    </div>
+                  </ng-container>
+                </ng-template>
+              </p-overlayPanel>
+            </div>
+          </td>
+        </ng-container>
+        <ng-template #elseBlock>
+          <td>
+            <a routerLink="../detalle/{{loans['id']}}" routerLinkActive="active" class="text-primary">
+              {{'DASHBOARD.LOANS.Ver Ticket'|translate}}
+            </a>
+          </td>
+        </ng-template>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<p-dialog [(visible)]="loansEdit"
+          [style]="{width: '600px'}"
+          header="Editar Prestamo"
+          [modal]="true"
+          styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <div class="p-field p-grid">
+      <div class="p-col-12 p-lg-6">
+        <label for="implement">Implemento</label>
+        <div class="p-inputgroup">
+        <span class="p-inputgroup-addon">
+          <i class="pi pi-desktop"></i>
+        </span>
+          <input disabled
+                 type="text"
+                 id="implement"
+                 pInputText
+                 [(ngModel)]="loan['implement']['implement']['name']">
+        </div>
+      </div>
+      <div class="p-col-12 p-lg-6">
+        <label for="ammount">Cantidad solicitada</label>
+        <input disabled
+               type="text"
+               id="ammount"
+               pInputText
+               [(ngModel)]="loan['ammount_implements']">
+      </div>
+    </div>
+    <div class="p-field">
+      <label for="calendar">Fecha del prestamo</label>
+      <p-calendar [(ngModel)]="dateLoan"
+                  [disabledDays]="[0,6]"
+                  [showIcon]="true"
+                  [readonlyInput]="true"
+                  showTime="true"
+                  hourFormat="12"
+                  showButtonBar="true"
+                  id="calendar"
+                  [required]="true">
+      </p-calendar>
+    </div>
+  </ng-template>
+</p-dialog>
+<p-confirmPopup></p-confirmPopup>

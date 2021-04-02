@@ -1,0 +1,119 @@
+<title>Registro | Andromeda</title>
+<section class="container-fluid ">
+  <div class="row">
+    <div class="col pb-5 brand-andromeda">
+      <img src="assets/img/logo_azul.png" alt="">
+      <div *ngIf="error" class="alert alert-danger text-center" role="alert">
+        {{error}}
+      </div>
+      <div class="header_form p-text-center p-mb-5">
+        <h1>Registro</h1>
+        <span class="text-muted">
+          {{'AUTH.¿Ya tienes una cuenta?'|translate}}
+        </span>
+        <a class="text-andromeda" routerLinkActive routerLink="/login"> {{'AUTH.Inicia Sesión'|translate}}</a>
+      </div>
+      <form class="col col-md-10 offset-md-1 col-lg-8 offset-lg-2 pt-3"
+            [formGroup]="form"
+            method="POST"
+            (ngSubmit)="register($event)"
+            autocomplete="off">
+        <div class="p-fluid">
+          <div class="p-field">
+            <label for="first_name">{{'AUTH.Nombres'|translate}}</label>
+            <input type="text"
+                   id="first_name"
+                   pInputText
+                   formControlName="first_name">
+            <small class="p-error" *ngIf="firstNameInvalid">{{'AUTH.Campo requerido'|translate}}</small>
+          </div>
+          <div class="p-field">
+            <label for="last_name">{{'AUTH.Apellidos'|translate}}</label>
+            <input type="text"
+                   id="last_name"
+                   pInputText
+                   formControlName="last_name">
+            <small class="p-error" *ngIf="lastNameInvalid">{{'AUTH.Campo requerido'|translate}}</small>
+          </div>
+          <div class="p-field">
+            <label for="email">{{'AUTH.Correo electronico'|translate}}</label>
+            <input type="email"
+                   id="email"
+                   pInputText
+                   formControlName="email"
+                   placeholder="example@gmail.com">
+            <small class="p-error" *ngIf="emailInvalid">{{'AUTH.Correo electronico invalido'|translate}}</small>
+          </div>
+          <div class="p-field">
+            <div class="p-field">
+              <label for="password">{{'AUTH.Contraseña'|translate}}</label>
+              <input type="password"
+                     placeholder="Contraseña"
+                     pPassword
+                     id="password"
+                     [feedback]="false"
+                     formControlName="password">
+              <small class="p-error" *ngIf="passwordInvalid">
+                {{'AUTH.Usa mas de 8 caracteres para tu contraseña'|translate}}
+              </small>
+            </div>
+          </div>
+          <div class="p-field">
+            <label for="confirm_password">Confirmar contraseña</label>
+            <input type="password"
+                   placeholder="Confirme la contraseña"
+                   pPassword
+                   [feedback]="false"
+                   id="confirm_password"
+                   formControlName="password_confirmation">
+            <small class="p-error" *ngIf="confirmPasswordInvalid">
+              Las contraseñas no coinciden. Vuelve a intentarlo.
+            </small>
+          </div>
+          <div class="p-field">
+            <label for="is_employee">{{'AUTH.Area de desempeño'|translate}}</label>
+            <p-dropdown [options]="camp"
+                        placeholder="{{'AUTH.Area de desempeño'|translate}}"
+                        formControlName="is_employee"
+                        id="is_employee"
+                        dataKey="value"
+                        optionLabel="name">
+            </p-dropdown>
+            <small class="p-error" *ngIf="employeeIsEmpty">{{'AUTH.Campo requerido'|translate}}</small>
+          </div>
+          <div class="p-field">
+            <p-captcha [siteKey]="siteKey" (onResponse)="showResponse()"></p-captcha>
+            <small class="p-error" *ngIf="recaptchaIsEmpty">{{'AUTH.Campo requerido'|translate}}</small>
+          </div>
+          <div class="p-field">
+            <div class="check-input">
+              <input type="checkbox"
+                     id="checkbox"
+                     formControlName="terms">
+              <label class="form-check-label" for="checkbox">
+                {{'AUTH.Acepto'|translate}}
+                <a href="#">
+                  {{'AUTH.Términos de Servicio y Politicas de Privacidad'|translate}}
+                </a>
+              </label>
+            </div>
+            <small class="p-error" *ngIf="checkboxIsEmpty">{{'AUTH.Campo requerido'|translate}}</small>
+          </div>
+        </div>
+        <button type="submit"
+                pButton
+                [icon]="iconRegister"
+                [disabled]="disabled"
+                class="btn-andromeda btn-block"
+                label="{{'AUTH.Crear mi cuenta'|translate}}">
+        </button>
+      </form>
+    </div>
+    <div
+      class="col-lg-6 d-none d-lg-flex"
+      id="image__signup"
+      style="background-image: url(../../../../assets/img/auth/cgb6.jpeg);
+      background-size: cover;">
+    </div>
+  </div>
+</section>

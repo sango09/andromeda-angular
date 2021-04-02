@@ -1,0 +1,59 @@
+<div class="header">
+  <h1 class="header-title">
+    {{'DASHBOARD.INVENTORY.Ver ficha tecnica'|translate}}
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="#">
+          {{'DASHBOARD.INVENTORY.Inicio'|translate}}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{'DASHBOARD.INVENTORY.Ver ficha tecnica'|translate}}
+      </li>
+    </ol>
+  </nav>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card" *ngIf="techTab">
+      <div class="card-header">
+        <h2>
+          {{'DASHBOARD.INVENTORY.Ver ficha tecnica'|translate}}
+        </h2>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-4 border-right">
+            <div class="d-flex flex-column align-items-center">
+              <h1 class="text-center">
+                {{'DASHBOARD.INVENTORY.Modelo y marca del implemento'|translate}}
+              </h1>
+              <h2>{{techTab['brand_implement']}} {{techTab['model_implement']}}</h2>
+              <img class=" img-fluid" width="200" height="200" [src]="techTab.picture" alt="Avatar"/>
+              <h1 class="text-center">
+                {{'DASHBOARD.INVENTORY.Sistema operativo'|translate}}
+              </h1>
+              <h2>{{techTab['operating_system']}}</h2>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card-body">
+              <h1 class="text-center">
+                {{'DASHBOARD.INVENTORY.Especificaciones'|translate}}
+              </h1>
+              <p style="font-size: 20px;">{{techTab['specifications']}}</p>
+              <div class="text-center" style="margin-top: 200px;">
+                <a routerLink="../../" routerLinkActive class="btn btn-andromeda">
+                  {{'DASHBOARD.INVENTORY.Regresar al gestionar inventario'|translate}}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

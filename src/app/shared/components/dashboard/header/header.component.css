@@ -1,0 +1,101 @@
+.layout-topbar-right {
+  padding: 10px 32px 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.layout-topbar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.layout-topbar-actions > li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.layout-topbar-actions > li > a {
+  padding: 10px 10px 7px;
+  margin: 0 6px;
+  border-radius: 10px;
+}
+
+.badge-item > i {
+  font-size: 1.3rem;
+  color: #ffffff;
+}
+
+.header-text {
+  font-weight: 500;
+  color: #515C66;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-profile > i {
+  color: #ffffff;
+}
+
+:host ::ng-deep .logout > a > span {
+  color: #dc3545 !important;
+  font-weight: bold;
+}
+
+:host ::ng-deep .p-overlaypanel, :host ::ng-deep .p-menu.p-menu-overlay {
+  position: absolute;
+  transform-origin: top;
+  top: 40px !important;
+  right: 0;
+  z-index: 1;
+  width: 275px;
+  max-height: 400px;
+  list-style-type: none;
+  padding: 1rem;
+  margin: 0;
+  border-radius: 3px;
+  left: auto !important;
+}
+
+:host ::ng-deep .p-overlaypanel .p-overlaypanel-content {
+  padding: 0;
+}
+
+:host ::ng-deep .p-overlaypanel .p-overlaypanel-content > ul {
+  padding: 0;
+}
+
+
+:host ::ng-deep .p-badge {
+  height: 14px;
+  width: 14px;
+  min-width: 14px;
+  font-size: 10px;
+  line-height: 14px;
+}
+
+
+:host ::ng-deep .p-avatar img {
+  border-radius: 50%;
+}
+
+:host ::ng-deep .p-button.p-button-text {
+  color: #ffffff !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+:host ::ng-deep .p-button.p-button-text .pi {
+  font-size: 1.5rem !important;
+}

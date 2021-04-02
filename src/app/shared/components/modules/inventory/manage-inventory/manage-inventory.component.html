@@ -1,0 +1,250 @@
+<div class="header">
+  <h1 class="header-title">
+    {{'DASHBOARD.INVENTORY.Gestion de inventario'|translate}}
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="../">
+          {{'DASHBOARD.INVENTORY.Inicio'|translate}}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{'DASHBOARD.INVENTORY.Gestion de inventario'|translate}}
+      </li>
+    </ol>
+  </nav>
+</div>
+<div class="card">
+  <p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="right">
+      <button type="button"
+              pButton
+              pRipple
+              icon="pi pi-file-excel"
+              class="p-button-success mr-2"
+              pTooltip="Excel"
+              tooltipPosition="bottom"
+              label="Excel"
+              (click)="exportExcel()">
+      </button>
+      <a
+        [href]="urlPdf"
+        class="btn btn-danger"
+        type="button"
+        pTooltip="PDF"
+        tooltipPosition="bottom">
+     PDF
+      </a>
+    </ng-template>
+  </p-toolbar>
+  <p-table #dt
+           [value]="implements"
+           [rows]="10"
+           [paginator]="true"
+           [rowHover]="true"
+           [showCurrentPageReport]="true"
+           [loading]="loading"
+           [filterDelay]="0"
+           [resizableColumns]="true"
+           styleClass="p-datatable-responsive-mobile"
+           [autoLayout]="true"
+           [globalFilterFields]="['name','category','technical_data_sheet', 'price', 'purchase_date',
+           'assigned_user','status_implement']">
+    <ng-template pTemplate="caption">
+      <div class="p-d-flex p-ai-center p-jc-between">
+        <h5 class="p-m-0">
+          {{'DASHBOARD.INVENTORY.Implementos registrados'|translate}}
+        </h5>
+        <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filterGlobal($event.target['value'], 'contains')"
+                     placeholder="{{'DASHBOARD.INVENTORY.Buscar...'|translate}}">
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="name"
+            style="width: 30%;">{{'DASHBOARD.INVENTORY.Nombre y modelo del implemento'|translate}}</th>
+        <th pSortableColumn="category" style="width:15%">{{'DASHBOARD.INVENTORY.Categoria'|translate}}</th>
+        <th pSortableColumn="technical_data_sheet"
+            style="width: 15%">{{'DASHBOARD.INVENTORY.Ficha tecnica'|translate}}</th>
+        <th pSortableColumn="price" style="width: 15%">{{'DASHBOARD.INVENTORY.Precio de compra'|translate}}</th>
+        <th pSortableColumn="purchase_date"
+            style="width: 15%">{{'DASHBOARD.INVENTORY.Fecha de adquisición'|translate}}</th>
+        <th pSortableColumn="assigned_user" style="width: 15%">{{'DASHBOARD.INVENTORY.Usuario asignado'|translate}}</th>
+        <th pSortableColumn="status_implement"
+            style="width: 15%">{{'DASHBOARD.INVENTORY.Estado del implemento'|translate}}</th>
+        <th pSortableColumn="status_implement" style="width: 10%"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-implement>
+      <tr>
+        <td>
+          <img [src]="implement['technical_data_sheet']['picture']" alt="implemento"
+               class="img-fluid align-middle" width="32">
+          {{implement['name']}} {{implement['technical_data_sheet']['model_implement']}}
+        </td>
+        <td>{{implement['category']}}</td>
+        <td>
+          <a [routerLink]="['ficha/', implement['technical_data_sheet']['id']]">
+            {{'DASHBOARD.INVENTORY.Ver ficha tecnica'|translate}}
+          </a>
+        </td>
+        <td>{{implement['price']}}</td>
+        <td>{{implement['purchase_date']}}</td>
+        <ng-container *ngIf="implement['assigned_user']; else elseBlock">
+          <td>
+            <p-chip label="{{implement['assigned_user']['first_name']}} {{implement['assigned_user']['last_name']}}"
+                    styleClass="p-mr-2 custom-chip" icon="pi pi-user"></p-chip>
+          </td>
+        </ng-container>
+        <ng-template #elseBlock>
+          <td>
+            <p-chip label="{{'DASHBOARD.INVENTORY.Sin usuario asignado'|translate}}"></p-chip>
+          </td>
+        </ng-template>
+        <td>
+          <ng-container ngSwitch="{{implement['status_implement']}}">
+            <span *ngSwitchCase="'Disponible'" class="badge badge-success">
+              {{'DASHBOARD.INVENTORY.Disponible'|translate}}
+            </span>
+            <span *ngSwitchCase="'Pendiente de mantenimiento'" class="badge badge-danger">
+              {{'DASHBOARD.INVENTORY.Pendiente de mantenimiento'| translate}}
+            </span>
+            <span *ngSwitchCase="'En mantenimiento'" class="badge badge-warning">
+              {{'DASHBOARD.INVENTORY.En mantenimiento'|translate}}
+            </span>
+            <span *ngSwitchCase="'En prestamos'" class="badge badge-primary">
+              {{'DASHBOARD.INVENTORY.En prestamos'|translate}}
+            </span>
+            <span *ngSwitchCase="'Reserva'" class="badge badge-secondary">
+              {{'DASHBOARD.INVENTORY.Reserva'|translate}}
+            </span>
+            <span *ngSwitchDefault class="badge badge-light">
+              {{'DASHBOARD.INVENTORY.Inactivo'|translate}}
+            </span>
+          </ng-container>
+        </td>
+        <ng-container *ngIf="userInfo['is_admin']">
+          <td>
+            <button mat-button [matMenuTriggerFor]="menu" class="pi pi-ellipsis-h"></button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="editImplement(implement)">
+                <i class="pi pi-pencil"></i> {{'DASHBOARD.INVENTORY.Editar'|translate}}
+              </button>
+              <button mat-menu-item (click)="inactivateImplement($event, implement['id'])"
+                      class="btn btn-outline-danger">
+                <i class="pi pi-ban"></i> {{'DASHBOARD.INVENTORY.Inhabilitar Implemento'|translate}}
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <p-dialog [(visible)]="implementDialog" [style]="{margin: '15px'}" [modal]="true" [maximizable]="true"
+            header="{{'DASHBOARD.INVENTORY.Editar implemento'|translate}}">
+    <ng-template pTemplate="content">
+      <div class="p-grid p-fluid">
+        <div class="p-field p-col-12 p-md-6">
+          <label for="implementName">
+            {{'DASHBOARD.INVENTORY.Nombre del implemento'|translate}}
+          </label>
+          <input type="text" id="implementName" pInputText [(ngModel)]="implement['name']">
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+          <label for="category">
+            {{'DASHBOARD.INVENTORY.Categoria'|translate}}
+          </label>
+          <input type="text" id="category" pInputText [(ngModel)]="implement['category']">
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+          <label for="techTab">
+            {{'DASHBOARD.INVENTORY.Ficha Tecnica'|translate}}
+          </label>
+          <p-dropdown [options]="techTab"
+                      [(ngModel)]="implement['technical_data_sheet_id']"
+                      [placeholder]="implement['technical_data_sheet']['model_implement']"
+                      optionLabel="model_implement"
+                      id="techTab"
+                      optionValue="id">
+          </p-dropdown>
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+          <label for="purchase_date">
+            {{'DASHBOARD.INVENTORY.Fecha de compra'|translate}}
+          </label>
+          <p-calendar [(ngModel)]="implement['purchase_date']"
+                      id="purchase_date"
+                      dateFormat="yy-mm-dd"
+                      [required]="true">
+          </p-calendar>
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+          <label for="price">
+            {{'DASHBOARD.INVENTORY.Precio del implemento'|translate}}
+          </label>
+          <span class="p-input-icon-left">
+          <i class="pi pi-dollar"></i>
+          <input type="text" pInputText [(ngModel)]="implement['price']" id="price">
+        </span>
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+          <label for="serial">
+            {{'DASHBOARD.INVENTORY.Numero serial'|translate}}
+          </label>
+          <input type="text" pInputText [(ngModel)]="implement['serial_number']" id="serial">
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+          <label for="assigned_user">
+            {{'DASHBOARD.INVENTORY.Usuario Asignado'|translate}}
+          </label>
+          <ng-container *ngIf="implement['assigned_user']; else elseBlock">
+            <p-dropdown [options]="users"
+                        id="assigned_user"
+                        optionLabel="email"
+                        optionValue="id"
+                        [placeholder]="implement['assigned_user']['email']"
+                        [(ngModel)]="implement['assigned_user_id']">
+            </p-dropdown>
+          </ng-container>
+          <ng-template #elseBlock>
+            <p-dropdown [options]="users"
+                        id="select_user"
+                        optionLabel="email"
+                        optionValue="id"
+                        placeholder="{{'DASHBOARD.INVENTORY.Seleccionar usuario'| translate}}"
+                        [(ngModel)]="implement['assigned_user']">
+            </p-dropdown>
+          </ng-template>
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+          <label for="status_implement">{{'DASHBOARD.INVENTORY.Estado del Implemento'|translate}}</label>
+          <p-dropdown [options]="statusImplement"
+                      id="status_implement"
+                      optionLabel="value"
+                      optionValue="value"
+                      [placeholder]="implement['status_implement']"
+                      [(ngModel)]="implement['status_implement']">
+          </p-dropdown>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <button pButton label="{{'DASHBOARD.INVENTORY.Cancelar'|translate}}"
+              icon="pi pi-times"
+              class="p-button-outlined"
+              (click)="hideDialog()">
+      </button>
+      <button pButton label="{{'DASHBOARD.INVENTORY.Editar Implemento'|translate}}"
+              icon="pi pi-check"
+              class="p-button-raised p-button-success"
+              (click)="updateImplement($event)">
+      </button>
+    </ng-template>
+  </p-dialog>
+</div>
+<p-confirmPopup></p-confirmPopup>

@@ -1,0 +1,123 @@
+<div class="header">
+  <h1 class="header-title">
+    {{'DASHBOARD.MAINTANCE.Control de mantenimientos'|translate}}
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="../../../">
+          {{'DASHBOARD.MAINTANCE.Inicio'|translate}}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{'DASHBOARD.MAINTANCE.Mantenimientos'|translate}}
+      </li>
+    </ol>
+  </nav>
+</div>
+
+<div class="card">
+  <p-table #dt
+           [value]="maintenances"
+           dataKey="id"
+           [rows]="10"
+           [showCurrentPageReport]="true"
+           [rowsPerPageOptions]="[10,25,50]"
+           [loading]="loading"
+           styleClass="p-datatable-responsive-mobile"
+           [autoLayout]="true"
+           [resizableColumns]="true"
+           [paginator]="true"
+           [filterDelay]="0"
+           [globalFilterFields]="['assigned_auxiliary', 'maintenance_location','implement.name', 'request_by.name',
+           'request_by_last_name']">
+    <ng-template pTemplate="caption">
+      <div class="p-d-flex">
+        <a
+        [href]="urlPdf"
+        class="btn btn-danger"
+        type="button"
+        pTooltip="PDF"
+        tooltipPosition="bottom">
+     PDF
+      </a>
+        <span class="p-input-icon-left ml-auto">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" (input)="dt.filterGlobal($event.target['value'], 'contains')"
+                 placeholder="{{'DASHBOARD.MAINTANCE.Buscar...'|translate}}">
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="id" style="width: 30%;">Ticket</th>
+        <th pSortableColumn="implement" style="width: 20%;">{{'DASHBOARD.MAINTANCE.Implemento'|translate}}</th>
+        <th pSortableColumn="maintenance_date" style="width: 20%;">{{'DASHBOARD.MAINTANCE.Fecha de solicitud'|translate}}</th>
+        <th pSortableColumn="maintenance_location" style="width: 15%;">{{'DASHBOARD.MAINTANCE.Lugar'|translate}}</th>
+        <th pSortableColumn="maintenance_type" style="width: 15%;">{{'DASHBOARD.MAINTANCE.Tipo de mantenimiento'|translate}}</th>
+        <th pSortableColumn="is_active" style="width: 15%;">{{'DASHBOARD.MAINTANCE.Estado'|translate}}</th>
+        <th pSortableColumn="assigned_auxiliary" style="width: 15%;">{{'DASHBOARD.MAINTANCE.Auxiliar asignado'|translate}}</th>
+        <th style="width: 15%"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-maintenance>
+      <tr>
+        <td>
+          <a routerLink="../detalle/{{maintenance['id']}}" routerLinkActive="active" class="text-primary">
+            #{{maintenance.id}}
+          </a>
+          por <strong>{{maintenance['request_by']['first_name']}} {{maintenance['request_by']['last_name']}}</strong>
+          <br>
+          <a href="mailto:{{maintenance['request_by']['email']}}">
+            {{maintenance['request_by']['email']}}
+          </a>
+        </td>
+        <td>
+          <img [src]="maintenance['image_implement']" alt="implemento" width="32" style="vertical-align: middle">
+          {{maintenance['implement']['name']}}
+        </td>
+        <td>{{maintenance['maintenance_date']| date: 'M/d/yyyy, h:mm a':'GMT'}}</td>
+        <td>{{maintenance['maintenance_location']}}</td>
+        <td>
+          <ng-container [ngSwitch]="maintenance['maintenance_type']">
+            <span *ngSwitchCase="'Correctivo'" class="badge badge-warning">{{'DASHBOARD.MAINTANCE.Correctivo'|translate}}</span>
+            <span *ngSwitchCase="'Preventivo'" class="badge badge-primary">{{'DASHBOARD.MAINTANCE.Preventivo'|translate}}</span>
+          </ng-container>
+        </td>
+        <td>
+          <ng-container *ngIf="maintenance['is_active']">
+            <span class="badge badge-warning">{{'DASHBOARD.MAINTANCE.En proceso'|translate}}</span>
+          </ng-container>
+          <ng-container *ngIf="maintenance['is_active'] === false && maintenance['complete_maintenance_date'] === null">
+            <span class="badge badge-danger">{{'DASHBOARD.MAINTANCE.Cancelado'|translate}}</span>
+          </ng-container>
+          <ng-container *ngIf="maintenance['is_active'] === false && maintenance['complete_maintenance'] !== null">
+            <span class="badge badge-success">{{'DASHBOARD.MAINTANCE.Completado'|translate}}</span>
+          </ng-container>
+        </td>
+        <td>{{maintenance['assigned_auxiliary']}}</td>
+        <td>
+          <ng-container *ngIf="maintenance['is_active']; else elseBlock">
+            <button mat-button [matMenuTriggerFor]="menu" class="pi pi-ellipsis-h"></button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item class="btn btn-outline-success" (click)="completed($event, maintenance['id'])">
+                <i class="pi pi-check"></i> {{'DASHBOARD.MAINTANCE.Completar'|translate}}
+              </button>
+              <ng-container *ngIf="userInfo['is_admin']">
+                <button mat-menu-item class="btn btn-outline-danger" (click)="canceleted($event, maintenance['id'])">
+                  <i class="pi pi-times"></i> {{'DASHBOARD.MAINTANCE.Cancelar Mantenimiento'|translate}}
+                </button>
+              </ng-container>
+            </mat-menu>
+          </ng-container>
+          <ng-template #elseBlock>
+            <a routerLink="../detalle/{{maintenance['id']}}" routerLinkActive="active" class="text-primary">
+              {{'DASHBOARD.MAINTANCE.Ver Ticket'|translate}}
+            </a>
+          </ng-template>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<p-confirmPopup></p-confirmPopup>

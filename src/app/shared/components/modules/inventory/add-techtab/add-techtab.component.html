@@ -1,0 +1,93 @@
+<div class="header">
+  <h1 class="header-title">
+    {{'DASHBOARD.INVENTORY.Agregar Ficha tecnica'|translate}}
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="#">
+          {{'DASHBOARD.INVENTORY.Inicio'|translate}}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{'DASHBOARD.INVENTORY.Agregar Ficha tecnica'|translate}}
+      </li>
+    </ol>
+  </nav>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <h3 class="text-andromeda">
+      {{'DASHBOARD.INVENTORY.Agregue ficha tecnica'|translate}}
+    </h3>
+    <form [formGroup]="form" method="POST" (ngSubmit)="ingresarFicha($event)" enctype="multipart/form-data">
+      <div class="form-group">
+        <mat-form-field appearance="outline">
+          <mat-label class="text-andromeda">
+            {{'DASHBOARD.INVENTORY.Agregue imagen de referencia'|translate}}
+          </mat-label>
+          <ngx-mat-file-input placeholder="Basic outline placeholder" (change)="onChange($event)"></ngx-mat-file-input>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline">
+          <mat-label class="text-andromeda">
+            {{'DASHBOARD.INVENTORY.Ingrese marca del implemento'|translate}}
+          </mat-label>
+          <input matInput type="text" formControlName="brand_implement">
+          <mat-error *ngIf="form.get('brand_implement').hasError('required')">
+            {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
+          </mat-error>
+          <mat-error *ngIf="form.get('brand_implement').hasError('minlength')">
+            {{'DASHBOARD.INVENTORY.Minimo invalido'|translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline">
+          <mat-label class="text-andromeda">
+            {{'DASHBOARD.INVENTORY.Modelo del implemento'|translate}}
+          </mat-label>
+          <input matInput type="text" formControlName="model_implement">
+          <mat-error *ngIf="form.get('model_implement').hasError('required')">
+            {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
+          </mat-error>
+          <mat-error *ngIf="form.get('model_implement').hasError('minlength')">
+            {{'DASHBOARD.INVENTORY.Minimo invalido'|translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline">
+          <mat-label class="text-andromeda">
+            {{'DASHBOARD.INVENTORY.Sistema operativo'|translate}}
+          </mat-label>
+          <input matInput type="text" formControlName="operating_system">
+          <mat-error *ngIf="form.get('operating_system').hasError('minlength')">
+            {{'DASHBOARD.INVENTORY.Minimo invalido'|translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline">
+          <mat-label class="text-andromeda">
+            {{'DASHBOARD.INVENTORY.Ingrese especificaciones'|translate}}
+          </mat-label>
+          <textarea matInput formControlName="specifications"></textarea>
+          <mat-error *ngIf="form.get('specifications').hasError('required')">
+            {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
+          </mat-error>
+          <mat-error *ngIf="form.get('specifications').hasError('minlength')">
+            {{'DASHBOARD.INVENTORY.Minimo invalido'|translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-group text-center">
+        <button type="submit" class="btn btn-andromeda" [disabled]="form.invalid">
+          {{'DASHBOARD.INVENTORY.Agregar ficha tecnica'|translate}}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,85 @@
+/* You can add global styles to this file, and also import other style files */
+
+* {
+  scroll-behavior: smooth;
+}
+
+body::-webkit-scrollbar {
+  width: 0.4rem;
+}
+
+body::-webkit-scrollbar-track {
+  background: #26272C;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #001f3f;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 15px !important;
+  box-sizing: border-box;
+  padding: 0;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+img {
+  object-fit: cover;
+}
+
+ul {
+  list-style: none;
+}
+
+.fa-fw {
+  text-align: center;
+  width: 1.25em;
+  margin-right: 0.3rem !important;
+  vertical-align: middle !important;
+}
+
+.text-andromeda {
+  color: #083358 !important;
+}
+
+.btn-andromeda {
+  background-color: #083358 !important;
+  color: #ffff;
+  font-size: 17px;
+  border-radius: 0.25rem;
+  border: 0 !important;
+  padding: 0.55rem 0.75rem;
+  box-shadow: 0 8px 24px rgba(28, 99, 205, 0.35);
+}
+
+.btn-andromeda:hover {
+  background-color: #001f3f !important;
+  color: #ffff;
+}
+
+.btn-outline-primary {
+  padding: 13px 20px;
+  border-radius: 50px;
+  border-color: #083358;
+  color: #083358;
+  box-shadow: 0 8px 24px rgba(28, 99, 205, 0.35);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.btn-outline-primary:hover {
+  background-color: #001f3f !important;
+  color: #ffff !important;
+  transform: translateY(-5px);
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}
+

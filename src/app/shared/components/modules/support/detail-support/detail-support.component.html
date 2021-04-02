@@ -1,0 +1,184 @@
+<div class="header">
+  <h1 class="header-title">
+    {{'DASHBOARD.SUPPORT.Detalles del soporte tecnico'|translate}}
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="../../../../">
+          {{'DASHBOARD.SUPPORT.Inicio'|translate}}
+        </a>
+      </li>
+      <li class="breadcrumb-item active">
+        <a>
+          {{'DASHBOARD.SUPPORT.Soportes'|translate}}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{'DASHBOARD.SUPPORT.Detalles'|translate}}
+      </li>
+    </ol>
+  </nav>
+</div>
+<div class="card" *ngIf="support ; else elseBlock">
+  <div class="header mt-md-3">
+    <div class="header-body">
+      <div class="row align-items-center">
+        <div class="col ml-2">
+          <h1>Ticket #{{support.id}}</h1>
+        </div>
+        <div class="col-auto mr-2">
+          <a (click)="print($event)" class="btn btn-info" type="button">
+            <i [class]="iconPrint"></i>
+            {{'DASHBOARD.SUPPORT.Descargar Ticket'|translate}}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="card-body p-5">
+    <div class="row">
+      <div class="col text-right">
+        <ng-template [ngIf]="support['is_active']">
+          <span class="badge badge-warning">
+            {{'DASHBOARD.SUPPORT.En proceso'|translate}}
+          </span>
+        </ng-template>
+        <ng-template [ngIf]="support['is_active'] === false && support['complete_support_date'] === null">
+          <span class="badge badge-danger">
+            {{'DASHBOARD.SUPPORT.Cancelado'|translate}}
+          </span>
+        </ng-template>
+        <ng-template [ngIf]="support['is_active'] === false && support['complete_support_date'] !== null">
+          <span class="badge badge-success">
+            {{'DASHBOARD.SUPPORT.Completado'|translate}}
+          </span>
+        </ng-template>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col text-center">
+        <img class="img-fluid mb-2" src="../../../../../../assets/img/logo_azul.png" alt="Andromeda"
+             style="max-width: 10rem">
+        <h2 class="mb-2">
+          {{'DASHBOARD.SUPPORT.Ticket de Soporte Tecnico'|translate}}
+        </h2>
+        <p class="text-muted mb-5">Ticket #{{support.id}}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-md-6 text-muted">
+        <h5 class="text-uppercase">
+          {{'DASHBOARD.SUPPORT.Solicitado por'|translate}}
+        </h5>
+        <p class="mb-3">
+          <strong class="text-body">
+            {{support['request_by']['first_name']}} {{support['request_by']['last_name']}}
+          </strong>
+        </p>
+        <div class="email-user mb-2">
+          <a href="mailto:{{support['request_by']['email']}}">
+            {{support['request_by']['email']}}
+          </a>
+        </div>
+        <div class="rol-user mb-4">
+          <span *ngIf="support['request_by']['is_admin']">{{'DASHBOARD.SUPPORT.Coordinador'|translate}}</span>
+          <span *ngIf="support['request_by']['is_assistant']">{{'DASHBOARD.SUPPORT.Auxiliar de sistemas'|translate}}</span>
+          <span *ngIf="support['request_by']['is_employee']">{{'DASHBOARD.SUPPORT.Empleado'|translate}}</span>
+        </div>
+        <h5 class="text-uppercase">Ticket ID</h5>
+        <p class="mb-4 text-dark">#{{support.id}}</p>
+      </div>
+      <div class="col-12 col-md-6 text-md-right">
+        <h5 class="text-uppercase text-muted">
+          {{'DASHBOARD.SUPPORT.Auxiliar asignado'|translate}}
+        </h5>
+        <p class="mb-3">
+          <strong class="text-body">{{support['assigned_auxiliary']}}</strong>
+        </p>
+        <div class="rol-user mb-5">
+          <p-rating readonly="true"
+                    stars="5"
+                    [cancel]="false"
+                    ngModel="{{support['rating']}}">
+          </p-rating>
+        </div>
+        <h5 class="text-uppercase text-muted">
+          {{'DASHBOARD.SUPPORT.Fecha de solicitud'|translate}}
+        </h5>
+        <p class="mb-4">
+          <time datetime="2020-11-27">{{support['support_date'] | date: 'medium'}}</time>
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table my-4">
+            <thead>
+            <tr class="text-muted">
+              <th class="px-0 bg-transparent border-top-0">
+                <span class="h6">
+                  {{'DASHBOARD.SUPPORT.Solicitado por'|translate}}
+                </span>
+              </th>
+              <th class="px-0 bg-transparent border-top-0">
+                <span class="h6">
+                  {{'DASHBOARD.SUPPORT.Lugar del soporte'|translate}}
+                </span>
+              </th>
+              <th class="px-0 bg-transparent border-top-0">
+                <span class="h6">
+                  {{'DASHBOARD.SUPPORT.Calificación del servicio'|translate}}
+                </span>
+              </th>
+              <th class="px-0 bg-transparent border-top-0 text-right">
+                <span class="h6">
+                  {{'DASHBOARD.SUPPORT.Descripción del problema'| translate}}
+                </span>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>{{support['request_by']['first_name']}} {{support['request_by']['last_name']}}</td>
+              <td>{{support['support_location']}}</td>
+              <ng-template [ngIf]="support['rating']" [ngIfElse]="noRating">
+                <td>
+                  <p-rating readonly="true"
+                            stars="5"
+                            [cancel]="false"
+                            ngModel="{{support['rating']}}">
+                  </p-rating>
+                </td>
+              </ng-template>
+              <ng-template #noRating>
+                <td>
+                  {{'DASHBOARD.SUPPORT.Servicio en proceso'| translate}}
+                </td>
+              </ng-template>
+              <td class="text-right">{{support['description_problem']}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <hr class="my-5">
+        <h5 class="text-uppercase">
+          {{'DASHBOARD.SUPPORT.Nota'|translate}}
+        </h5>
+        <p class="text-muted mb-0">
+          {{'DASHBOARD.SUPPORT.Cuando se complete el soporte tecnico, el sistema automaticamente cambiara su estado y modificara la calificación del auxiliar asignado'|translate}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #elseBlock>
+  <div class="card">
+    <div class="card-body">
+      <h1>{{'DASHBOARD.SUPPORT.TICKET NO ENCONTRADO'|translate}}</h1>
+    </div>
+  </div>
+</ng-template>
+
