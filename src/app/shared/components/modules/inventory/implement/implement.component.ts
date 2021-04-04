@@ -32,6 +32,35 @@ export class ImplementComponent implements OnInit {
     this.fetchTechTabs();
   }
 
+  get nameInvalid(){
+    return this.form.get('name').invalid && this.form.get('name').touched;
+  }
+
+  get categoryInvalid(){
+    return this.form.get('category').invalid && this.form.get('category').touched;
+  }
+
+  get technical_data_sheetInvalid() {
+    return this.form.get('technical_data_sheet').invalid && this.form.get('technical_data_sheet').touched;
+  }
+
+  get purchase_dateInvalid() {
+    return this.form.get('purchase_date').invalid && this.form.get('purchase_date').touched;
+  }
+
+  get priceInvalid() {
+    return this.form.get('price').invalid && this.form.get('price').touched;
+  }
+
+  get serialNumberInvalid(){
+    return this.form.get('serial_number').invalid && this.form.get('serial_number').touched;
+  }
+
+  get status_implementInvalid(){
+    return this.form.get('status_implement').invalid && this.form.get('status_implement').touched;
+  }
+
+
   private buildForm() {
     this.form = this.formBuilder.group({
       name: ['', [Validators.minLength(2), Validators.required]],
