@@ -316,6 +316,7 @@
     },
     "INVENTORY": {
       "Agregar Ficha tecnica": "Agregar Ficha tecnica",
+      "Datos tecnicos":"Datos tecnicos",
       "Inicio": "Inicio",
       "Agregue ficha tecnica": "Agregue ficha tecnica",
       "Agregue imagen de referencia": "Agregue imagen de referencia",
@@ -484,7 +485,7 @@
       "Control de Préstamos": "Control de Préstamos",
       "Calendario de Préstamos": "Calendario de Préstamos",
       "Inventario Tecnologico": "Inventario Tecnologico",
-      "Inventario": "Inventorio",
+      "Inventario": "Inventario",
       "Agregar ficha tecnica": "Agregar ficha tecnica",
       "Gestionar inventario": "Gestionar inventario",
       "Agregar implemento": "Agregar implemento",

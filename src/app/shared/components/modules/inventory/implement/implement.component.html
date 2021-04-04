@@ -31,12 +31,9 @@
           <div class="p-field">
             <label for="implement_name">{{'DASHBOARD.INVENTORY.Nombre del implemento'|translate}}</label>
             <input type="text" pInputText id="implement_name" formControlName="name">
-            <mat-error *ngIf="form.get('name').hasError('required')">
+            <small class="p-error" *ngIf="nameInvalid">
               {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
-            </mat-error>
-            <mat-error *ngIf="form.get('name').hasError('minLength')">
-              {{'DASHBOARD.INVENTORY.Minimo invalido'|translate}}
-            </mat-error>
+            </small>
           </div>
         </div>
         <div class="col-12 col-md-4">
@@ -46,12 +43,9 @@
             <i class="pi pi-tag"></i>
             <input type="text" pInputText id="category" formControlName="category">
           </span>
-            <mat-error *ngIf="form.get('category').hasError('required')">
-              {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
-            </mat-error>
-            <mat-error *ngIf="form.get('category').hasError('minlength')">
-              {{'DASHBOARD.INVENTORY.Minimo invalido'|translate}}
-            </mat-error>
+          <small class="p-error" *ngIf="categoryInvalid">
+            {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
+          </small>
           </div>
         </div>
         <div class="col-12 col-md-4">
@@ -65,9 +59,9 @@
               formControlName="technical_data_sheet"
               placeholder="{{'DASHBOARD.INVENTORY.Seleccionar Ficha Tecnica'|translate}}">
             </p-dropdown>
-            <mat-error *ngIf="form.get('technical_data_sheet').hasError('required')">
+            <small class="p-error" *ngIf="technical_data_sheetInvalid">
               {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
-            </mat-error>
+            </small>
           </div>
         </div>
       </div>
@@ -84,9 +78,9 @@
               [readonlyInput]="true"
               [showIcon]="true">
             </p-calendar>
-            <mat-error *ngIf="form.get('purchase_date').hasError('required')">
+            <small class="p-error" *ngIf="purchase_dateInvalid">
               {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
-            </mat-error>
+            </small>
           </div>
         </div>
         <div class="col-12 col-md-6">
@@ -96,12 +90,10 @@
             <i class="pi pi-dollar"></i>
             <input type="text" pInputText formControlName="price" id="price">
           </span>
-            <mat-error *ngIf="form.get('price').hasError('required')">
-              {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
-            </mat-error>
-            <mat-error *ngIf="form.get('price').hasError('minlength')">
-              {{'DASHBOARD.INVENTORY.Minimo invalido'|translate}}
-            </mat-error>
+          <small class="p-error" *ngIf="priceInvalid">
+            {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
+          </small>
+
           </div>
         </div>
       </div>
@@ -114,12 +106,9 @@
             <i class="pi pi-key"></i>
             <input type="text" pInputText formControlName="serial_number" id="serial">
           </span>
-            <mat-error *ngIf="form.get('serial_number').hasError('required')">
-              {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
-            </mat-error>
-            <mat-error *ngIf="form.get('serial_number').hasError('minlength')">
-              {{'DASHBOARD.INVENTORY.Minimo invalido'|translate}}
-            </mat-error>
+          <small class="p-error" *ngIf="serialNumberInvalid">
+            {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
+          </small>
           </div>
         </div>
         <div class="col-12 col-md-6">
@@ -132,7 +121,11 @@
                         placeholder="{{'DASHBOARD.INVENTORY.Seleccionar Estado Actual'|translate}}"
                         formControlName="status_implement">
             </p-dropdown>
+            <small class="p-error" *ngIf="status_implementInvalid">
+              {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
+            </small>
           </div>
+
         </div>
       </div>
       <div class="p-grid p-nogutter">

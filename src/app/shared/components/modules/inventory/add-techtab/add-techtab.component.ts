@@ -23,16 +23,32 @@ export class AddTechtabComponent implements OnInit {
     this.buildForm();
   }
 
+
+
   private buildForm() {
     this.form = this.formBuilder.group({
       brand_implement: ['', [Validators.minLength(2), Validators.required]],
       model_implement: ['', [Validators.minLength(2), Validators.required]],
-      operating_system: ['', [Validators.minLength(2)]],
+      operating_system: ['', [Validators.minLength(2), Validators.required]],
       specifications: ['', [Validators.minLength(2), Validators.required]],
     });
   }
 
   ngOnInit(): void {
+  }
+
+  get brand_implementInvalid(){
+    return this.form.get('brand_implement').invalid && this.form.get('brand_implement').touched;
+  }
+
+  get model_implementInvalid(){
+    return this.form.get('model_implement').invalid && this.form.get('model_implement').touched;
+  }
+  get operating_systemInvalid() {
+    return this.form.get('operating_system').invalid && this.form.get('operating_system').touched;
+  }
+  get specificationsInvalid() {
+    return this.form.get('specifications').invalid && this.form.get('specifications').touched;
   }
 
   onChange(event: any) {
