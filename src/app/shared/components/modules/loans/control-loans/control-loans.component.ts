@@ -12,7 +12,7 @@ import {AssistantsService} from '../../../../../core/services/assistants/assista
   templateUrl: './control-loans.component.html',
   styleUrls: ['../../../../../../assets/css/dashboard/dashboard.css'],
   styles: [`
-    :host ::ng-deep .p-datepicker-mask{
+    :host ::ng-deep .p-datepicker-mask {
       position: relative !important;
     }
   `
@@ -22,7 +22,7 @@ import {AssistantsService} from '../../../../../core/services/assistants/assista
 })
 export class ControlLoansComponent implements OnInit {
 
-  loans: any;
+  loans;
   loading = true;
   selectedProducts: LoansModel[];
   userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -53,18 +53,19 @@ export class ControlLoansComponent implements OnInit {
         .subscribe(res => {
           this.loans = res.loans_request;
           this.loading = false;
-          console.log(this.loans);
         }, error => console.error(error));
     } else if (this.userInfo.is_assistant) {
       this.assistantsService.getServicesAssigned(this.userInfo.assistant.id)
         .subscribe(res => {
           this.loans = res.loans_assigned;
           this.loading = false;
+          console.log(this.loans);
         }, error => console.error(error));
     } else if (this.userInfo.is_admin) {
       this.getallLoans();
     }
     this.urlPdf = 'https://andromedapi.tech/pdf/report/loans/';
+    console.log(this.loans);
   }
 
   getallLoans() {
@@ -77,7 +78,7 @@ export class ControlLoansComponent implements OnInit {
 
   editLoan(loan) {
     this.loan = {...loan};
-    this.dateLoan = new Date(this.loan.loans_date)
+    this.dateLoan = new Date(this.loan.loans_date);
     console.log(this.dateLoan);
     this.loansEdit = true;
   }
@@ -150,6 +151,26 @@ export class ControlLoansComponent implements OnInit {
               });
             });
       }
+    });
+  }
+
+  exportExcel() {
+    import('xlsx').then(xlsx => {
+      const worksheet = xlsx.utils.json_to_sheet(this.loans);
+      const workbook = {Sheets: {data: worksheet}, SheetNames: ['data']};
+      const excelBuffer: any = xlsx.write(workbook, {bookType: 'xlsx', type: 'array'});
+      this.saveAsExcelFile(excelBuffer, 'soportesAndromeda');
+    });
+  }
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    import('file-saver').then(FileSaver => {
+      const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+      const EXCEL_EXTENSION = '.xlsx';
+      const data: Blob = new Blob([buffer], {
+        type: EXCEL_TYPE
+      });
+      FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
     });
   }
 

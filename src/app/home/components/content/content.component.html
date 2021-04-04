@@ -1,11 +1,12 @@
-<section class="main-header pt-md-11 pb-0 bg-andromeda" id="home">
+<section class="main-header pt-5 pt-md-11" id="home">
   <div class="container">
-    <div class="row">
-      <div class="col-12 col-md-5 col-lg-6 order-md-2 mb-sm-0 mb-5 mt-0 text-center">
-        <img src="../../../../assets/img/dashboard/img1.png" alt="image" class="img-fluid  mb-6 mb-md-0 animated">
+    <div class="row align-content-center">
+      <div class="col-12 col-md-5 col-lg-6 order-md-2">
+        <img src="assets/img/dashboard/img1.png" alt="image"
+             class="img-fluid mb-6 mb-md-0 animated">
       </div>
-      <div class="col-12 col-md-7 col-lg-6 order-md-1 mt-7">
-        <div class="typed-andromeda">
+      <div class="col-12 col-md-7 col-lg-6 order-md-1 mt-5">
+        <div class="typed-andromeda text-center text-md-left">
           <ngx-typed-js [strings]="['Welcome to', 'Bienvenido a']"
                         [typeSpeed]="60"
                         [loop]="true"
@@ -14,139 +15,61 @@
             <h1 class="typing"></h1>
           </ngx-typed-js>
         </div>
-        <h1 class="text-center text-primary text-md-left display-3">Andromeda</h1>
-        <p class="text-white opacity-8 text-center text-md-left mb-6 mb-lg-8">
-          {{'HOME.HEADER.Sistema de información desarrollado para los departamentos tecnológicos de las instituciones educativas' | translate}}
-          .
-        </p>
-        <div class="text-center text-md-left">
-          <a class="btn btn-primary" routerLinkActive routerLink="/register"
-             target="_blank">{{'HOME.HEADER.Registrate' | translate}}</a>
-          <a class="btn btn-light ml-2 contact" href="#contacto"> {{'HOME.HEADER.Contáctanos' | translate}}</a>
+        <h1 class="text-andromeda text-center text-md-left pb-3">Andromeda</h1>
+        <p class="text-muted text-left mb-6 mb-lg-8">Sistema de información desarrollado para
+          los departamentos tecnológicos de las instituciones
+          educativas.</p>
+        <div class="text-center text-md-left mt-5">
+          <a class="btn btn-outline-primary mr-3" href="#contacto">
+            {{'HOME.HEADER.Contáctanos' | translate}}
+          </a>
+          <a routerLink="/register" class="btn btn-andromeda">
+            {{'HOME.HEADER.Registrate' | translate}}
+          </a>
         </div>
       </div>
     </div>
   </div>
 </section>
-<section class="pt-8 pt-md-11 bg-us" id="nosotros">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="mt-5 col-12 col-md-7 col-lg-6">
-        <h2 class="mb-3 text-center">{{'HOME.SECTIONONE.¿Qué es' | translate}} <span
-          class="text-andromeda">Andromeda</span>
+<section class="mb-5 bg-us" id="nosotros">
+  <div class="container h-100">
+    <div class="row align-items-center h-100 text-center">
+      <div class="col-12 col-md-7 col-lg-6">
+        <h2 class="mb-3">{{'HOME.SECTIONONE.¿Qué es' | translate}}
+          <span class="text-andromeda">Andromeda?</span>
         </h2>
         <p class="text-muted">
           {{'HOME.SECTIONONE.Andromeda es un sistema de información que permite agilizar la resolución de incidencias, mejorar el nivel de satisfacción de sus usuarios y mantener un máximo control en la operatividad de sus servicios.' | translate}}
         </p>
       </div>
       <div class="col-12 col-md-5 col-lg-6">
-        <div class="w-md-150 w-lg-130 position-relative" data-aos="fade-left">
-          <div class="img-skewed img-skewed-left">
-            <img src="../../../../assets/img/home/dashboard.png" class="screenshot img-fluid img-skewed-item"
-                 alt="Dashboard">
-          </div>
+        <img src="assets/img/home/dashboard.png" alt="Dashboard" class="p-shadow-23 img-fluid dashboard">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="funciones">
+  <div class="container">
+    <div class="section-title text-andromeda">
+      <h2>{{'HOME.SECTIONTWO.Las funcionalidades de Andromeda' | translate}}</h2>
+    </div>
+    <div *ngFor="let section of informationSection">
+      <div class="row align-items-center">
+        <div class="col-md-6 {{section['order-1']}}">
+          <img src="assets/img/home/{{section.img}}" alt="Image" class="img-fluid">
+        </div>
+        <div class="col-md-6 {{section['order-2']}}">
+          <h3>{{'HOME.SECTIONTWO.' + section.title | translate}}</h3>
+          <p>{{'HOME.SECTIONTWO.' + section.text | translate}}</p>
+          <ng-container *ngIf="section.list">
+            <ul *ngFor="let list of section.list">
+              <li class="fas fa-check"></li>
+              {{'HOME.SECTIONTWO.' + list.text | translate}}
+            </ul>
+          </ng-container>
         </div>
       </div>
     </div>
   </div>
 </section>
-<main class="features pt-10 pt-md-12" id="funciones">
-  <div class="container ">
-    <div class="section-title text-center text-andromeda">
-      <h2>
-        {{'HOME.SECTIONTWO.Las funcionalidades de Andromeda' | translate}}
-      </h2>
-    </div>
-    <div class="row mt-5">
-      <div class="col-md-6 image-index">
-        <img src="../../../../assets/img/home/programming.png" class="mt-5 img-fluid" alt="">
-      </div>
-      <div class="col-md-6 pt-7">
-        <div>
-          <h3>
-            {{'HOME.SECTIONTWO.Gestión óptima del sistema' | translate}}
-          </h3>
-          <p>
-            {{'HOME.SECTIONTWO.Administra todos los reportes, solicitudes y personal fácilmente' | translate}}
-          </p>
-          <ul>
-            <li>
-              <i class="fas fa-check"></i>
-              {{'HOME.SECTIONTWO.Utiliza el dashboard en cualquier dispositivo.' | translate}}
-            </li>
-            <li>
-              <i class="fas fa-check"></i>
-              {{'HOME.SECTIONTWO.Calendario completamente sincronizado con Google Calendar.' | translate}}
-            </li>
-            <li>
-              <i class="fas fa-check"></i>
-              {{'HOME.SECTIONTWO.Calificación de los usuarios.' | translate}}
-            </li>
-            <li>
-              <i class="fas fa-check"></i>
-              {{'HOME.SECTIONTWO.Completo control del personal técnico.' | translate}}
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="row mt-5">
-      <div class="col-md-6 order-1 order-md-2 image-index">
-        <img src="../../../../assets/img/home/data.png" alt="image" class="img-fluid"></div>
-      <div class="col-md-6 order-2 order-md-1 pt-7">
-        <div>
-          <h3>
-            {{'HOME.SECTIONTWO.Reportes en tiempo real' | translate}}
-          </h3>
-          <p>
-            {{'HOME.SECTIONTWO.Los informes genereados por Andromeda permiten dar seguimiento al desempeño del personal, la satisfacción de los usuarios e identificar las principales fallas de los servicios.' | translate}}
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="row mt-5">
-      <div class="col-md-6 image-index">
-        <img src="../../../../assets/img/home/team.png" alt="image" class="img-fluid">
-      </div>
-      <div class="col-md-6 pt-7">
-        <div>
-          <h3>
-            {{'HOME.SECTIONTWO.Gestión de activos' | translate}}
-          </h3>
-          <p>
-            {{'HOME.SECTIONTWO.Gestione todos sus activos de TI bajo un mismo sistema sin dificultades.' | translate}}
-          </p>
-          <ul>
-            <li>
-              <i class="fas fa-check"></i>
-              {{'HOME.SECTIONTWO.Gestione sus activos con nuestro dashboard de forma intuitiva y segura.' | translate}}
-            </li>
-            <li>
-              <i class="fas fa-check"></i>
-              {{'HOME.SECTIONTWO.Integración con Amazon Web Services.' | translate}}
-            </li>
-            <li>
-              <i class="fas fa-check"></i>
-              {{'HOME.SECTIONTWO.Supervisé todos los movimientos de sus activos.' | translate}}
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="row mt-5">
-      <div class="col-md-6 order-1 order-md-2 image-index">
-        <img src="../../../../assets/img/home/mobile.png" alt="image" class="img-fluid">
-      </div>
-      <div class="col-md-6 order-2 order-md-1 pt-7">
-        <div>
-          <h3>
-            {{'HOME.SECTIONTWO.Gestión de Tickets'|translate}}
-          </h3>
-          <p>
-            {{'HOME.SECTIONTWO.Andromeda transforma automáticamente todas las solicitudes de sus usuarios en tickets, y de ésta forma darle seguimiento a las solicitudes de forma rápida y sencilla.' | translate}}
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</main>

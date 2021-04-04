@@ -26,38 +26,44 @@
     <h5>
       {{'DASHBOARD.MAINTANCE.Usuario registrado'| translate}}
     </h5>
-    <form method="POST" autocomplete="off" [formGroup]="form" (ngSubmit)="createMaintenance($event)">
+    <form method="POST"
+          autocomplete="off"
+          enctype="multipart/form-data"
+          [formGroup]="form"
+          (ngSubmit)="createMaintenance()">
       <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col-12 p-md-6">
           <div class="p-inputgroup">
             <span class="p-inputgroup-addon">
               <i class="pi pi-user"></i>
             </span>
-            <input type="text" pInputText [(ngModel)]="userFullName" [ngModelOptions]="{standalone: true}" disabled>
+            <input type="text"
+                   pInputText
+                   [(ngModel)]="userFullName"
+                   [ngModelOptions]="{standalone: true}" disabled>
           </div>
         </div>
         <div class="p-field p-col-12 p-md-6">
           <div class="p-inputgroup">
             <span class="p-inputgroup-addon">
-              <span class="material-icons">
-              local_post_office
-              </span>
+             <i class="pi pi-envelope"></i>
             </span>
-            <input type="text" pInputText [(ngModel)]="userData['email']" [ngModelOptions]="{standalone: true}"
+            <input type="text"
+                   pInputText
+                   [(ngModel)]="userData['email']" [ngModelOptions]="{standalone: true}"
                    disabled>
           </div>
         </div>
         <div class="p-field p-col-12 p-md-6">
           <label>{{'DASHBOARD.MAINTANCE.Implemento'|translate}}</label>
           <p-dropdown [options]="implements"
-                      [(ngModel)]="selectImplement"
+                      optionValue="id"
+                      formControlName="implement"
                       optionLabel="name"
                       class="multiselect-custom"
                       [filter]="true"
                       filterBy="name"
-                      [showClear]="true"
-                      placeholder="{{'DASHBOARD.MAINTANCE.Seleccione un implemento'|translate}}"
-                      [ngModelOptions]="{standalone: true}">
+                      placeholder="{{'DASHBOARD.MAINTANCE.Seleccione un implemento'|translate}}">
             <ng-template let-implement pTemplate="selectItem">
               <div class="implement-item implement-item-value" *ngIf="selectImplement">
                 <img src="{{implement['technical_data_sheet']['picture']}}" alt="implemento" class="flag">
@@ -71,21 +77,22 @@
               </div>
             </ng-template>
           </p-dropdown>
+          <small class="p-error" *ngIf="implementIsEmpty">Campo requerido</small>
         </div>
         <div class="p-field p-col-12 p-md-6">
           <label>{{'DASHBOARD.MAINTANCE.Tipo de mantenimiento'|translate}}</label>
           <p-dropdown inputId="class"
-                      [(ngModel)]="selectMaintenance"
+                      optionValue="name"
+                      formControlName="maintenance_type"
                       [options]="typeMaintenance"
                       optionLabel="name"
-                      placeholder="{{'DASHBOARD.MAINTANCE.Tipo de mantenimiento'|translate}}"
-                      [showClear]="true"
-                      [ngModelOptions]="{standalone: true}">
+                      placeholder="{{'DASHBOARD.MAINTANCE.Tipo de mantenimiento'|translate}}">
           </p-dropdown>
+          <small class="p-error" *ngIf="typeMaintenaceIsEmpty">Campo requerido</small>
         </div>
         <div class="p-field p-col-12">
           <label for="calendar">{{'DASHBOARD.MAINTANCE.Fecha del mantenimiento'|translate}}</label>
-          <p-calendar [(ngModel)]="value"
+          <p-calendar formControlName="maintenance_date"
                       [disabledDates]="invalidDates"
                       [disabledDays]="[0,6]"
                       [showIcon]="true"
@@ -93,21 +100,22 @@
                       showTime="true"
                       hourFormat="12"
                       showButtonBar="true"
-                      [ngModelOptions]="{standalone: true}"
                       dateFormat="dd-mm-yy"
                       id="calendar"
                       [required]="true"
                       [touchUI]="true">
           </p-calendar>
+          <small class="p-error" *ngIf="dateIsEmpty">Campo requerido</small>
         </div>
         <div class="p-field p-col-12 p-md-6">
           <label for="maintenance_location">
             {{'DASHBOARD.MAINTANCE.Lugar del mantenimiento'|translate}}
           </label>
           <input type="text" pInputText id="maintenance_location" formControlName="maintenance_location">
+          <small class="p-error" *ngIf="locationIsEmpty">Campo requerido</small>
         </div>
         <div class="p-field p-col-12 p-md-6">
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="w-100">
             <mat-label>
               {{'DASHBOARD.MAINTANCE.Imagen del implemento'|translate}}
             </mat-label>
@@ -121,6 +129,7 @@
             {{'DASHBOARD.MAINTANCE.Descripción del mantenimiento'| translate}}
           </label>
           <textarea pInputTextarea formControlName="description"></textarea>
+          <small class="p-error" *ngIf="descriptionIsEmpty">Campo requerido</small>
         </div>
         <button type="submit" class="btn btn-primary btn-block">
           {{'DASHBOARD.MAINTANCE.Agendar Mantenimiento'| translate}}

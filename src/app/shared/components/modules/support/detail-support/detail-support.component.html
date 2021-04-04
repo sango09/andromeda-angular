@@ -20,7 +20,8 @@
     </ol>
   </nav>
 </div>
-<div class="card" *ngIf="support ; else elseBlock">
+<p-progressBar mode="indeterminate" *ngIf="loading" [style]="{'height': '10px'}"></p-progressBar>
+<div class="card" *ngIf="support">
   <div class="header mt-md-3">
     <div class="header-body">
       <div class="row align-items-center">
@@ -83,9 +84,15 @@
           </a>
         </div>
         <div class="rol-user mb-4">
-          <span *ngIf="support['request_by']['is_admin']">{{'DASHBOARD.SUPPORT.Coordinador'|translate}}</span>
-          <span *ngIf="support['request_by']['is_assistant']">{{'DASHBOARD.SUPPORT.Auxiliar de sistemas'|translate}}</span>
-          <span *ngIf="support['request_by']['is_employee']">{{'DASHBOARD.SUPPORT.Empleado'|translate}}</span>
+          <span *ngIf="support['request_by']['is_admin']">
+            {{'DASHBOARD.SUPPORT.Coordinador'|translate}}
+          </span>
+          <span *ngIf="support['request_by']['is_assistant']">
+            {{'DASHBOARD.SUPPORT.Auxiliar de sistemas'|translate}}
+          </span>
+          <span *ngIf="support['request_by']['is_employee']">
+            {{'DASHBOARD.SUPPORT.Empleado'|translate}}
+          </span>
         </div>
         <h5 class="text-uppercase">Ticket ID</h5>
         <p class="mb-4 text-dark">#{{support.id}}</p>
@@ -174,11 +181,11 @@
   </div>
 </div>
 
-<ng-template #elseBlock>
+<ng-container *ngIf="notFound">
   <div class="card">
     <div class="card-body">
       <h1>{{'DASHBOARD.SUPPORT.TICKET NO ENCONTRADO'|translate}}</h1>
     </div>
   </div>
-</ng-template>
+</ng-container>
 

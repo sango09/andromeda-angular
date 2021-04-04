@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {AssistantsService} from '../../../../core/services/assistants/assistants.service';
 
 
 @Component({
@@ -8,14 +9,26 @@ import {Component, OnInit} from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
   userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  information;
   data: any;
   optionsObject: any;
 
-  constructor() {
-    this.generateGraph();
+  constructor(
+    private assistantsService: AssistantsService
+  ) {
+
   }
 
   ngOnInit(): void {
+    this.getInformationAssistant();
+  }
+
+  getInformationAssistant() {
+    this.assistantsService.getAssistant(this.userInfo.assistant.id)
+      .subscribe(res => {
+        this.information = res;
+        this.generateGraph();
+      }, error => console.error(error));
   }
 
   generateGraph() {
@@ -45,9 +58,9 @@ export class DashboardComponent implements OnInit {
           backgroundColor: ['#00204a', '#005792', '#00bbf0'],
           borderColor: '#1E88E5',
           data: [
-            this.userInfo.assistant.technical_support_completed,
-            this.userInfo.assistant.maintenance_completed,
-            this.userInfo.assistant.loans_completed
+            this.information.technical_support_completed,
+            this.information.maintenance_completed,
+            this.information.loans_completed
           ],
         },
       ],

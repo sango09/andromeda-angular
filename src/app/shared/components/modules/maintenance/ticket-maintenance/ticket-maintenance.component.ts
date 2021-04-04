@@ -17,6 +17,8 @@ export class TicketMaintenanceComponent implements OnInit {
   userInfo = JSON.parse(localStorage.getItem('userInfo'));
   implementSelected: ImplementModel;
   environment = environment.url_api;
+  loading = true;
+  notFound = false;
 
   constructor(
     private maintenanceService: MaintenanceService,
@@ -28,7 +30,13 @@ export class TicketMaintenanceComponent implements OnInit {
     this.ticket = this.maintenanceService.getTicketMaintenanceInformation();
     if (this.ticket) {
       this.inventarioService.getInventory(this.ticket.implement)
-        .subscribe(res => this.implementSelected = res, error => console.error(error));
+        .subscribe(res => {
+          this.implementSelected = res;
+          this.loading = false;
+        }, error => {
+          this.notFound = true;
+          console.error(error);
+        });
     }
   }
 

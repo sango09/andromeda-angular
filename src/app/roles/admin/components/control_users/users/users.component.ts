@@ -26,7 +26,6 @@ export class UsersComponent implements OnInit {
   error: string;
   form: FormGroup;
   userForm: FormGroup;
-  iconPrint = 'pi pi-file-pdf';
   urlPdf = 'https://andromedapi.tech/pdf/report/user/';
   private loadingPDF = false;
   disabled = false;
@@ -113,16 +112,6 @@ export class UsersComponent implements OnInit {
         this.loading = false;
       });
 
-  }
-
-  printReport() {
-    this.loadingPDF = true;
-    if (this.loadingPDF) {
-      this.iconPrint = 'pi pi-spin pi-spinner';
-      setTimeout(() => {
-        this.iconPrint = 'pi pi-file-pdf';
-      }, 5000);
-    }
   }
 
 
@@ -292,7 +281,7 @@ export class UsersComponent implements OnInit {
 
   exportExcel() {
     import('xlsx').then(xlsx => {
-      const worksheet = xlsx.utils.json_to_sheet(this.getUsersData());
+      const worksheet = xlsx.utils.json_to_sheet(this.profiles);
       const workbook = {Sheets: {data: worksheet}, SheetNames: ['data']};
       const excelBuffer: any = xlsx.write(workbook, {bookType: 'xlsx', type: 'array'});
       this.saveAsExcelFile(excelBuffer, 'usuariosAndromeda');

@@ -8,6 +8,7 @@ import {ChartModule} from 'primeng/chart';
 import {PrimeModule} from '../../prime-module';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {FormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -15,13 +16,14 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
     NavComponent,
     DashboardComponent,
   ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    AuxiliarRoutingModule,
-    ChartModule,
-    PrimeModule,
-    TranslateModule
-  ]
+    imports: [
+        CommonModule,
+        SharedModule,
+        AuxiliarRoutingModule,
+        ChartModule,
+        PrimeModule,
+        TranslateModule,
+        FormsModule
+    ]
 })
 export class AuxiliarModule { }

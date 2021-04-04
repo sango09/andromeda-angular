@@ -33,30 +33,34 @@
            [globalFilterFields]="['assigned_auxiliary','loans_location', 'implement.implement.name',
            'request_by.first_name', 'request_by.last_name', 'status_loans']">
     <ng-template pTemplate="caption">
-      <div class="p-d-flex">
-        <button type="button"
-                pButton
-                pRipple
-                icon="pi pi-file-excel"
-                (click)="dt.exportCSV()"
-                label="Excel"
-                class="mr-2 p-button-success"
-                pTooltip="Excel"
-                tooltipPosition="bottom">
-        </button>
-        <a (click)="printReport()"
-           [href]="urlPdf"
-           class="btn btn-danger"
-           type="button"
-           pTooltip="PDF"
-           tooltipPosition="bottom">
-          <i [class]="iconPrint"></i>
-          PDF
-        </a>
-        <span class="p-input-icon-left ml-auto">
+      <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+        <div>
+          <button type="button"
+                  pButton
+                  pRipple
+                  icon="pi pi-file-excel"
+                  (click)="exportExcel()"
+                  label="Excel"
+                  class="mr-2 btn-table p-button-success"
+                  pTooltip="Excel"
+                  tooltipPosition="bottom">
+          </button>
+          <a (click)="printReport()"
+             [href]="urlPdf"
+             class="btn btn-danger btn-table"
+             type="button"
+             pTooltip="PDF"
+             tooltipPosition="bottom">
+            <i [class]="iconPrint"></i>
+            PDF
+          </a>
+        </div>
+        <span class="p-input-icon-left">
           <i class="pi pi-search"></i>
-          <input pInputText type="text" (input)="dt.filterGlobal($event.target['value'], 'contains')"
-                 placeholder="{{'DASHBOARD.LOANS.Buscar...'|translate}}">
+          <input pInputText type="text"
+                 (input)="dt.filterGlobal($event.target['value'], 'contains')"
+                 placeholder="{{'DASHBOARD.LOANS.Buscar...'|translate}}"
+                 class="w-100">
         </span>
       </div>
     </ng-template>

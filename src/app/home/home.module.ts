@@ -8,9 +8,13 @@ import {RouterModule} from '@angular/router';
 import {NgxTypedJsModule} from 'ngx-typed-js';
 import {HomeComponent} from './components/home/home.component';
 import {HomeRoutingModule} from './home-routing.module';
-import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-
+import {TranslateModule} from '@ngx-translate/core';
+import {DropdownModule} from 'primeng/dropdown';
+import {ScrollTopModule} from 'primeng/scrolltop';
+import {ReactiveFormsModule} from '@angular/forms';
+import {InputTextModule} from 'primeng/inputtext';
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import {ButtonModule} from 'primeng/button';
 
 
 @NgModule({
@@ -33,7 +37,13 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
     RouterModule,
     NgxTypedJsModule,
     HomeRoutingModule,
-    TranslateModule
+    TranslateModule,
+    DropdownModule,
+    ScrollTopModule,
+    ReactiveFormsModule,
+    InputTextModule,
+    InputTextareaModule,
+    ButtonModule
   ]
 })
 export class HomeModule {

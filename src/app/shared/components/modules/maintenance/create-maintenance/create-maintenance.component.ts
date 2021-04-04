@@ -19,13 +19,12 @@ export class CreateMaintenanceComponent implements OnInit {
   userFullName = `${this.userData.first_name} ${this.userData.last_name}`;
   implements: any;
   selectImplement: any;
-  selectMaintenance: string;
   typeMaintenance: any[];
   dates: Date;
   invalidDates: Array<Date>;
   value: Date;
   date: string;
-
+  imageFile;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,48 +43,72 @@ export class CreateMaintenanceComponent implements OnInit {
     invalidDate.setDate(today.getDate() - 1);
     this.invalidDates = [today, invalidDate];
     this.typeMaintenance = [
-      {name: 'Preventivo', code: 'A', factor: 1},
-      {name: 'Correctivo', code: 'B', factor: 2}
+      {name: 'Preventivo'},
+      {name: 'Correctivo'}
     ];
   }
 
   private builForm() {
     this.form = this.formBuilder.group({
-      maintenance_location: ['', [Validators.minLength(2), Validators.required]],
-      description: ['', [Validators.minLength(2), Validators.required]],
+      maintenance_location: ['', Validators.required],
+      description: ['', Validators.required],
+      maintenance_type: ['', Validators.required],
+      implement: ['', Validators.required],
+      maintenance_date: ['', Validators.required],
     });
   }
 
+  get implementIsEmpty() {
+    return this.form.get('implement').invalid && this.form.get('implement').touched;
+  }
+
+  get typeMaintenaceIsEmpty() {
+    return this.form.get('maintenance_type').invalid && this.form.get('maintenance_type').touched;
+  }
+
+  get dateIsEmpty() {
+    return this.form.get('maintenance_date').invalid && this.form.get('maintenance_date').touched;
+  }
+
+  get locationIsEmpty() {
+    return this.form.get('maintenance_location').invalid && this.form.get('maintenance_location').touched;
+  }
+
+  get descriptionIsEmpty() {
+    return this.form.get('description').invalid && this.form.get('description').touched;
+  }
 
   getAllImplements() {
     this.inventoryService.getAllInventory()
       .subscribe(res => this.implements = res, error => console.error(error));
   }
 
-
   getFile(event: any) {
-    if (event.target.files) {
+    if (event.target.files && event.target.files[0]) {
       this.selectedFile = event.target.files[0];
       this.data.append('image_implement', this.selectedFile, this.selectedFile.name);
     }
   }
 
-  createMaintenance(event: Event) {
-    event.preventDefault();
-    const values = this.form;
-    this.date = formatDate(this.value, 'yyyy-MM-dd HH:mm:ss', 'en-US');
-    this.data.append('maintenance_date', this.date);
-    this.data.append('implement', this.selectImplement.id);
-    this.data.append('maintenance_type', this.selectMaintenance['name']);
-    this.data.append('maintenance_location', values.get('maintenance_location').value);
-      this.data.append('description', values.get('description').value);
-    this.maintenanceService.createMaintenance(this.data)
-      .subscribe(res => {
-          this.maintenanceService.ticketInformation = res;
-          const nextStep = this.router.createUrlTree(['../ticket'], {relativeTo: this.route});
-          this.router.navigateByUrl(nextStep);
-        },
-        error => console.error(error));
+  createMaintenance() {
+    if (this.form.valid) {
+      const value = this.form.value;
+      this.data.append('maintenance_date', formatDate(value.maintenance_date, 'yyyy-MM-dd HH:mm:ss', 'en-US'));
+      this.data.append('maintenance_location', value.maintenance_location);
+      this.data.append('description', value.description);
+      this.data.append('maintenance_type', value.maintenance_type);
+      this.data.append('implement', value.implement);
+      this.maintenanceService.createMaintenance(this.data)
+        .subscribe(res => {
+            this.maintenanceService.ticketInformation = res;
+            const nextStep = this.router.createUrlTree(['../ticket'], {relativeTo: this.route});
+            this.router.navigateByUrl(nextStep);
+          },
+          error => console.error(error));
+    } else {
+      Object.values(this.form.controls).forEach(control => control.markAllAsTouched());
+      console.log(this.form.value);
+    }
   }
 
 }

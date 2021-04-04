@@ -12,6 +12,8 @@ export class DetailMaintenanceComponent implements OnInit {
   id: string;
   maintenance;
   iconPrint = 'pi pi-file-pdf';
+  loading = true;
+  notFound = false;
 
   constructor(
     private maintenanceService: MaintenanceService,
@@ -28,7 +30,14 @@ export class DetailMaintenanceComponent implements OnInit {
 
   fetchMaintenance(): void {
     this.maintenanceService.getMaintenance(this.id)
-      .subscribe(res => this.maintenance = res, error => console.error(error));
+      .subscribe(res => {
+        this.maintenance = res;
+        this.loading = false;
+      }, error => {
+        this.notFound = true;
+        this.loading = false;
+        console.error(error);
+      });
   }
 
   print(event: Event) {

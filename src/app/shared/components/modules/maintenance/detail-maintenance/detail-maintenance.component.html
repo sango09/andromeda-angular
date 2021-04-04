@@ -5,12 +5,12 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a href="#">
+        <a routerLink="../../../../">
           {{'DASHBOARD.MAINTANCE.Inicio'|translate}}
         </a>
       </li>
       <li class="breadcrumb-item active">
-        <a href="#">
+        <a routerLink="../../control">
           {{'DASHBOARD.MAINTANCE.Mantenimientos'|translate}}
         </a>
       </li>
@@ -20,7 +20,8 @@
     </ol>
   </nav>
 </div>
-<div class="card" *ngIf="maintenance ; else elseBlock">
+<p-progressBar mode="indeterminate" *ngIf="loading" [style]="{'height': '10px'}"></p-progressBar>
+<div class="card" *ngIf="maintenance">
   <div class="header mt-md-3">
     <div class="header-body">
       <div class="row align-items-center">
@@ -159,11 +160,11 @@
   </div>
 </div>
 
-<ng-template #elseBlock>
+<ng-container *ngIf="notFound">
   <div class="card">
     <div class="card-body">
       <h1>{{'DASHBOARD.MAINTANCE.TICKET NO ENCONTRADO'|translate}}</h1>
     </div>
   </div>
-</ng-template>
+</ng-container>
 

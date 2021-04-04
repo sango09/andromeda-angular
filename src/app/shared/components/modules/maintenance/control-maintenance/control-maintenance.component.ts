@@ -18,7 +18,7 @@ export class ControlMaintenanceComponent implements OnInit {
   userInfo = JSON.parse(localStorage.getItem('userInfo'));
   now: number;
   date: string;
-  urlPdf = "https://andromedapi.tech/pdf/report/maintenance/"
+  urlPdf = 'https://andromedapi.tech/pdf/report/maintenance/';
 
   constructor(
     private maintenanceService: MaintenanceService,
@@ -93,10 +93,7 @@ export class ControlMaintenanceComponent implements OnInit {
       acceptLabel: 'Confirmar',
       acceptButtonStyleClass: 'p-button-danger',
       accept: () => {
-        const data = {
-          is_active: false
-        };
-        this.maintenanceService.updateMaintenance(id, data)
+        this.maintenanceService.deleteMaintenance(id)
           .subscribe(res => {
               Swal.fire({
                 icon: 'success',

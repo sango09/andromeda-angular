@@ -28,8 +28,7 @@ a:hover {
   margin: auto;
 }
 
-:host ::ng-deep .p-button{
+:host ::ng-deep .p-button {
   display: block;
 }
-
 
