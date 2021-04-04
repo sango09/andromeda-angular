@@ -11,7 +11,6 @@ import {AuthInterceptor} from './core/interceptor/auth.interceptor';
 import {AuthService} from './core/services/auth/auth.service';
 
 // Modules
-import {MaterialModule} from './material-module';
 import {PrimeModule} from './prime-module';
 
 // FullCalendar Modules
@@ -41,7 +40,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserAnimationsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    MaterialModule,
     PrimeModule,
     FullCalendarModule,
     TranslateModule.forRoot({

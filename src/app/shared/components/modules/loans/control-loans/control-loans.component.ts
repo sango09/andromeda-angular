@@ -59,13 +59,11 @@ export class ControlLoansComponent implements OnInit {
         .subscribe(res => {
           this.loans = res.loans_assigned;
           this.loading = false;
-          console.log(this.loans);
         }, error => console.error(error));
     } else if (this.userInfo.is_admin) {
       this.getallLoans();
     }
     this.urlPdf = 'https://andromedapi.tech/pdf/report/loans/';
-    console.log(this.loans);
   }
 
   getallLoans() {
@@ -73,13 +71,12 @@ export class ControlLoansComponent implements OnInit {
       .subscribe(res => {
         this.loans = res;
         this.loading = false;
-      }, error => console.log(error));
+      }, error => console.error(error));
   }
 
   editLoan(loan) {
     this.loan = {...loan};
     this.dateLoan = new Date(this.loan.loans_date);
-    console.log(this.dateLoan);
     this.loansEdit = true;
   }
 

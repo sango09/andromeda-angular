@@ -53,7 +53,6 @@ export class ControlSupportComponent implements OnInit {
         .subscribe(res => {
           this.supports = res.supports_assigned;
           this.loading = false;
-          console.log(this.supports);
         }, error => console.error(error));
     } else {
       this.getAllSupports();

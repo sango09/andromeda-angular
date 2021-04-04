@@ -32,11 +32,11 @@ export class ImplementComponent implements OnInit {
     this.fetchTechTabs();
   }
 
-  get nameInvalid(){
+  get nameInvalid() {
     return this.form.get('name').invalid && this.form.get('name').touched;
   }
 
-  get categoryInvalid(){
+  get categoryInvalid() {
     return this.form.get('category').invalid && this.form.get('category').touched;
   }
 
@@ -52,11 +52,11 @@ export class ImplementComponent implements OnInit {
     return this.form.get('price').invalid && this.form.get('price').touched;
   }
 
-  get serialNumberInvalid(){
+  get serialNumberInvalid() {
     return this.form.get('serial_number').invalid && this.form.get('serial_number').touched;
   }
 
-  get status_implementInvalid(){
+  get status_implementInvalid() {
     return this.form.get('status_implement').invalid && this.form.get('status_implement').touched;
   }
 
@@ -112,6 +112,8 @@ export class ImplementComponent implements OnInit {
             });
           }
         );
+    } else {
+      Object.values(this.form.controls).forEach(control => control.markAllAsTouched());
     }
   }
 

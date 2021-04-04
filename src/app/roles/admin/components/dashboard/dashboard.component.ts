@@ -45,7 +45,6 @@ export class DashboardComponent implements OnInit {
     this.subscriptions.push(this.assistantsService.getAllAssistants()
       .subscribe(res => {
         this.assistants = res;
-        console.log(this.assistants);
         this.getDataGraph();
       }, error => console.error(error))
     );

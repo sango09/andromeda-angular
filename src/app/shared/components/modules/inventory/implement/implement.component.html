@@ -43,9 +43,9 @@
             <i class="pi pi-tag"></i>
             <input type="text" pInputText id="category" formControlName="category">
           </span>
-          <small class="p-error" *ngIf="categoryInvalid">
-            {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
-          </small>
+            <small class="p-error" *ngIf="categoryInvalid">
+              {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
+            </small>
           </div>
         </div>
         <div class="col-12 col-md-4">
@@ -86,14 +86,10 @@
         <div class="col-12 col-md-6">
           <div class="p-field">
             <label for="price">{{'DASHBOARD.INVENTORY.Precio de compra'|translate}}</label>
-            <span class="p-input-icon-left">
-            <i class="pi pi-dollar"></i>
-            <input type="text" pInputText formControlName="price" id="price">
-          </span>
-          <small class="p-error" *ngIf="priceInvalid">
-            {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
-          </small>
-
+            <p-inputNumber inputId="integeronly" formControlName="price" id="price"></p-inputNumber>
+            <small class="p-error" *ngIf="priceInvalid">
+              {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
+            </small>
           </div>
         </div>
       </div>
@@ -106,9 +102,9 @@
             <i class="pi pi-key"></i>
             <input type="text" pInputText formControlName="serial_number" id="serial">
           </span>
-          <small class="p-error" *ngIf="serialNumberInvalid">
-            {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
-          </small>
+            <small class="p-error" *ngIf="serialNumberInvalid">
+              {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
+            </small>
           </div>
         </div>
         <div class="col-12 col-md-6">
@@ -125,14 +121,11 @@
               {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
             </small>
           </div>
-
         </div>
       </div>
-      <div class="p-grid p-nogutter">
-        <button type="submit" class="btn btn-andromeda btn-block" [disabled]="form.invalid">
-          {{'DASHBOARD.INVENTORY.Agregar Implemento'|translate}}
-        </button>
-      </div>
+      <button type="submit" class="btn btn-andromeda btn-block">
+        {{'DASHBOARD.INVENTORY.Agregar Implemento'|translate}}
+      </button>
     </form>
   </ng-template>
 </p-card>

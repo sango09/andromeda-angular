@@ -9,7 +9,7 @@ import {AssistantsService} from '../../../../core/services/assistants/assistants
 })
 export class DashboardComponent implements OnInit {
   userInfo = JSON.parse(localStorage.getItem('userInfo'));
-  information;
+  information: any;
   data: any;
   optionsObject: any;
 

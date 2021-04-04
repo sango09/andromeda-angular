@@ -24,7 +24,6 @@ export class AddTechtabComponent implements OnInit {
   }
 
 
-
   private buildForm() {
     this.form = this.formBuilder.group({
       brand_implement: ['', [Validators.minLength(2), Validators.required]],
@@ -37,16 +36,18 @@ export class AddTechtabComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  get brand_implementInvalid(){
+  get brand_implementInvalid() {
     return this.form.get('brand_implement').invalid && this.form.get('brand_implement').touched;
   }
 
-  get model_implementInvalid(){
+  get model_implementInvalid() {
     return this.form.get('model_implement').invalid && this.form.get('model_implement').touched;
   }
+
   get operating_systemInvalid() {
     return this.form.get('operating_system').invalid && this.form.get('operating_system').touched;
   }
+
   get specificationsInvalid() {
     return this.form.get('specifications').invalid && this.form.get('specifications').touched;
   }
@@ -61,7 +62,6 @@ export class AddTechtabComponent implements OnInit {
 
   ingresarFicha(event: Event) {
     event.preventDefault();
-
     if (this.form.valid) {
       const values = this.form;
       this.data.append('brand_implement', values.get('brand_implement').value);
@@ -84,6 +84,8 @@ export class AddTechtabComponent implements OnInit {
             });
           }
         );
+    } else {
+      Object.values(this.form.controls).forEach(control => control.markAllAsTouched());
     }
   }
 

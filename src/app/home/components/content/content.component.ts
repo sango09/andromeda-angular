@@ -56,7 +56,6 @@ export class ContentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.informationSection);
   }
 
 }

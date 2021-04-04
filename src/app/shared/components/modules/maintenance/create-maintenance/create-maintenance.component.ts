@@ -107,7 +107,6 @@ export class CreateMaintenanceComponent implements OnInit {
           error => console.error(error));
     } else {
       Object.values(this.form.controls).forEach(control => control.markAllAsTouched());
-      console.log(this.form.value);
     }
   }
 

@@ -28,10 +28,20 @@ export class SendEmailPasswordComponent implements OnInit {
     });
   }
 
+  get emailInvalid() {
+    return this.form.get('email').invalid && this.form.get('email').touched;
+  }
+
+
   resetPassword(event: Event) {
     event.preventDefault();
-    this.usersService.sendEmailPassword(this.form.value)
-      .subscribe(res => this.successSendEmail = true, error => console.error(error));
+    if (this.form.valid) {
+      this.usersService.sendEmailPassword(this.form.value)
+        .subscribe(res => this.successSendEmail = true, error => console.error(error));
+    } else {
+      Object.values(this.form.controls).forEach(control => control.markAllAsTouched());
+    }
+
   }
 
 }

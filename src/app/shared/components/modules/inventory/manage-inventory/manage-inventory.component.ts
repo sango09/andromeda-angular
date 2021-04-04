@@ -85,7 +85,6 @@ export class ManageInventoryComponent implements OnInit {
       .subscribe(res => {
         this.implements = res;
         this.loading = false;
-        console.log(res);
       }, error => console.error(error));
   }
 
@@ -103,7 +102,6 @@ export class ManageInventoryComponent implements OnInit {
   updateImplement(event: any) {
     event.preventDefault();
     this.form.patchValue(this.implement);
-    console.log(this.form.value);
     if (this.form.valid) {
       const data = this.form.value;
       this.inventarioService.updateInventory(this.id, data)

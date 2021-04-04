@@ -91,7 +91,7 @@
             {{'DASHBOARD.INVENTORY.Ver ficha tecnica'|translate}}
           </a>
         </td>
-        <td>{{implement['price']}}</td>
+        <td>$ {{implement['price']}}</td>
         <td>{{implement['purchase_date']}}</td>
         <td>
           <ng-container *ngIf="implement['assigned_user']; else elseBlock">
@@ -205,10 +205,7 @@
           <label for="price">
             {{'DASHBOARD.INVENTORY.Precio del implemento'|translate}}
           </label>
-          <span class="p-input-icon-left">
-          <i class="pi pi-dollar"></i>
-          <input type="text" pInputText [(ngModel)]="implement['price']" id="price">
-        </span>
+          <p-inputNumber inputId="integeronly" [(ngModel)]="implement['price']" id="price"></p-inputNumber>
         </div>
         <div class="p-field p-col-12 p-md-6">
           <label for="serial">

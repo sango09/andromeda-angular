@@ -23,6 +23,13 @@ export class EmployeeService {
       );
   }
 
+  statsEmployee(id: string) {
+    return this.http.get<any>(`${this.urlEmployee}/${id}/stats/`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   getRequestServices(id: string) {
     return this.http.get<any>(`${this.urlEmployee}/${id}/request_services/`)
       .pipe(

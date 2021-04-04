@@ -11,6 +11,8 @@ export class AssistantsComponent implements OnInit {
 
   assistants: AssistantsModel[] = [];
   loading = true;
+  display = false;
+  assistant: any;
 
   constructor(
     private assistantsService: AssistantsService,
@@ -27,6 +29,11 @@ export class AssistantsComponent implements OnInit {
         this.assistants = res;
         this.loading = false;
       }, error => console.error(error));
+  }
+
+  moreDetail(assistant) {
+    this.display = true;
+    this.assistant = {...assistant};
   }
 
 }

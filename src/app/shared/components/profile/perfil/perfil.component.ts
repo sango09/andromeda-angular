@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {environment} from '../../../../../environments/environment';
 import {UsersService} from '../../../../core/services/users/users.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 
