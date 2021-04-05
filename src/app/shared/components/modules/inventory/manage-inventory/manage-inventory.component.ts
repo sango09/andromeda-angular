@@ -7,8 +7,6 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import Swal from 'sweetalert2';
 import {ConfirmationService, MessageService} from 'primeng/api';
-import {environment} from '../../../../../../environments/environment';
-
 
 
 @Component({
@@ -29,7 +27,7 @@ export class ManageInventoryComponent implements OnInit {
   userInfo = JSON.parse(localStorage.getItem('userInfo'));
   loading = true;
   statusImplement: any[];
-  urlPdf= 'https://andromedapi.tech/pdf/report/inventory/'
+  urlPdf = 'https://andromedapi.tech/pdf/report/inventory/';
 
 
   constructor(
@@ -57,6 +55,7 @@ export class ManageInventoryComponent implements OnInit {
       price: ['', [Validators.minLength(2), Validators.required]],
       serial_number: ['', [Validators.minLength(2), Validators.required]],
       status_implement: ['', [Validators.required]],
+      assigned_user_id: [null],
     });
   }
 
@@ -86,7 +85,6 @@ export class ManageInventoryComponent implements OnInit {
       .subscribe(res => {
         this.implements = res;
         this.loading = false;
-        console.log(res)
       }, error => console.error(error));
   }
 

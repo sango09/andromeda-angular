@@ -25,14 +25,12 @@ export class UpdateService {
           localStorage.setItem('userInfo', JSON.stringify(data));
           // @ts-ignore
           environment.picture = data.profile.picture;
-          console.log(environment.picture);
         })
       );
   }
 
 
   private handleError(error: HttpErrorResponse) {
-    console.log(error.error);
     return throwError(error.error.non_field_errors);
   }
 }

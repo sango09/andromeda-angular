@@ -13,7 +13,7 @@ import {AssistantsService} from '../../../../../core/services/assistants/assista
   templateUrl: './control-loans.component.html',
   styleUrls: ['../../../../../../assets/css/dashboard/dashboard.css'],
   styles: [`
-    :host ::ng-deep .p-datepicker-mask{
+    :host ::ng-deep .p-datepicker-mask {
       position: relative !important;
     }
   `
@@ -75,7 +75,7 @@ export class ControlLoansComponent implements OnInit {
       .subscribe(res => {
         this.loans = res;
         this.loading = false;
-      }, error => console.log(error));
+      }, error => console.error(error));
   }
 
   editLoan(loan) {
@@ -174,6 +174,26 @@ export class ControlLoansComponent implements OnInit {
               });
             });
       }
+    });
+  }
+
+  exportExcel() {
+    import('xlsx').then(xlsx => {
+      const worksheet = xlsx.utils.json_to_sheet(this.loans);
+      const workbook = {Sheets: {data: worksheet}, SheetNames: ['data']};
+      const excelBuffer: any = xlsx.write(workbook, {bookType: 'xlsx', type: 'array'});
+      this.saveAsExcelFile(excelBuffer, 'soportesAndromeda');
+    });
+  }
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    import('file-saver').then(FileSaver => {
+      const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+      const EXCEL_EXTENSION = '.xlsx';
+      const data: Blob = new Blob([buffer], {
+        type: EXCEL_TYPE
+      });
+      FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
     });
   }
 

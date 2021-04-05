@@ -1,18 +1,20 @@
 <app-welcome></app-welcome>
-<div class="row row-content" *ngIf="userInfo && macbook">
+<div class="row" *ngIf="information">
   <div class="col-12 col-sm-6 col-xl d-flex">
-    <div class="card flex flex-fill">
+    <div class="card flex-fill">
       <div class="card-body py-4">
         <div class="stats">
           <div class="stats-body">
-            <h1 class="mb-2">{{totalRequest}}</h1>
+            <h1 class="mb-3">
+              {{information['supports_request']}}
+            </h1>
             <h5 class="mb-2 card-title text-andromeda">
-              {{'DASHBOARD.INICIO.Solicitudes totales'|translate}}
+              Soportes Solicitados
             </h5>
           </div>
           <div class="d-inline-block ml-3">
             <div class="icon">
-              <i class="far fa-chart-bar"></i>
+              <i class="far fa-address-card"></i>
             </div>
           </div>
         </div>
@@ -20,51 +22,13 @@
     </div>
   </div>
   <div class="col-12 col-sm-6 col-xl d-flex">
-    <div class="card flex flex-fill">
+    <div class="card flex-fill">
       <div class="card-body py-4">
         <div class="stats">
           <div class="stats-body">
-            <h1 class="mb-2">{{macbook['implements_available']}}</h1>
+            <h1 class="mb-2">{{information['implements_used']}}</h1>
             <h5 class="mb-2 card-title text-andromeda">
-              {{'DASHBOARD.INICIO.Macbooks disponibles'|translate}}
-            </h5>
-          </div>
-          <div class="d-inline-block ml-3">
-            <div class="icon">
-              <i class="fas fa-laptop"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-12 col-sm-6 col-xl d-flex">
-    <div class="card flex flex-fill">
-      <div class="card-body py-4">
-        <div class="stats">
-          <div class="stats-body">
-            <h1 class="mb-2">{{userInfo.employee['technical_support_request']}}</h1>
-            <h5 class="mb-2 card-title text-andromeda">
-              Soportes solicitados
-            </h5>
-          </div>
-          <div class="d-inline-block ml-3">
-            <div class="icon">
-              <i class="far fa-clipboard"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-12 col-sm-6 col-xl d-flex">
-    <div class="card flex flex-fill">
-      <div class="card-body py-4">
-        <div class="stats">
-          <div class="stats-body">
-            <h1 class="mb-2">{{userInfo.employee['loans_request']}}</h1>
-            <h5 class="mb-2 card-title text-andromeda">
-              Prestamos solicitados
+              Implementos Solicitados
             </h5>
           </div>
           <div class="d-inline-block ml-3">
@@ -76,22 +40,42 @@
       </div>
     </div>
   </div>
+  <div class="col-12 col-sm-6 col-xl d-flex">
+    <div class="card flex-fill">
+      <div class="card-body py-4">
+        <div class="stats">
+          <div class="stats-body">
+            <h1 class="mb-2">{{information['loans_request']}}</h1>
+            <h5 class="mb-2 card-title text-andromeda">
+              Prestamos solicitados
+            </h5>
+          </div>
+          <div class="d-inline-block ml-3">
+            <div class="icon">
+              <i class="far fa-list-alt"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <div class="row">
   <div class="col-12">
     <div class="card flex-fill">
       <div class="card-header">
-        <h5 class="card-title mb-0 text-andromeda">
-          {{'DASHBOARD.INICIO.Solicitudes mensuales'|translate}}
+        <h5 class="card-title text-andromeda mb-0">
+          {{'DASHBOARD.INICIO.Servicios asignados'|translate}}
         </h5>
       </div>
       <div class="card-body py-3">
         <div class="monitor-analitics chart-wrapper">
           <hr>
-          <p-chart type="line"
+          <p-chart type="bar"
                    [data]="data"
-                   height="400"
-                   [responsive]="true">
+                   [responsive]="true"
+                   [options]="optionsObject"
+                   height="300">
           </p-chart>
         </div>
       </div>

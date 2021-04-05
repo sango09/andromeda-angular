@@ -64,22 +64,14 @@ ul {
   color: #ffff;
 }
 
-.btn-outline-primary {
-  padding: 13px 20px;
-  border-radius: 50px;
-  border-color: #083358;
-  color: #083358;
-  box-shadow: 0 8px 24px rgba(28, 99, 205, 0.35);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
 
-.btn-outline-primary:hover {
-  background-color: #001f3f !important;
-  color: #ffff !important;
-  transform: translateY(-5px);
-}
-
-.cursor-pointer{
+.cursor-pointer {
   cursor: pointer;
+}
+
+.image-login {
+  background: url('assets/img/auth/cgb5.png') no-repeat;
+  background-size: cover;
+  height: 100vh;
 }
 

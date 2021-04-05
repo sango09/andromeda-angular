@@ -16,28 +16,6 @@
   </nav>
 </div>
 <div class="card">
-  <p-toolbar styleClass="p-mb-4">
-    <ng-template pTemplate="right">
-      <button type="button"
-              pButton
-              pRipple
-              icon="pi pi-file-excel"
-              class="p-button-success mr-2"
-              pTooltip="Excel"
-              tooltipPosition="bottom"
-              label="Excel"
-              (click)="exportExcel()">
-      </button>
-      <a
-        [href]="urlPdf"
-        class="btn btn-danger"
-        type="button"
-        pTooltip="PDF"
-        tooltipPosition="bottom">
-     PDF
-      </a>
-    </ng-template>
-  </p-toolbar>
   <p-table #dt
            [value]="implements"
            [rows]="10"
@@ -52,14 +30,35 @@
            [globalFilterFields]="['name','category','technical_data_sheet', 'price', 'purchase_date',
            'assigned_user','status_implement']">
     <ng-template pTemplate="caption">
-      <div class="p-d-flex p-ai-center p-jc-between">
-        <h5 class="p-m-0">
-          {{'DASHBOARD.INVENTORY.Implementos registrados'|translate}}
-        </h5>
+      <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+        <div>
+          <button type="button"
+                  pButton
+                  pRipple
+                  icon="pi pi-file-excel"
+                  class="p-button-success mr-2 btn-table"
+                  pTooltip="Excel"
+                  tooltipPosition="bottom"
+                  label="Excel"
+                  (click)="exportExcel()">
+          </button>
+          <a
+            [href]="urlPdf"
+            class="btn btn-danger btn-table"
+            type="button"
+            pTooltip="PDF"
+            tooltipPosition="bottom">
+            <i class="pi pi-file-pdf"></i>
+            PDF
+          </a>
+        </div>
         <span class="p-input-icon-left">
               <i class="pi pi-search"></i>
-              <input pInputText type="text" (input)="dt.filterGlobal($event.target['value'], 'contains')"
-                     placeholder="{{'DASHBOARD.INVENTORY.Buscar...'|translate}}">
+              <input pInputText
+                     type="text"
+                     (input)="dt.filterGlobal($event.target['value'], 'contains')"
+                     placeholder="{{'DASHBOARD.INVENTORY.Buscar...'|translate}}"
+                     class="w-100">
         </span>
       </div>
     </ng-template>
@@ -92,19 +91,19 @@
             {{'DASHBOARD.INVENTORY.Ver ficha tecnica'|translate}}
           </a>
         </td>
-        <td>{{implement['price']}}</td>
+        <td>$ {{implement['price']}}</td>
         <td>{{implement['purchase_date']}}</td>
-        <ng-container *ngIf="implement['assigned_user']; else elseBlock">
-          <td>
+        <td>
+          <ng-container *ngIf="implement['assigned_user']; else elseBlock">
             <p-chip label="{{implement['assigned_user']['first_name']}} {{implement['assigned_user']['last_name']}}"
-                    styleClass="p-mr-2 custom-chip" icon="pi pi-user"></p-chip>
-          </td>
-        </ng-container>
-        <ng-template #elseBlock>
-          <td>
+                    styleClass="p-mr-2 custom-chip"
+                    icon="pi pi-user">
+            </p-chip>
+          </ng-container>
+          <ng-template #elseBlock>
             <p-chip label="{{'DASHBOARD.INVENTORY.Sin usuario asignado'|translate}}"></p-chip>
-          </td>
-        </ng-template>
+          </ng-template>
+        </td>
         <td>
           <ng-container ngSwitch="{{implement['status_implement']}}">
             <span *ngSwitchCase="'Disponible'" class="badge badge-success">
@@ -129,23 +128,42 @@
         </td>
         <ng-container *ngIf="userInfo['is_admin']">
           <td>
-            <button mat-button [matMenuTriggerFor]="menu" class="pi pi-ellipsis-h"></button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="editImplement(implement)">
-                <i class="pi pi-pencil"></i> {{'DASHBOARD.INVENTORY.Editar'|translate}}
-              </button>
-              <button mat-menu-item (click)="inactivateImplement($event, implement['id'])"
-                      class="btn btn-outline-danger">
-                <i class="pi pi-ban"></i> {{'DASHBOARD.INVENTORY.Inhabilitar Implemento'|translate}}
-              </button>
-            </mat-menu>
+            <a class="cursor-pointer text-secondary" (click)="op.toggle($event)">
+              <span class="badge-item">
+                <i class="pi pi-ellipsis-h" style="font-size: 1.5rem"></i>
+              </span>
+            </a>
+            <p-overlayPanel #op [showCloseIcon]="false">
+              <ng-template pTemplate>
+                <button pButton
+                        type="button"
+                        class="btn-block"
+                        icon="pi pi-check"
+                        label="{{'DASHBOARD.INVENTORY.Editar'|translate}}"
+                        (click)="editImplement(implement)">
+                </button>
+                <div class="mt-2">
+                  <button pButton
+                          type="button"
+                          icon="pi pi-times"
+                          *ngIf="userInfo['is_admin']"
+                          label="{{'DASHBOARD.INVENTORY.Inhabilitar Implemento'|translate}}"
+                          class="p-button-outlined p-button-danger btn-block"
+                          (click)="inactivateImplement($event, implement['id'])">
+                  </button>
+                </div>
+              </ng-template>
+            </p-overlayPanel>
           </td>
         </ng-container>
       </tr>
     </ng-template>
   </p-table>
 
-  <p-dialog [(visible)]="implementDialog" [style]="{margin: '15px'}" [modal]="true" [maximizable]="true"
+  <p-dialog [(visible)]="implementDialog"
+            [style]="{margin: '15px', width: '600px'}"
+            [modal]="true"
+            [maximizable]="true"
             header="{{'DASHBOARD.INVENTORY.Editar implemento'|translate}}">
     <ng-template pTemplate="content">
       <div class="p-grid p-fluid">
@@ -187,10 +205,7 @@
           <label for="price">
             {{'DASHBOARD.INVENTORY.Precio del implemento'|translate}}
           </label>
-          <span class="p-input-icon-left">
-          <i class="pi pi-dollar"></i>
-          <input type="text" pInputText [(ngModel)]="implement['price']" id="price">
-        </span>
+          <p-inputNumber inputId="integeronly" [(ngModel)]="implement['price']" id="price"></p-inputNumber>
         </div>
         <div class="p-field p-col-12 p-md-6">
           <label for="serial">
@@ -217,7 +232,7 @@
                         optionLabel="email"
                         optionValue="id"
                         placeholder="{{'DASHBOARD.INVENTORY.Seleccionar usuario'| translate}}"
-                        [(ngModel)]="implement['assigned_user']">
+                        [(ngModel)]="implement['assigned_user_id']">
             </p-dropdown>
           </ng-template>
         </div>
@@ -234,16 +249,17 @@
       </div>
     </ng-template>
     <ng-template pTemplate="footer">
-      <button pButton label="{{'DASHBOARD.INVENTORY.Cancelar'|translate}}"
-              icon="pi pi-times"
-              class="p-button-outlined"
-              (click)="hideDialog()">
-      </button>
       <button pButton label="{{'DASHBOARD.INVENTORY.Editar Implemento'|translate}}"
               icon="pi pi-check"
-              class="p-button-raised p-button-success"
+              class="p-button-raised p-button-success w-100"
               (click)="updateImplement($event)">
       </button>
+      <button pButton label="{{'DASHBOARD.INVENTORY.Cancelar'|translate}}"
+              icon="pi pi-times"
+              class="p-button-outlined w-100 mt-2"
+              (click)="hideDialog()">
+      </button>
+
     </ng-template>
   </p-dialog>
 </div>

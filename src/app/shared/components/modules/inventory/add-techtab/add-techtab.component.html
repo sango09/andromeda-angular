@@ -26,49 +26,32 @@
   <ng-template pTemplate="content">
     <form [formGroup]="form" method="POST" (ngSubmit)="ingresarFicha($event)">
       <h2>{{'DASHBOARD.INVENTORY.Ficha tecnica'|translate}}</h2>
-      <div class="p-grid p-fluid mb-4">
-        <div class="col-12 col-md-4">
-          <div class="p-field">
-            <label for="implement_name">{{'DASHBOARD.INVENTORY.Ingrese marca del implemento'|translate}}</label>
-            <input type="text" pInputText id="implement_name" formControlName="brand_implement">
-            <small class="p-error" *ngIf="brand_implementInvalid">
-              {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
-            </small>
-          </div>
+      <div class="p-fluid p-formgrid p-grid mb-4">
+        <div class="p-field p-col-12 p-md-6">
+          <label for="implement_name">{{'DASHBOARD.INVENTORY.Ingrese marca del implemento'|translate}}</label>
+          <input type="text" pInputText id="implement_name" formControlName="brand_implement">
+          <small class="p-error" *ngIf="brand_implementInvalid">
+            {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
+          </small>
         </div>
-        <div class="col-12 col-md-4">
-          <div class="p-field">
-            <label for="category">{{'DASHBOARD.INVENTORY.Modelo del implemento'|translate}}</label>
-            <span class="p-input-icon-left">
+        <div class="p-field p-col-12 p-md-6">
+          <label for="category">{{'DASHBOARD.INVENTORY.Modelo del implemento'|translate}}</label>
+          <span class="p-input-icon-left">
             <input type="text" pInputText id="category" formControlName="model_implement">
             <small class="p-error" *ngIf="model_implementInvalid">
               {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
             </small>
           </span>
-          </div>
         </div>
-
-        <div class="col-12 col-md-4">
-          <div class="p-field">
-            <label for="tech_tab">{{'DASHBOARD.INVENTORY.Sistema operativo'|translate}}</label>
-              <input type="text" pInputText formControlName="operating_system">
-              <small class="p-error" *ngIf="operating_systemInvalid">
-                {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
-              </small>
-          </div>
-        </div>
-      </div>
-      <h2>{{'DASHBOARD.INVENTORY.Datos tecnicos'|translate}}</h2>
-      <div class="p-grid p-fluid mb-4">
-        <div class="col-12 col-md-6">
-          <label>{{'DASHBOARD.INVENTORY.Ingrese especificaciones'|translate}}</label>
-          <textarea pInputTextarea formControlName="specifications"></textarea>
-          <small class="p-error" *ngIf="specificationsInvalid">
+        <div class="p-field p-col-12 p-md-6">
+          <label for="tech_tab">{{'DASHBOARD.INVENTORY.Sistema operativo'|translate}}</label>
+          <input type="text" pInputText formControlName="operating_system" id="tech_tab">
+          <small class="p-error" *ngIf="operating_systemInvalid">
             {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
           </small>
         </div>
         <div class="p-field p-col-12 p-md-6">
-          <mat-form-field appearance="outline" class="mt-3">
+          <mat-form-field appearance="outline" class="mt-3 w-100">
             <mat-label>
               {{'DASHBOARD.INVENTORY.Agregue imagen de referencia'|translate}}
             </mat-label>
@@ -77,10 +60,15 @@
             <mat-icon matSuffix>folder</mat-icon>
           </mat-form-field>
         </div>
-      </div>
-
-      <div class="p-grid p-nogutter">
-        <button type="submit" class="btn btn-andromeda btn-block" [disabled]="form.invalid">
+        <h2 class="ml-2">{{'DASHBOARD.INVENTORY.Datos tecnicos'|translate}}</h2>
+        <div class="p-field p-col-12">
+          <label>{{'DASHBOARD.INVENTORY.Ingrese especificaciones'|translate}}</label>
+          <textarea pInputTextarea formControlName="specifications"></textarea>
+          <small class="p-error" *ngIf="specificationsInvalid">
+            {{'DASHBOARD.INVENTORY.Campo requerido'|translate}}
+          </small>
+        </div>
+        <button type="submit" class="btn btn-andromeda btn-block">
           {{'DASHBOARD.INVENTORY.Agregar ficha tecnica'|translate}}
         </button>
       </div>

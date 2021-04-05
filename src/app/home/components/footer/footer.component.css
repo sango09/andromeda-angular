@@ -1,0 +1,15 @@
+#footer {
+  background: #ffff;
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.1);
+  padding: 30px 0;
+  color: #26272C;
+  font-size: 14px;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+#footer .footer-links a {
+  color: #26272C;
+  padding-left: 15px;
+}

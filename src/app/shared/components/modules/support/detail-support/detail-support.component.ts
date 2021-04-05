@@ -12,6 +12,8 @@ export class DetailSupportComponent implements OnInit {
   id: string;
   support;
   iconPrint = 'pi pi-file-pdf';
+  loading = true;
+  notFound = false;
 
   constructor(
     private supportService: SupportService,
@@ -20,7 +22,14 @@ export class DetailSupportComponent implements OnInit {
     this.activatedRoute.params.subscribe((params: Params) => {
       this.id = params.id;
       this.supportService.getSupport(this.id)
-        .subscribe(res => this.support = res, error => console.error(error));
+        .subscribe(res => {
+          this.support = res;
+          this.loading = false;
+        }, error => {
+          this.notFound = true;
+          this.loading = false;
+          console.error(error);
+        });
     });
   }
 

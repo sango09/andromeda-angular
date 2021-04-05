@@ -44,13 +44,12 @@
               tooltipPosition="bottom"
               label="Excel">
       </button>
-      <a (click)="printReport()"
-         [href]="urlPdf"
+      <a [href]="urlPdf"
          class="btn btn-danger"
          type="button"
          pTooltip="PDF"
          tooltipPosition="bottom">
-        <i [class]="iconPrint"></i>
+        <i class="pi pi-file-pdf"></i>
         PDF
       </a>
     </ng-template>

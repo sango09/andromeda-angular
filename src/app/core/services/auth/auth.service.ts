@@ -79,7 +79,6 @@ export class AuthService {
 
 
   private handleError(error: HttpErrorResponse) {
-    console.log(error.error);
     if (error.error.email) {
       return throwError('Este correo electronico ya fue registrado');
     } else {

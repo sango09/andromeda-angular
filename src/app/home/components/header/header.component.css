@@ -1,0 +1,25 @@
+img {
+  height: 100px;
+  width: auto;
+}
+
+.nav-link {
+  padding: 0.5rem 1.5rem !important;
+}
+
+@media (max-width: 991px) {
+  .nav-link, .locale {
+    padding: 1rem
+  }
+}
+
+
+@media (max-width: 991px) {
+  .btn-andromeda {
+    width: 100% !important;
+  }
+
+  :host ::ng-deep .p-dropdown {
+    width: 100%;
+  }
+}

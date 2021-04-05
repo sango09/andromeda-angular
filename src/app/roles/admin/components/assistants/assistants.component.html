@@ -45,26 +45,24 @@
         <th></th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-assistants>
+    <ng-template pTemplate="body" let-assistant>
       <tr>
         <td>
-          <p-avatar [image]="assistants['profile']['picture']"
-                    shape="circle">
-          </p-avatar>
-          <a [routerLink]="['/admin/perfil',assistants.id]" routerLinkActive="active" class="ml-2 text-dark">
-            {{assistants['first_name']}} {{assistants['last_name']}}
+          <p-avatar [image]="assistant['profile']['picture']" shape="circle"></p-avatar>
+          <a [routerLink]="['/admin/perfil',assistant.id]" routerLinkActive="active" class="ml-2 text-dark">
+            {{assistant['first_name']}} {{assistant['last_name']}}
           </a>
         </td>
         <td>
-          <a href="mailto:{{assistants['email']}}">{{assistants['email']}}</a>
+          <a href="mailto:{{assistant['email']}}">{{assistant['email']}}</a>
         </td>
         <td>
           <p-rating [readonly]="true"
                     [cancel]="false"
-                    ngModel="{{assistants['assistant']['reputation']}}">
+                    ngModel="{{assistant['assistant']['reputation']}}">
           </p-rating>
         </td>
-        <td *ngIf="assistants['assistant']['availability']; else elseBlock">
+        <td *ngIf="assistant['assistant']['availability']; else elseBlock">
           <span class="badge badge-success">
             {{'DASHBOARD.CONTROLUSER.Disponible'|translate}}
           </span>
@@ -81,6 +79,7 @@
                   icon="pi pi-external-link"
                   type="button"
                   class="btn btn-info"
+                  (click)="moreDetail(assistant)"
                   label="{{'DASHBOARD.CONTROLUSER.Mas detalles'|translate}}">
           </button>
         </td>
@@ -88,3 +87,45 @@
     </ng-template>
   </p-table>
 </div>
+<p-dialog header="Detalles de auxiliar"
+          [style]="{width: '600px'}"
+          [(visible)]="display"
+          [modal]="true"
+          styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <div class="text-center">
+      <img src="{{assistant['profile']['picture']}}"
+           class="img-fluid rounded-circle"
+           alt="Profile"
+           width=100>
+      <h3>{{assistant['first_name']}} {{assistant['last_name']}}</h3>
+      <a href="mailto:{{assistant['email']}}">{{assistant['email']}}</a>
+      <div class="mt-3">
+        <p-rating [readonly]="true"
+                  [cancel]="false"
+                  ngModel="{{assistant['assistant']['reputation']}}">
+        </p-rating>
+      </div>
+    </div>
+    <div class="row text-center">
+      <div class="col-12 col-md-4">
+        <p-card>
+          <h3 class="p-text-bold">Soporte Completados</h3>
+          <h2>{{assistant['assistant']['technical_support_completed']}}</h2>
+        </p-card>
+      </div>
+      <div class="col-12 col-md-4">
+        <p-card>
+          <h3 class="p-text-bold">Prestamos Completados</h3>
+          <h2>{{assistant['assistant']['loans_completed']}}</h2>
+        </p-card>
+      </div>
+      <div class="col-12 col-md-4">
+        <p-card>
+          <h3 class="p-text-bold">Mantenimientos Completados</h3>
+          <h2>{{assistant['assistant']['maintenance_completed']}}</h2>
+        </p-card>
+      </div>
+    </div>
+  </ng-template>
+</p-dialog>

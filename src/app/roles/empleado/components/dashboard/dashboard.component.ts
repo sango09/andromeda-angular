@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {LoansService} from '../../../../core/services/modules/loans/loans.service';
+import {EmployeeService} from '../../../../core/services/employee/employee.service';
 
 @Component({
   selector: 'app-dashboard-empleado',
@@ -9,32 +9,60 @@ import {LoansService} from '../../../../core/services/modules/loans/loans.servic
 export class DashboardComponent implements OnInit {
   userInfo = JSON.parse(localStorage.getItem('userInfo'));
   data: any;
-  macbook: any;
-  totalRequest = this.userInfo.employee.technical_support_request + this.userInfo.employee.loans_request;
-
+  information: any;
+  optionsObject: any;
 
   constructor(
-    private loansService: LoansService,
+    private employeeService: EmployeeService,
   ) {
-    this.loansService.getImplementInventory('4')
-      .subscribe(res => this.macbook = res, error => console.error(error));
-    this.generateGraph();
   }
 
   ngOnInit(): void {
+    this.getInformationEmployee()
+  }
+
+  getInformationEmployee() {
+    this.employeeService.statsEmployee(this.userInfo.employee.id)
+      .subscribe(res => {
+        this.information = res;
+        this.generateGraph();
+      }, error => console.error(error));
   }
 
   generateGraph() {
+    this.optionsObject = {
+      scales: {
+        yAxes: [
+          {
+            display: true,
+            scaleLabel: {
+              show: false,
+            },
+            ticks: {
+              beginAtZero: true,
+              min: 0,
+              stepSize: 1,
+            },
+          }
+        ],
+      },
+    };
     this.data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels: ['Soportes', 'Soportes completados', 'Prestamos', 'Prestamos completados'],
+      beginAtZero: true,
       datasets: [
         {
-          label: 'First Dataset',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          fill: false,
-          borderColor: '#4bc0c0'
+          label: 'Servicios',
+          backgroundColor: ['#00204a', '#005792', '#00bbf0', '#005c72'],
+          borderColor: '#1E88E5',
+          data: [
+            this.information.supports_request,
+            this.information.supports_completed,
+            this.information.loans_request,
+            this.information.loans_completed
+          ],
         },
-      ]
+      ],
     };
   }
 }

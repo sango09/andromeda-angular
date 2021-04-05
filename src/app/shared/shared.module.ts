@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 // Modules
-import {MaterialModule} from '../material-module';
 import {RouterModule} from '@angular/router';
 import {MaterialFileInputModule} from 'ngx-material-file-input';
 import {PrimeModule} from '../prime-module';
@@ -35,6 +34,8 @@ import {ControlLoansComponent} from './components/modules/loans/control-loans/co
 import {ErrorComponent} from './components/error/error.component';
 import {UnauthorizedComponent} from './components/unauthorized/unauthorized.component';
 import {AccordionModule} from 'primeng/accordion';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -71,13 +72,14 @@ import {AccordionModule} from 'primeng/accordion';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MaterialModule,
     RouterModule,
     MaterialFileInputModule,
     PrimeModule,
     FormsModule,
     TranslateModule,
-    AccordionModule
+    AccordionModule,
+    MatFormFieldModule,
+    MatIconModule
   ]
 })
 export class SharedModule {

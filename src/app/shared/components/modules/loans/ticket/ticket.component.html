@@ -20,8 +20,8 @@
     </ol>
   </nav>
 </div>
-<p-progressBar mode="indeterminate" *ngIf="loading" [style]="{'height': '6px'}"></p-progressBar>
-<div class="card" *ngIf="loan; else elseBlock">
+<p-progressBar mode="indeterminate" *ngIf="loading" [style]="{'height': '10px'}"></p-progressBar>
+<div class="card" *ngIf="loan">
   <div class="header mt-md-3">
     <div class="header-body">
       <div class="row align-items-center">
@@ -153,11 +153,11 @@
   </div>
 </div>
 
-<ng-template #elseBlock>
+<ng-container *ngIf="notFound">
   <div class="card">
     <div class="card-body">
       <h1>{{'DASHBOARD.LOANS.TICKET NO ENCONTRADO'|translate}}</h1>
     </div>
   </div>
-</ng-template>
+</ng-container>
 

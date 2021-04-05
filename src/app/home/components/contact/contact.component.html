@@ -1,30 +1,26 @@
 <section class="contact mt-5" id="contacto">
   <div class="container">
     <div class="section-title">
-      <h2 class="text-center pt-5 pb-5 text-andromeda">
+      <h2 class="text-center pb-md-5 text-andromeda">
         {{'HOME.CONTACT.Contáctanos' | translate}}
       </h2>
     </div>
     <div class="row">
-      <div class="col-md-6 col-lg-4">
+      <div class="col-md-6">
         <div class="contact-about text-center">
           <h3 class="text-andromeda mb-3">
             {{'HOME.CONTACT.Síguenos' | translate}}
           </h3>
           <div class="iconos mb-3">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="/"><i class="fab fa-facebook-f"></i></a>
+            <a href="/"><i class="fab fa-twitter"></i></a>
+            <a href="/"><i class="fab fa-linkedin-in"></i></a>
+            <a href="/"><i class="fab fa-instagram"></i></a>
+            <a href="/"><i class="fab fa-github"></i></a>
           </div>
-          <p>
-            {{'HOME.CONTACT.Programamos con' | translate}}
-            <i class="far fa-heart heart"></i>
-          </p>
         </div>
       </div>
-      <div class="col-md-6 col-lg-3 mt-4 mt-md-0 ">
+      <div class="col-md-6 mt-4 mt-md-0 ">
         <div class="info">
           <div>
             <span class="icono"><i class="fas fa-map-marker-alt"></i></span>
@@ -40,22 +36,49 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12 col-lg-5 pt-3">
-        <form class="needs-validation" name="form" novalidate>
-          <div class="form-group">
-            <input type="text" name="name" class="form-control" id="name" placeholder="{{'HOME.CONTACT.Nombre Completo' | translate}}" required>
-          </div>
-          <div class="form-group">
-            <input type="email" class="form-control" name="email" id="email" placeholder=" {{'HOME.CONTACT.Correo Electronico'|translate}}" required>
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control" name="subject" id="subject" placeholder=" {{'HOME.CONTACT.Asunto'|translate}}" required>
-          </div>
-          <div class="form-group">
-            <textarea class="form-control" name="message" placeholder=" {{'HOME.CONTACT.Mensaje'|translate}}" required></textarea>
-          </div>
-          <div class="text-center">
-            <button class="btn btn-andromeda" type="submit">{{'HOME.CONTACT.Enviar mensaje'|translate}}</button>
+      <div class="col-12 pt-3 pt-md-0">
+        <p>
+          {{'HOME.CONTACT.Programamos con' | translate}}
+          <i class="far fa-heart heart"></i>
+        </p>
+        <form autocomplete="off" [formGroup]="form" (ngSubmit)="contactFormSubmit()">
+          <div class="p-fluid">
+            <div class="p-field">
+              <input type="text"
+                     pInputText
+                     formControlName="full_name"
+                     placeholder="{{'HOME.CONTACT.Nombre Completo' | translate}}">
+              <small class="p-error" *ngIf="fullNameIsEmpty">{{'AUTH.Campo requerido'|translate}}</small>
+            </div>
+            <div class="p-field">
+              <input type="email"
+                     pInputText
+                     formControlName="from_email"
+                     placeholder="{{'HOME.CONTACT.Correo Electronico'|translate}}">
+              <small class="p-error" *ngIf="emailInvalid">{{'AUTH.Correo electronico invalido'|translate}}</small>
+            </div>
+            <div class="p-field">
+              <input type="text"
+                     pInputText
+                     formControlName="subject"
+                     placeholder="{{'HOME.CONTACT.Asunto'|translate}}">
+              <small class="p-error" *ngIf="subjectIsEmpty">{{'AUTH.Campo requerido'|translate}}</small>
+            </div>
+            <div class="p-field">
+              <input type="text"
+                     pInputTextarea
+                     formControlName="message"
+                     placeholder="{{'HOME.CONTACT.Mensaje'|translate}}">
+              <small class="p-error" *ngIf="messageIsEmpty">{{'AUTH.Campo requerido'|translate}}</small>
+            </div>
+            <div class="p-field">
+              <button pButton
+                      [icon]="icon"
+                      [disabled]="disabled"
+                      type="submit"
+                      label="{{'HOME.CONTACT.Enviar mensaje'|translate}}"
+                      class="btn btn-andromeda btn-block"></button>
+            </div>
           </div>
         </form>
       </div>

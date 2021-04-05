@@ -50,6 +50,13 @@ export class MaintenanceService {
       );
   }
 
+  deleteMaintenance(id: string) {
+    return this.http.delete(`${this.urlMaintenance}/${id}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.error.non_field_errors) {
       return throwError(error.error.non_field_errors);

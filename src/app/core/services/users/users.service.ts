@@ -67,6 +67,13 @@ export class UsersService {
       );
   }
 
+  contactAndromeda(data){
+    return this.http.post(`${this.urlUser}/contact_andromeda/`,data)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.error.non_field_errors) {
       return throwError(error.error.non_field_errors);

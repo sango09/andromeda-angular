@@ -5,12 +5,12 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a href="#">
+        <a routerLink="../../../../">
           {{'DASHBOARD.MAINTANCE.Inicio'|translate}}
         </a>
       </li>
       <li class="breadcrumb-item active">
-        <a href="#">
+        <a routerLink="../../control">
           {{'DASHBOARD.MAINTANCE.Mantenimientos'|translate}}
         </a>
       </li>
@@ -18,8 +18,8 @@
     </ol>
   </nav>
 </div>
-
-<div class="steps-content" *ngIf="ticket && implementSelected ; else elseBlock">
+<p-progressBar mode="indeterminate" *ngIf="loading" [style]="{'height': '6px'}"></p-progressBar>
+<div class="steps-content" *ngIf="ticket && implementSelected">
   <div class="p-grid">
     <div class="p-col-12 p-md-9">
       <p-card>
@@ -69,13 +69,13 @@
                 <span>{{userInfo['email']}}</span>
               </div>
               <div class="rol-user mb-3">
-                <span *ngIf="userInfo.is_admin">
+                <span *ngIf="userInfo['is_admin']">
                   {{'DASHBOARD.LOANS.Coordinador'|translate}}
                 </span>
-                <span *ngIf="userInfo.is_employee">
+                <span *ngIf="userInfo['is_employee']">
                   {{'DASHBOARD.LOANS.Empleado'|translate}}
                 </span>
-                <span *ngIf="userInfo.is_assistant">
+                <span *ngIf="userInfo['is_assistant']">
                   {{'DASHBOARD.LOANS.Auxiliar de sistemas'|translate}}
                 </span>
               </div>
@@ -141,10 +141,10 @@
     </div>
   </div>
 </div>
-<ng-template #elseBlock>
+<ng-container *ngIf="notFound">
   <div class="card">
     <div class="card-body">
       <h1>{{'DASHBOARD.MAINTANCE.TICKET NO ENCONTRADO'|translate}}</h1>
     </div>
   </div>
-</ng-template>
+</ng-container>

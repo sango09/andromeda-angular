@@ -27,6 +27,7 @@ export class ResetPasswordComponent implements OnInit {
     this.urlParams.token = this.route.snapshot.queryParamMap.get('token');
   }
 
+
   private buildForm() {
     this.form = this.formBuilder.group({
       token: [''],
@@ -36,11 +37,26 @@ export class ResetPasswordComponent implements OnInit {
   }
 
 
+  get passwordInvalid() {
+    return this.form.get('new_password').invalid && this.form.get('new_password').touched;
+  }
+
+  get confirmPasswordInvalid() {
+    const password1 = this.form.get('new_password').value;
+    const password2 = this.form.get('new_password_confirmation').value;
+    return (password1 !== password2);
+  }
+
+
   newPassword(event: Event) {
     event.preventDefault();
-    const data = this.form.value;
-    data.token = this.urlParams.token;
-    this.usersService.resetPassword(data)
-      .subscribe(res => this.router.navigateByUrl('/login'), error => this.error = error);
+    if (this.form.valid) {
+      const data = this.form.value;
+      data.token = this.urlParams.token;
+      this.usersService.resetPassword(data)
+        .subscribe(res => this.router.navigateByUrl('/login'), error => this.error = error);
+    } else {
+      Object.values(this.form.controls).forEach(control => control.markAllAsTouched());
+    }
   }
 }

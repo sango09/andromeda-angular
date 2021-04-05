@@ -4,17 +4,12 @@
   }
 }
 
-
 .input-file input[type="file"] {
   display: none;
 }
 
 .cursor {
   cursor: pointer
-}
-
-.content .container-fluid {
-  width: 90% !important;
 }
 
 .card-body .form-group .form-control {
@@ -397,7 +392,7 @@ td a:hover {
 
 /*----------------------------------- Media ----------------------------------------------- */
 
-@media (max-width: 991px) and (min-width: 1px) {
+@media (max-width: 1366px) and (min-width: 1px) {
   .sidebar {
     margin-left: -250px;
   }
@@ -436,6 +431,10 @@ td a:hover {
 
   :host ::ng-deep .p-datatable.p-datatable-responsive-mobile .p-datatable-tbody > tr > td:last-child {
     border-bottom: 1px solid var(--surface-d);
+  }
+  .btn-table{
+    width: 100%;
+    margin-bottom: 1rem;
   }
 }
 

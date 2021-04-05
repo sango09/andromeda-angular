@@ -1,13 +1,18 @@
 <app-welcome></app-welcome>
-<div class="row">
+<div class="row" *ngIf="information">
   <div class="col-12 col-sm-6 col-xl d-flex">
     <div class="card flex-fill">
       <div class="card-body py-4">
         <div class="stats">
           <div class="stats-body">
-            <h1 class="mb-2">4</h1>
+            <div class="mb-3">
+              <p-rating [ngModel]="information['reputation']"
+                        readonly="true"
+                        [cancel]="false">
+              </p-rating>
+            </div>
             <h5 class="mb-2 card-title text-andromeda">
-              {{'DASHBOARD.INICIO.Auxiliares Activos'|translate}}
+              Tu reputación
             </h5>
           </div>
           <div class="d-inline-block ml-3">
@@ -24,7 +29,7 @@
       <div class="card-body py-4">
         <div class="stats">
           <div class="stats-body">
-            <h1 class="mb-2">{{userInfo['assistant']['loans_completed']}}</h1>
+            <h1 class="mb-2">{{information['loans_completed']}}</h1>
             <h5 class="mb-2 card-title text-andromeda">
               {{'DASHBOARD.INICIO.Prestamos Completados'|translate}}
             </h5>
@@ -43,7 +48,7 @@
       <div class="card-body py-4">
         <div class="stats">
           <div class="stats-body">
-            <h1 class="mb-2">{{userInfo['assistant']['technical_support_completed']}}</h1>
+            <h1 class="mb-2">{{information['technical_support_completed']}}</h1>
             <h5 class="mb-2 card-title text-andromeda">
               {{'DASHBOARD.INICIO.Soportes Completados'|translate}}
             </h5>
@@ -62,7 +67,7 @@
       <div class="card-body py-4">
         <div class="stats">
           <div class="stats-body">
-            <h1 class="mb-2">{{userInfo['assistant']['maintenance_completed']}}</h1>
+            <h1 class="mb-2">{{information['maintenance_completed']}}</h1>
             <h5 class="mb-2 card-title text-andromeda">
               {{'DASHBOARD.INICIO.Mantenimientos Completados'|translate}}
             </h5>

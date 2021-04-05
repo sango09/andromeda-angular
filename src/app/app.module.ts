@@ -11,7 +11,6 @@ import {AuthInterceptor} from './core/interceptor/auth.interceptor';
 import {AuthService} from './core/services/auth/auth.service';
 
 // Modules
-import {MaterialModule} from './material-module';
 import {PrimeModule} from './prime-module';
 
 // FullCalendar Modules
@@ -27,7 +26,7 @@ import {AdminGuard} from './guards/admin.guard';
 import {AssistantGuard} from './guards/assistant.guard';
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
+  return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }
 
 
@@ -41,7 +40,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserAnimationsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    MaterialModule,
     PrimeModule,
     FullCalendarModule,
     TranslateModule.forRoot({

@@ -13,6 +13,7 @@ export class TicketComponent implements OnInit {
   id: string;
   loan: LoansModel;
   loading = true;
+  notFound = false;
 
   constructor(
     private loansService: LoansService,
@@ -24,7 +25,11 @@ export class TicketComponent implements OnInit {
         .subscribe(res => {
           this.loan = res;
           this.loading = false;
-        }, error => console.error(error));
+        }, error => {
+          this.loading = false;
+          this.notFound = true;
+          console.error(error);
+        });
     });
   }
 
