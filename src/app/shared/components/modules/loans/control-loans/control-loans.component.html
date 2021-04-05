@@ -169,11 +169,13 @@
   </p-table>
 </div>
 <p-dialog [(visible)]="loansEdit"
+          [maximizable]="true"
+          [baseZIndex]="10000"
           [style]="{width: '600px'}"
           header="Editar Prestamo"
-          [modal]="true"
+
           styleClass="p-fluid">
-  <ng-template pTemplate="content">
+  <ng-template pTemplate="content" >
     <div class="p-field p-grid">
       <div class="p-col-12 p-lg-6">
         <label for="implement">Implemento</label>
@@ -207,9 +209,19 @@
                   hourFormat="12"
                   showButtonBar="true"
                   id="calendar"
-                  [required]="true">
+                  [required]="true"
+                  [touchUI]="true"
+                  >
       </p-calendar>
     </div>
+    <div class="p-field">
+      <input type="text" pInputText [(ngModel)]="loan['loans_location']">
+    </div>
+    <button pButton label="{{'DASHBOARD.INVENTORY.Editar prestamo'|translate}}"
+    icon="pi pi-check"
+    class="p-button-raised p-button-success"
+    (click)="updateLoan($event)">
+</button>
   </ng-template>
 </p-dialog>
 <p-confirmPopup></p-confirmPopup>

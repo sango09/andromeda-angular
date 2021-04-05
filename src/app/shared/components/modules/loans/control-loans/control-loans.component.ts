@@ -3,6 +3,7 @@ import {LoansService} from '../../../../../core/services/modules/loans/loans.ser
 import {LoansModel} from '../../../../../core/modules/loans.model';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import Swal from 'sweetalert2';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {formatDate} from '@angular/common';
 import {EmployeeService} from '../../../../../core/services/employee/employee.service';
 import {AssistantsService} from '../../../../../core/services/assistants/assistants.service';
@@ -21,7 +22,7 @@ import {AssistantsService} from '../../../../../core/services/assistants/assista
 
 })
 export class ControlLoansComponent implements OnInit {
-
+  loann: LoansModel[];
   loans: any;
   loading = true;
   selectedProducts: LoansModel[];
@@ -32,6 +33,7 @@ export class ControlLoansComponent implements OnInit {
   iconPrint = 'pi pi-file-pdf';
   urlPdf: string;
   loansEdit: boolean;
+  form: FormGroup;
   loan;
   private loadingPDF = false;
 
@@ -39,6 +41,7 @@ export class ControlLoansComponent implements OnInit {
     private loansService: LoansService,
     private confirmationService: ConfirmationService,
     private employeeService: EmployeeService,
+    private formBuilder: FormBuilder,
     private assistantsService: AssistantsService,
   ) {
   }
@@ -47,13 +50,13 @@ export class ControlLoansComponent implements OnInit {
     this.fetchLoans();
   }
 
+
   fetchLoans() {
     if (this.userInfo.is_employee) {
       this.employeeService.getRequestServices(this.userInfo.employee.id)
         .subscribe(res => {
           this.loans = res.loans_request;
           this.loading = false;
-          console.log(this.loans);
         }, error => console.error(error));
     } else if (this.userInfo.is_assistant) {
       this.assistantsService.getServicesAssigned(this.userInfo.assistant.id)
@@ -77,9 +80,30 @@ export class ControlLoansComponent implements OnInit {
 
   editLoan(loan) {
     this.loan = {...loan};
-    this.dateLoan = new Date(this.loan.loans_date)
-    console.log(this.dateLoan);
+    this.dateLoan = new Date(this.loan.loans_date);
     this.loansEdit = true;
+  }
+
+  updateLoan(event: Event){
+    let newData = {
+      'loans_date': formatDate(this.dateLoan, 'yyyy-MM-dd HH:mm:ss', 'en-US'),
+      'loans_location': this.loan.loans_location
+    }
+    this.loansService.updateLoan(this.loan.id, newData)
+    .subscribe(res => {
+      this.loansEdit = false;
+      Swal.fire({
+        icon: 'success',
+        title: 'Prestamo actualizado',
+      });
+      this.fetchLoans();
+    },error => {
+      Swal.fire({
+        icon: 'error',
+        title: error,
+      });
+    });
+
   }
 
   completed(event: Event, id) {
