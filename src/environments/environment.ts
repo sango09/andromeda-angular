@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url_api: 'https://andromedapi.tech/api',
+  url_api: 'http://localhost:8000/api',
   isVerify: false,
   status: false,
   picture: null,
